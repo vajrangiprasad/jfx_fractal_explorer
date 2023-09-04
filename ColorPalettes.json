@@ -1,0 +1,172 @@
+[ {
+  "name" : "Spectrum",
+  "colorPaletteType" : "HSB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 0.0, 1.0, 1.0 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Grayscale",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 0.0, 0.0, 0.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Cyclic GrayScale",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  }, {
+    "point" : 0.5,
+    "pointColors" : [ 0.0, 0.0, 0.0 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Red Blue Red",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 1.0, 0.0, 0.0 ]
+  }, {
+    "point" : 0.5,
+    "pointColors" : [ 0.0, 0.0, 1.0 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 1.0, 0.0, 0.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Red Yellow Red",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 1.0, 0.0, 0.0 ]
+  }, {
+    "point" : 0.5,
+    "pointColors" : [ 1.0, 1.0, 0.0 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 1.0, 0.0, 0.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Fire",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 0.0, 0.0, 0.0 ]
+  }, {
+    "point" : 0.17,
+    "pointColors" : [ 1.0, 0.0, 0.0 ]
+  }, {
+    "point" : 0.83,
+    "pointColors" : [ 1.0, 1.0, 0.0 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Eathy Sky",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  }, {
+    "point" : 0.15,
+    "pointColors" : [ 1.0, 0.8, 0.0 ]
+  }, {
+    "point" : 0.326171875,
+    "pointColors" : [ 0.5294118, 0.12156863, 0.07450981 ]
+  }, {
+    "point" : 0.67,
+    "pointColors" : [ 0.0, 0.0, 0.6 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Hot Cold",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  }, {
+    "point" : 0.16,
+    "pointColors" : [ 0.0, 0.4, 1.0 ]
+  }, {
+    "point" : 0.5,
+    "pointColors" : [ 0.0, 0.0, 0.0 ]
+  }, {
+    "point" : 0.84,
+    "pointColors" : [ 1.0, 0.0, 0.8 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Snow",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 0.0, 0.0, 1.0 ]
+  }, {
+    "point" : 0.5,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 0.0, 0.0, 1.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Red-Yellow",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 1.0, 0.0, 0.0 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 1.0, 1.0, 0.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+}, {
+  "name" : "Tri Color",
+  "colorPaletteType" : "RGB",
+  "divisionPoints" : [ {
+    "point" : 0.0,
+    "pointColors" : [ 0.0, 1.0, 0.0 ]
+  }, {
+    "point" : 0.5,
+    "pointColors" : [ 1.0, 1.0, 1.0 ]
+  }, {
+    "point" : 1.0,
+    "pointColors" : [ 1.0, 0.64705884, 0.0 ]
+  } ],
+  "numberOfColors" : 100,
+  "offset" : 0
+} ]

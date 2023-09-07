@@ -1,7 +1,5 @@
 package jfx.fractal.explorer.ui.dialog;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -33,12 +31,6 @@ public class EditColorPreferenceDialog extends JFXFractalExplorerDialog {
 	@Override
 	public void createContentPane() {
 		ColorPreference colorPreference = PreferenceManager.getInstance().getColorPreference();
-		colorPreference.addListener(new InvalidationListener() {
-			@Override
-			public void invalidated(Observable observable) {
-				System.out.println("ColorPreference value updated");
-			}
-		});
 		GridPane gridPanel = new GridPane();
 		gridPanel.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-alignment:center-left;-fx-padding:5");
 		

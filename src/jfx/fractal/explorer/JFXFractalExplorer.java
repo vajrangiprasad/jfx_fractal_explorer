@@ -97,6 +97,11 @@ public class JFXFractalExplorer extends Application {
 		return fractalIcon;
 	}
 	
+	
+	public StackPane getFractalScreen() {
+		return fractalScreen;
+	}
+
 	private MenuBar createMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		

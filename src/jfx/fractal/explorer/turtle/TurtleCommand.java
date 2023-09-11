@@ -4,10 +4,13 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import jfx.fractal.explorer.FractalConstants;
+import jfx.fractal.explorer.preference.PreferenceManager;
+import jfx.fractal.explorer.preference.TurtlePreference;
 import jfx.fractal.explorer.util.FractalUtility;
 
 public class TurtleCommand implements Runnable {
 	private TurtleTrail trail;
+	private TurtlePreference turtlePreference = PreferenceManager.getInstance().getTurtlePreference();
 	
 	public TurtleCommand(TurtleTrail trail) {
 		this.trail = trail;
@@ -73,8 +76,12 @@ public class TurtleCommand implements Runnable {
 			gc.save();
 			gc.setStroke(trail.getPenColor());
 			gc.setFill(trail.getFillColor());
-			gc.setLineWidth(trail.getPenSize());
-
+			gc.setLineWidth(turtlePreference.getPenSize());
+			gc.setGlobalAlpha(turtlePreference.getAlpha());
+			gc.setGlobalBlendMode(turtlePreference.getBlendMode());
+			gc.setLineCap(turtlePreference.getStrokeLineCap());
+			gc.setLineJoin(turtlePreference.getStrokeLineJoin());
+			
 			switch (trail.getStrokeType()) {
 			case LINE:
 				gc.strokeLine(x1, y1, x2, y2);

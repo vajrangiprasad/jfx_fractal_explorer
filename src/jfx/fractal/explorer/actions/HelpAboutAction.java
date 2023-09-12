@@ -26,19 +26,8 @@ public class HelpAboutAction implements EventHandler<ActionEvent> {
 	
 	@Override
 	public void handle(ActionEvent event) {
-		/*AboutDialog aboutDialog = new AboutDialog(fractalExplorer);
-		aboutDialog.showAndWait();*/
-		Turtle turtle = new Turtle(fractalExplorer);
-		turtle.beginFilling();
-		turtle.forward(50);
-		turtle.left(90);
-		turtle.forward(50);
-		turtle.left(90);
-		turtle.forward(50);
-		turtle.left(90);
-		turtle.forward(50);
-		turtle.left(90);
-		turtle.endFilling();
+		AboutDialog aboutDialog = new AboutDialog(fractalExplorer);
+		aboutDialog.showAndWait();
 	}
 
 }

@@ -1,8 +1,5 @@
 package jfx.fractal.explorer;
 	
-import java.net.URI;
-import java.net.URL;
-
 import javafx.application.Application;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -22,9 +19,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import jfx.fractal.explorer.actions.ClearDrawingAction;
 import jfx.fractal.explorer.actions.EditColorPreferenceAction;
 import jfx.fractal.explorer.actions.ExitAction;
 import jfx.fractal.explorer.actions.HelpAboutAction;
+import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.preference.PreferenceManager;
 import jfx.fractal.explorer.resources.JFXResourceBundle;
@@ -39,6 +38,8 @@ public class JFXFractalExplorer extends Application {
 	private StackPane fractalScreen;
 	private ColorPreference colorPreference;
 	private BorderPane settingsPane;
+	private BorderPane controlPane;
+	private IFractalDrawing fractalDrawing;
 	private InvalidationListener colorPreferenceListner;
 	
 	private Button drawButton;
@@ -100,6 +101,23 @@ public class JFXFractalExplorer extends Application {
 	
 	public StackPane getFractalScreen() {
 		return fractalScreen;
+	}
+
+	
+	public IFractalDrawing getFractalDrawing() {
+		return fractalDrawing;
+	}
+
+	public void setFractalDrawing(IFractalDrawing fractalDrawing) {
+		this.fractalDrawing = fractalDrawing;
+		if(this.fractalDrawing != null) {
+			this.fractalDrawing.clearDrawing();
+			this.controlPane.getChildren().clear();
+			this.fractalDrawing.dispose();
+		}
+		this.fractalDrawing = fractalDrawing;
+		
+		this.controlPane.setCenter(fractalDrawing.getControlNode());
 	}
 
 	private MenuBar createMenuBar() {
@@ -189,6 +207,12 @@ public class JFXFractalExplorer extends Application {
 	private void createTurtleGraphicsMenu(Menu fractalsMenu) {
 		Menu menu = new Menu(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.turtlegraphics"));
 		menu.setMnemonicParsing(true);
+		
+		MenuItem menuItemTurtleTestDrawing = new MenuItem(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.turtlegraphics.testTurtleDrawing"));
+		menuItemTurtleTestDrawing.setMnemonicParsing(true);
+		menuItemTurtleTestDrawing.setOnAction(new TurtleTestDrawingAction(this));
+		menu.getItems().add(menuItemTurtleTestDrawing);
+		
 		fractalsMenu.getItems().add(menu);
 	}
 	
@@ -273,8 +297,10 @@ public class JFXFractalExplorer extends Application {
 		settingsPane.setPrefHeight(FractalConstants.FRACTAL_DISPLAY_SIZE+20.0);
 		settingsPane.setPrefWidth(FractalConstants.FRACTAL_DISPLAY_SIZE+20);
 		settingsPane.setStyle("-fx-border-color:black");
-		
 		settingsPane.setBottom(createActionToolBar());
+		
+		controlPane = new BorderPane();
+		settingsPane.setCenter(controlPane);
 		
 		return settingsPane;
 	}
@@ -299,6 +325,7 @@ public class JFXFractalExplorer extends Application {
 		
 		clearButton = new Button(JFXResourceBundle.getString("jfx.fractal.explorer.clear.text"),getImageView("icons/clear.png"));
 		clearButton.setMnemonicParsing(true);
+		clearButton.setOnAction(new ClearDrawingAction(this));
 		toolBar.getItems().add(clearButton);
 		
 		saveFractalButton = new Button(JFXResourceBundle.getString("jfx.fractal.explorer.saveFractal.text"),getImageView("icons/save.png"));

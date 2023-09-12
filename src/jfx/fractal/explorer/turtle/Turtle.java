@@ -200,7 +200,7 @@ public class Turtle {
 		oldPosition = new Point2D(x, y);
 		double angle = Math.toRadians(direction);
 		x += distance*Math.cos(angle);
-		y += distance*Math.sin(angle);
+		y -= distance*Math.sin(angle);
 		position = new Point2D(x, y);
 		postCommand(creteTurtleCommand(TurtleStrokeType.LINE));
 	}
@@ -210,15 +210,19 @@ public class Turtle {
 	}
 	
 	public void right(double angle) {
-		this.direction -= angle;
-		postCommand(creteTurtleCommand(TurtleStrokeType.NONE));
-	}
-	
-	public void left(double angle) {
 		this.direction += angle;
 		postCommand(creteTurtleCommand(TurtleStrokeType.NONE));
 	}
 	
+	public void left(double angle) {
+		this.direction -= angle;
+		postCommand(creteTurtleCommand(TurtleStrokeType.NONE));
+	}
+	
+	public void clear() {
+		postCommand(creteTurtleCommand(TurtleStrokeType.CLEAR));
+		home();
+	}
 	private void initialize() {
 		StackPane fractalScreen = fractalExplorer.getFractalScreen();
 		

@@ -6,5 +6,6 @@ public enum TurtleStrokeType {
 	POLYGON,
 	CIRCLE,
 	FILLED_CIRCLE,
-	NONE
+	NONE,
+	CLEAR
 }

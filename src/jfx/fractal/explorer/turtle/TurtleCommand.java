@@ -44,7 +44,7 @@ public class TurtleCommand implements Runnable {
 		double y = ((y1 - cy) * (-1) + FractalConstants.FRACTAL_DISPLAY_SIZE / 2);
 		
 		turtleGC.translate(x, y);
-		turtleGC.rotate(0);
+		turtleGC.rotate(trail.getDirection());
 		turtleGC.translate(-sw / 2, -sh / 2);
 		turtleGC.setStroke(trail.getPenColor());
 		turtleGC.setFill(trail.getFillColor());
@@ -95,6 +95,9 @@ public class TurtleCommand implements Runnable {
 			case FILLED_CIRCLE:
 				gc.strokeOval(x2 - r, y2 - r, 2 * r, 2 * r);
 				gc.fillOval(x2 - r, y2 - r, 2 * r, 2 * r);
+				break;
+			case CLEAR:
+				gc.clearRect(0, 0, width, height);
 				break;
 			default:
 				break;

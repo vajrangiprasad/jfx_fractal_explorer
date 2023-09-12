@@ -1,17 +1,26 @@
 package jfx.fractal.explorer;
 	
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import javafx.application.Application;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -120,6 +129,103 @@ public class JFXFractalExplorer extends Application {
 		this.controlPane.setCenter(fractalDrawing.getControlNode());
 	}
 
+	public void showErrorMessage(String message) {
+		showAlertMessage(message, AlertType.ERROR);
+	}
+	
+	public void showWarningMessage(String message) {
+		showAlertMessage(message, AlertType.WARNING);
+	}
+	
+    public void showInfoMessage(String message) {
+    	showAlertMessage(message, AlertType.INFORMATION);
+	}
+    
+    public void showExceptionMessage(Exception ex) {
+    	Dialog<ButtonType> messageDialog = new Dialog<>();
+		messageDialog.setTitle(JFXResourceBundle.getString("jfx.fractal.explorer.title"));
+		Stage stage = (Stage) messageDialog.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(fractalIcon);
+		
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 35, 20, 35));
+		
+		Image alerticonImage = new Image(getClass().getResourceAsStream("icons/error.png"));
+		ImageView alertIconView = new ImageView(alerticonImage);
+		grid.add(alertIconView, 0, 0);
+		
+		Label lblMessage = new Label(ex.getMessage());
+		grid.add(lblMessage, 1, 0);
+		
+		StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+        String exceptionText = sw.toString();
+        
+		TextArea exceptionStackTraceArea = new TextArea(exceptionText); 
+		exceptionStackTraceArea.setEditable(false);
+		exceptionStackTraceArea.setWrapText(true);
+		grid.add(exceptionStackTraceArea, 1, 1);
+		
+		
+		messageDialog.getDialogPane().setContent(grid);
+		ButtonType okType = new ButtonType("OK", ButtonData.OK_DONE);
+		messageDialog.getDialogPane().getButtonTypes().add(okType );
+		
+		messageDialog.showAndWait();
+    }
+	
+    private void showAlertMessage(String message,AlertType type) {
+    	Dialog<ButtonType> messageDialog = new Dialog<>();
+		messageDialog.setTitle(JFXResourceBundle.getString("jfx.fractal.explorer.title"));
+		Stage stage = (Stage) messageDialog.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(fractalIcon);
+		
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 35, 20, 35));
+		
+		String alertIcon = "";
+		switch(type) {
+			case CONFIRMATION:
+				alertIcon = "info.png";
+				break;
+			case ERROR:
+				alertIcon = "error.png";
+				break;
+			case INFORMATION:
+				alertIcon = "info.png";
+				break;
+			case NONE:
+				alertIcon = "";
+				break;
+			case WARNING:
+				alertIcon = "warning.png";
+				break;
+		}
+		
+		if(!alertIcon.isEmpty()) {;
+			Image alerticonImage = new Image(getClass().getResourceAsStream("icons/"+alertIcon));
+			ImageView alertIconView = new ImageView(alerticonImage);
+			grid.add(alertIconView, 0, 0);
+		}
+		
+		Label lblMessage = new Label(message);
+		grid.add(lblMessage, 1, 0);
+		
+		messageDialog.getDialogPane().setContent(grid);
+		
+		ButtonType okType = new ButtonType("OK", ButtonData.OK_DONE);
+		messageDialog.getDialogPane().getButtonTypes().add(okType );
+		
+		messageDialog.showAndWait();
+    }
+    
 	private MenuBar createMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		

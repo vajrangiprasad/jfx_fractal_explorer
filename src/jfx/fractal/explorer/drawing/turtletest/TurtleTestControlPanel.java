@@ -3,6 +3,7 @@ package jfx.fractal.explorer.drawing.turtletest;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -68,6 +69,21 @@ public class TurtleTestControlPanel extends BorderPane{
 			@Override
 			public void handle(ActionEvent event) {
 				turtleTestPreference.setAngle(Double.parseDouble(txtAngle.getText()));
+			}
+		});
+		
+		CheckBox penStatus = new CheckBox("Pen Down");
+		parametersPane.add(penStatus, 0, 2);
+		penStatus.setSelected(true);
+		penStatus.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				CheckBox c = (CheckBox)event.getSource();
+				if(c.isSelected()) {
+					turtle.penDown();
+				}else {
+					turtle.penUp();
+				}
 			}
 		});
 	}

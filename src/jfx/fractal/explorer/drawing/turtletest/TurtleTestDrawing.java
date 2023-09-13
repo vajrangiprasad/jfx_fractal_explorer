@@ -57,8 +57,7 @@ public class TurtleTestDrawing implements IFractalDrawing {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		turtle.dispose();
 	}
 
 }

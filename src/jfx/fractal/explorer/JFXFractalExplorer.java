@@ -32,6 +32,7 @@ import jfx.fractal.explorer.actions.ClearDrawingAction;
 import jfx.fractal.explorer.actions.EditColorPreferenceAction;
 import jfx.fractal.explorer.actions.ExitAction;
 import jfx.fractal.explorer.actions.HelpAboutAction;
+import jfx.fractal.explorer.actions.SaveDrawingAction;
 import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.preference.PreferenceManager;
@@ -118,7 +119,6 @@ public class JFXFractalExplorer extends Application {
 	}
 
 	public void setFractalDrawing(IFractalDrawing fractalDrawing) {
-		this.fractalDrawing = fractalDrawing;
 		if(this.fractalDrawing != null) {
 			this.fractalDrawing.clearDrawing();
 			this.controlPane.getChildren().clear();
@@ -445,6 +445,7 @@ public class JFXFractalExplorer extends Application {
 		saveFractalButton = new Button(JFXResourceBundle.getString("jfx.fractal.explorer.saveFractal.text"),getImageView("icons/save.png"));
 		saveFractalButton.setMnemonicParsing(true);
 		toolBar.getItems().add(saveFractalButton);
+		saveFractalButton.setOnAction(new SaveDrawingAction(this));
 		
 		saveSettingButton = new Button(JFXResourceBundle.getString("jfx.fractal.explorer.saveSetting.text"),getImageView("icons/save.png"));
 		saveSettingButton.setMnemonicParsing(true);

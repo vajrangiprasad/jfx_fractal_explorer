@@ -42,7 +42,7 @@ import jfx.fractal.explorer.util.FractalUtility;
 public class JFXFractalExplorer extends Application {
 	private Stage mainStage;
 	private Image fractalIcon;
-	private Label statusMessage;
+	private Label lblStatusMessage;
 	private ProgressBar progressBar;
 	private StackPane fractalScreen;
 	private ColorPreference colorPreference;
@@ -178,6 +178,14 @@ public class JFXFractalExplorer extends Application {
 		messageDialog.showAndWait();
     }
 	
+    public void updateStatusMessage(String statusMessage) {
+    	lblStatusMessage.setText(statusMessage);
+    }
+    
+    public void updateProgress(double value) {
+    	progressBar.setProgress(value);
+    }
+    
     private void showAlertMessage(String message,AlertType type) {
     	Dialog<ButtonType> messageDialog = new Dialog<>();
 		messageDialog.setTitle(JFXResourceBundle.getString("jfx.fractal.explorer.title"));
@@ -369,9 +377,9 @@ public class JFXFractalExplorer extends Application {
 		grid.setAlignment(Pos.CENTER);
         grid.setStyle("-fx-hgap:2;-fx-vgap:2;-fx-alignment:center-left;-fx-padding:2");
         
-        statusMessage = new Label(JFXResourceBundle.getString("jfx.fractal.explorer.version"));
-		statusMessage.setPrefWidth(700);
-		grid.add(statusMessage, 0, 0);
+        lblStatusMessage = new Label(JFXResourceBundle.getString("jfx.fractal.explorer.version"));
+        lblStatusMessage.setPrefWidth(700);
+		grid.add(lblStatusMessage, 0, 0);
 		
 		progressBar = new ProgressBar(0);
 		

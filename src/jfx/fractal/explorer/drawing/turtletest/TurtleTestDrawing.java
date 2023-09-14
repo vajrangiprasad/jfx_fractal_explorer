@@ -39,12 +39,6 @@ public class TurtleTestDrawing implements IFractalDrawing {
 	}
 
 	@Override
-	public void saveDrawing() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setupDrawingCanvas() {
 		// TODO Auto-generated method stub
 

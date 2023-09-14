@@ -28,12 +28,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import jfx.fractal.explorer.actions.AnimateAction;
 import jfx.fractal.explorer.actions.ClearDrawingAction;
+import jfx.fractal.explorer.actions.DrawAction;
 import jfx.fractal.explorer.actions.EditColorPreferenceAction;
 import jfx.fractal.explorer.actions.ExitAction;
 import jfx.fractal.explorer.actions.HelpAboutAction;
 import jfx.fractal.explorer.actions.SaveDrawingAction;
+import jfx.fractal.explorer.actions.SaveSettingsAction;
 import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
+import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.preference.PreferenceManager;
 import jfx.fractal.explorer.resources.JFXResourceBundle;
@@ -286,6 +290,11 @@ public class JFXFractalExplorer extends Application {
 		Menu menu = new Menu(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.fractals"));
 		menu.setMnemonicParsing(true);
 		fractalsMenu.getItems().add(menu);
+		
+		MenuItem menuItemGardiFractal = new MenuItem(JFXResourceBundle.getString("jfx.fractal.explorer.drawing.gardi.lblDrawing"));
+		menuItemGardiFractal.setOnAction(new GardiFracalDrawingAction(this));
+		menuItemGardiFractal.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemGardiFractal);
 	}
 	
 	private void createGenerativeArtMenu(Menu fractalsMenu) {
@@ -325,6 +334,7 @@ public class JFXFractalExplorer extends Application {
 		MenuItem menuItemTurtleTestDrawing = new MenuItem(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.turtlegraphics.testTurtleDrawing"));
 		menuItemTurtleTestDrawing.setMnemonicParsing(true);
 		menuItemTurtleTestDrawing.setOnAction(new TurtleTestDrawingAction(this));
+		menuItemTurtleTestDrawing.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
 		menu.getItems().add(menuItemTurtleTestDrawing);
 		
 		fractalsMenu.getItems().add(menu);
@@ -431,10 +441,12 @@ public class JFXFractalExplorer extends Application {
 		
 		drawButton = new Button(JFXResourceBundle.getString("jfx.fractal.explorer.draw.text"),getImageView("icons/draw.png"));
 		drawButton.setMnemonicParsing(true);
+		drawButton.setOnAction(new DrawAction(this));
 		toolBar.getItems().add(drawButton);
 		
 		animateButton = new Button(JFXResourceBundle.getString("jfx.fractal.explorer.animate.text"),getImageView("icons/animation.png"));
 		animateButton.setMnemonicParsing(true);
+		animateButton.setOnAction(new AnimateAction(this));
 		toolBar.getItems().add(animateButton);
 		
 		clearButton = new Button(JFXResourceBundle.getString("jfx.fractal.explorer.clear.text"),getImageView("icons/clear.png"));
@@ -449,6 +461,7 @@ public class JFXFractalExplorer extends Application {
 		
 		saveSettingButton = new Button(JFXResourceBundle.getString("jfx.fractal.explorer.saveSetting.text"),getImageView("icons/save.png"));
 		saveSettingButton.setMnemonicParsing(true);
+		saveSettingButton.setOnAction(new SaveSettingsAction(this));
 		toolBar.getItems().add(saveSettingButton);
 		
 		return toolBar;

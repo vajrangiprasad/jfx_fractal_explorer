@@ -1,8 +1,10 @@
 package jfx.fractal.explorer.drawing.gardi;
 
 import javafx.concurrent.Task;
+import javafx.scene.paint.Color;
 import jfx.fractal.explorer.FractalRenderTaskType;
 import jfx.fractal.explorer.JFXFractalExplorer;
+import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.turtle.Turtle;
 
 public class GardiFractalRenderTask extends Task<Void> {
@@ -10,6 +12,9 @@ public class GardiFractalRenderTask extends Task<Void> {
     private FractalRenderTaskType taskType;
     private Turtle turtle;
     private GardiFractalPreference gardiFractalPreference = GardiFractalPreference.getInstance();
+    private ColorPreference colorPreference = ColorPreference.getInstance();
+    private Color[] paletteColors;
+    private Color[] rainbowColors;
     
 	public GardiFractalRenderTask(JFXFractalExplorer fractalExplorer,
 			FractalRenderTaskType taskType,
@@ -17,6 +22,8 @@ public class GardiFractalRenderTask extends Task<Void> {
 		this.fractalExplorer = fractalExplorer;
 		this.taskType = taskType;
 		this.turtle = turtle;
+		paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(gardiFractalPreference.getIterations(), 0);
+		rainbowColors = ColorPreference.createRainbowColors(gardiFractalPreference.getIterations());
 	}
 	
 	@Override
@@ -52,6 +59,7 @@ public class GardiFractalRenderTask extends Task<Void> {
 		if(iteration == 0) {
 			return;
 		}
+		setPenColor(iteration);
 		drawTwoCircles(x,y,radius,orientation);
 		drawGardi(x,
 				y, 
@@ -60,6 +68,40 @@ public class GardiFractalRenderTask extends Task<Void> {
 				Math.abs((4-Math.pow(7, 0.5))/3*radius)
 				);
 	}
+	
+	private void setPenColor(int iteration) {
+		Color penColor = colorPreference.getPenColor();
+		switch(gardiFractalPreference.getPenColorType()) {
+		case GRADIENT_COLOR:
+				penColor = ColorPreference.getGradientColor(iteration, 
+						gardiFractalPreference.getIterations(), 
+						colorPreference.getAlternateColor1(), 
+						colorPreference.getAlternateColor2());
+				break;
+		case RAINBOW_COLOR:
+			penColor = rainbowColors[iteration%gardiFractalPreference.getIterations()];
+			break;
+		case PALETTE_COLR:
+			penColor = paletteColors[iteration%gardiFractalPreference.getIterations()];
+			break;
+		case RANDOM_COLR:
+			penColor = ColorPreference.getRandomColor();
+			break;
+		case TURTLE_PEN_COLOR:
+			penColor = colorPreference.getPenColor();
+			break;
+		case TWO_COLOR:
+			penColor = iteration%2  == 0 ? colorPreference.getAlternateColor1():colorPreference.getAlternateColor2();
+			break;
+		default:
+			break;
+			
+		}
+		turtle.setPenColor(penColor);
+	}
+	
+
+
 	
 	private void drawTwoCircles(double x, double y,double r,int orientation) {
 		turtle.setPenSize(r/50);

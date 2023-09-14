@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import jfx.fractal.explorer.JFXFractalExplorer;
+import jfx.fractal.explorer.preference.PenColorType;
 import jfx.fractal.explorer.resources.JFXResourceBundle;
 
 public class GardiFractalPreferencePane extends BorderPane {
@@ -99,6 +100,22 @@ public class GardiFractalPreferencePane extends BorderPane {
 				}
 			});
 			parametersPane.add(cmbOrientation, 1, 2);
+		}
+		
+		{
+			Label lblPenColorType = new Label("Pen Color Type");
+			parametersPane.add(lblPenColorType, 0, 3);
+			ComboBox<PenColorType> cmbPenColorType = new ComboBox<>(FXCollections.observableArrayList(PenColorType.values()));
+			cmbPenColorType.getSelectionModel().select(gardiFractalPreference.getPenColorType());
+			cmbPenColorType.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PenColorType>() {
+				@Override
+				public void changed(ObservableValue<? extends PenColorType> observable, PenColorType oldValue,
+						PenColorType newValue) {
+					gardiFractalPreference.setPenColorType(newValue);
+				}
+			});
+			parametersPane.add(cmbPenColorType, 1, 3);
+			
 		}
 	}
 }

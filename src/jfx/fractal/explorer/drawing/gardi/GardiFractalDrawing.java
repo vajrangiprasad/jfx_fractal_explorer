@@ -6,12 +6,14 @@ import javafx.scene.Node;
 import jfx.fractal.explorer.FractalRenderTaskType;
 import jfx.fractal.explorer.IFractalDrawing;
 import jfx.fractal.explorer.JFXFractalExplorer;
+import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.turtle.Turtle;
 
 public class GardiFractalDrawing implements IFractalDrawing,InvalidationListener {
 	private JFXFractalExplorer jfxFractalExplorer;
 	private GardiFractalPreferencePane controlPane ;
 	private GardiFractalPreference gardiFractalPreference = GardiFractalPreference.getInstance();
+	private ColorPreference colorPreference = ColorPreference.getInstance();
 	private Turtle turtle;
 	
 	public GardiFractalDrawing(JFXFractalExplorer jfxFractalExplorer) {
@@ -19,6 +21,7 @@ public class GardiFractalDrawing implements IFractalDrawing,InvalidationListener
 		controlPane = new GardiFractalPreferencePane(jfxFractalExplorer);
 		setupDrawingCanvas();
 		gardiFractalPreference.addListener(this);
+		colorPreference.addListener(this);
 	}
 	
 	@Override
@@ -57,6 +60,7 @@ public class GardiFractalDrawing implements IFractalDrawing,InvalidationListener
 	@Override
 	public void dispose() {
 		gardiFractalPreference.removeListener(this);
+		colorPreference.removeListener(this);
 		turtle.dispose();
 	}
 

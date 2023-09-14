@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -122,6 +123,35 @@ public class ColorPreference implements Observable{
 	@Override
 	public void removeListener(InvalidationListener listener) {
 		invalidationListeners.remove(listener);
+	}
+	
+	public static Color getGradientColor(int index,int numberOfColors,Color c1,Color c2) {
+		float ratio = (float) index / (float) numberOfColors;
+		double red =  (c2.getRed() * ratio + c1.getRed() * (1 - ratio));
+		double green =  (c2.getGreen() * ratio + c1.getGreen() * (1 - ratio));
+		double blue =  (c2.getBlue() * ratio + c1.getBlue() * (1 - ratio));
+        
+        return new Color(red, green, blue, 1.0);
+	}
+	
+	public static Color[] createRainbowColors(int numberOfColors) {
+		Color[] colors = new Color[numberOfColors];
+		
+		float hue = 0.0f;
+		for(int i = 0; i <numberOfColors;i++) {
+			colors[i] = Color.hsb(hue, 1.0f, 1.0f);
+			hue += 360.0/(float)numberOfColors;
+		}
+		return colors;
+	}
+	
+	public static Color getRandomColor() {
+		Random random = new Random();
+		int r = random.nextInt(255);
+		int g = random.nextInt(255);
+		int b = random.nextInt(255);
+		
+		return Color.rgb(r, g, b, 1.0);
 	}
 	
 	private void invalidate() {

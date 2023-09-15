@@ -13,27 +13,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import jfx.fractal.explorer.JFXFractalExplorer;
+import jfx.fractal.explorer.drawing.FractalDrawingPreferencePane;
 import jfx.fractal.explorer.preference.PenColorType;
 import jfx.fractal.explorer.resources.JFXResourceBundle;
 
-public class GardiFractalPreferencePane extends BorderPane {
-	private JFXFractalExplorer jfxFractalExplorer;
-	private GardiFractalPreference gardiFractalPreference = GardiFractalPreference.getInstance();
+public class GardiFractalPreferencePane extends FractalDrawingPreferencePane {
 	private TextField txtRadius;
 	private Spinner<Integer> spinnerIteration;
 	
 	public GardiFractalPreferencePane(JFXFractalExplorer jfxFractalExplorer) {
-		this.jfxFractalExplorer = jfxFractalExplorer;
-		initialize();
+		super(jfxFractalExplorer);
 	}
 	
-	private void initialize() {
-		setStyle("-fx-padding:5;");
-		createHeaderPane();
-		createParametersPane();
-	}
-	
-	private void createHeaderPane() {
+     
+	@Override
+	public void createHeaderPane() {
 		GridPane labelPane = new GridPane();
 		labelPane.setStyle("-fx-padding: 5;-fx-alignment:center");
 		setTop(labelPane);
@@ -42,8 +36,12 @@ public class GardiFractalPreferencePane extends BorderPane {
 		lblDrawing.setStyle("-fx-font-size:14;-fx-font-weight:bold");
 		labelPane.add(lblDrawing, 0, 0);
 	}
-	
-	private void createParametersPane() {
+
+
+	@Override
+	public void createParametersPane() {
+		GardiFractalPreference gardiFractalPreference = GardiFractalPreference.getInstance();
+		
 		GridPane parametersPane = new GridPane();
 		parametersPane.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:top-left;");
 		setCenter(parametersPane);

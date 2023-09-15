@@ -5,9 +5,10 @@ import java.util.List;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import jfx.fractal.explorer.drawing.FractalDrawingPreference;
 import jfx.fractal.explorer.preference.PenColorType;
 
-public class GardiFractalPreference implements Observable{
+public class GardiFractalPreference extends FractalDrawingPreference{
 	public static double MAX_RADIUS=200.0;
 	public static int MAX_ITERATION=10;
 	private double radius = MAX_RADIUS;
@@ -16,7 +17,6 @@ public class GardiFractalPreference implements Observable{
 	private GardiFractalOrientation orientation =GardiFractalOrientation.HORIZONTAL;
 	
 	private static GardiFractalPreference gardiFractalPreference;
-	private List<InvalidationListener> invalidationListeners = new ArrayList<InvalidationListener>();
 	
 	private GardiFractalPreference() {
 		
@@ -36,7 +36,7 @@ public class GardiFractalPreference implements Observable{
 	
 	public void setIterations(int iterations) {
 		this.iterations = iterations;
-		invalidate();
+		invalidate("Iterations");
 	}
 	
 	public double getRadius() {
@@ -45,7 +45,7 @@ public class GardiFractalPreference implements Observable{
 	
 	public void setRadius(double radius) {
 		this.radius = radius;
-		invalidate();
+		invalidate("Radius");
 	}
 	
 	
@@ -55,7 +55,7 @@ public class GardiFractalPreference implements Observable{
 
 	public void setOrientation(GardiFractalOrientation orientation) {
 		this.orientation = orientation;
-		invalidate();
+		invalidate("Orientation");
 	}
 
 	
@@ -65,23 +65,7 @@ public class GardiFractalPreference implements Observable{
 
 	public void setPenColorType(PenColorType penColorType) {
 		this.penColorType = penColorType;
-		invalidate();
+		invalidate("PenColorType");
 	}
 
-	@Override
-	public void addListener(InvalidationListener listener) {
-		invalidationListeners.add(listener);
-	}
-	
-	@Override
-	public void removeListener(InvalidationListener listener) {
-		invalidationListeners.remove(listener);
-	}
-	
-	
-	private void invalidate() {
-		invalidationListeners.forEach(listner -> {
-			listner.invalidated(this);
-		});
-	}
 }

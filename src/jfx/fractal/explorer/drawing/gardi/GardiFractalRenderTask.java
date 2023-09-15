@@ -4,12 +4,11 @@ import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import jfx.fractal.explorer.FractalRenderTaskType;
 import jfx.fractal.explorer.JFXFractalExplorer;
+import jfx.fractal.explorer.drawing.FractalDrawingRenderTask;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.turtle.Turtle;
 
-public class GardiFractalRenderTask extends Task<Void> {
-	private JFXFractalExplorer fractalExplorer;
-    private FractalRenderTaskType taskType;
+public class GardiFractalRenderTask  extends FractalDrawingRenderTask{
     private Turtle turtle;
     private GardiFractalPreference gardiFractalPreference = GardiFractalPreference.getInstance();
     private ColorPreference colorPreference = ColorPreference.getInstance();
@@ -19,15 +18,14 @@ public class GardiFractalRenderTask extends Task<Void> {
 	public GardiFractalRenderTask(JFXFractalExplorer fractalExplorer,
 			FractalRenderTaskType taskType,
 			Turtle turtle) {
-		this.fractalExplorer = fractalExplorer;
-		this.taskType = taskType;
+		super(fractalExplorer,taskType);
 		this.turtle = turtle;
 		paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(gardiFractalPreference.getIterations(), 0);
 		rainbowColors = ColorPreference.createRainbowColors(gardiFractalPreference.getIterations());
 	}
 	
 	@Override
-	protected Void call() throws Exception {
+	public void draw() {
 		int orientation = 0;
 		switch(gardiFractalPreference.getOrientation()) {
 		case HORIZONTAL:
@@ -37,22 +35,18 @@ public class GardiFractalRenderTask extends Task<Void> {
 			orientation = 1;
 			break;
 		}
-		switch (taskType) {
-			case DRAW: {
-				drawGardi(0,
-						0,
-						orientation,
-						gardiFractalPreference.getIterations(),
-						gardiFractalPreference.getRadius());
-				break;
-			}
-			case ANIMATE : {
-				fractalExplorer.showErrorMessage("Animation is not supported in GArdi Fractal");
-				break;
-			}
-		}
 		
-		return null;
+		drawGardi(0,
+				0,
+				orientation,
+				gardiFractalPreference.getIterations(),
+				gardiFractalPreference.getRadius());
+		
+	}
+	
+	@Override
+	public void animate() {
+		fractalExplorer.showErrorMessage("Animation is not supported in GArdi Fractal");
 	}
 	
 	private void drawGardi(double x,double y,int orientation,int iteration,double radius) {
@@ -99,9 +93,6 @@ public class GardiFractalRenderTask extends Task<Void> {
 		}
 		turtle.setPenColor(penColor);
 	}
-	
-
-
 	
 	private void drawTwoCircles(double x, double y,double r,int orientation) {
 		turtle.setPenSize(r/50);

@@ -11,6 +11,10 @@ public abstract class FractalDrawingRenderTask extends Task<Void>  {
     public FractalDrawingRenderTask(JFXFractalExplorer fractalExplorer,FractalRenderTaskType taskType) {
     	this.fractalExplorer = fractalExplorer;
     	this.taskType = taskType;
+    	fractalExplorer.getLblStatusMessage().textProperty().unbind();
+    	fractalExplorer.getLblStatusMessage().textProperty().bind(messageProperty());
+    	fractalExplorer.getProgressBar().progressProperty().unbind();
+    	fractalExplorer.getProgressBar().progressProperty().bind(progressProperty());
     }
     
     @Override
@@ -28,6 +32,23 @@ public abstract class FractalDrawingRenderTask extends Task<Void>  {
     	return null;
     }
     
+    @Override
+    protected void cancelled() {
+    	super.cancelled();
+    	fractalExplorer.enableControls();
+    }
+    
+    @Override
+    protected void failed() {
+    	super.failed();
+    	fractalExplorer.enableControls();
+    }
+    
+    @Override
+    protected void succeeded() {
+    	super.succeeded();
+    	fractalExplorer.enableControls();
+    }
     public abstract void draw();
     public abstract void animate();
 }

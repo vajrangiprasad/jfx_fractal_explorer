@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
@@ -37,7 +38,9 @@ import jfx.fractal.explorer.actions.HelpAboutAction;
 import jfx.fractal.explorer.actions.SaveDrawingAction;
 import jfx.fractal.explorer.actions.SaveSettingsAction;
 import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
+import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
+import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.preference.PreferenceManager;
 import jfx.fractal.explorer.resources.JFXResourceBundle;
@@ -104,6 +107,23 @@ public class JFXFractalExplorer extends Application {
 		launch(args);
 	}
 	
+	public void enableControls() {
+		if(fractalDrawing != null) {
+			fractalDrawing.enableControls();
+		}
+		drawButton.setDisable(false);
+		animateButton.setDisable(false);
+		clearButton.setDisable(false);
+	}
+	
+	public void disableControls() {
+		if(fractalDrawing != null) {
+			fractalDrawing.disableControls();
+		}
+		drawButton.setDisable(true);
+		animateButton.setDisable(true);
+		clearButton.setDisable(true);
+	}
 	public Stage getMainStage() {
 		return mainStage;
 	}
@@ -182,13 +202,47 @@ public class JFXFractalExplorer extends Application {
 		messageDialog.showAndWait();
     }
 	
-    public void updateStatusMessage(String statusMessage) {
-    	lblStatusMessage.setText(statusMessage);
+    
+    public Label getLblStatusMessage() {
+		return lblStatusMessage;
+	}
+
+	public ProgressBar getProgressBar() {
+		return progressBar;
+	}
+
+	public void updateStatusMessage(String statusMessage) {
+    	if(Platform.isFxApplicationThread()) {
+    		_updateStatusMessage(statusMessage);
+    	}else {
+    		Platform.runLater(() -> {
+    			_updateStatusMessage(statusMessage);
+    		});
+    	}
+    }
+    
+    private void _updateStatusMessage(String statusMessage) {
+    	if(statusMessage == null || statusMessage.isEmpty()) {
+    		lblStatusMessage.setText(JFXResourceBundle.getString("jfx.fractal.explorer.version"));
+    	}else {
+    		lblStatusMessage.setText(statusMessage);
+    	}
     }
     
     public void updateProgress(double value) {
+    	if(Platform.isFxApplicationThread()) {
+    		_updaeProgress(value);
+    	}else {
+    		Platform.runLater(() -> {
+    			_updaeProgress(value);
+    		});
+    	}
+    }
+    
+    private void _updaeProgress(double value) {
     	progressBar.setProgress(value);
     }
+    
     
     private void showAlertMessage(String message,AlertType type) {
     	Dialog<ButtonType> messageDialog = new Dialog<>();
@@ -295,6 +349,11 @@ public class JFXFractalExplorer extends Application {
 		menuItemGardiFractal.setOnAction(new GardiFracalDrawingAction(this));
 		menuItemGardiFractal.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
 		menu.getItems().add(menuItemGardiFractal);
+		
+		MenuItem menuItemSnowFlakeDrawing = new MenuItem("_Snow Flake");
+		menuItemSnowFlakeDrawing.setMnemonicParsing(true);
+		menuItemSnowFlakeDrawing.setOnAction(new SnowFlakeDrawingAction(this));
+		menu.getItems().add(menuItemSnowFlakeDrawing);
 	}
 	
 	private void createGenerativeArtMenu(Menu fractalsMenu) {
@@ -394,6 +453,7 @@ public class JFXFractalExplorer extends Application {
 		progressBar = new ProgressBar(0);
 		
 		progressBar.setPrefWidth(700);
+		
 		grid.add(progressBar, 1, 0);
 		
 		statusPane.setCenter(grid);

@@ -116,4 +116,18 @@ public class GardiFractalPreferencePane extends FractalDrawingPreferencePane {
 			
 		}
 	}
+
+
+	@Override
+	public void disableControls() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void enableControls() {
+		// TODO Auto-generated method stub
+		
+	}
 }

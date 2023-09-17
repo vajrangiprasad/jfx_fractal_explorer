@@ -19,4 +19,6 @@ public abstract class FractalDrawingPreferencePane extends BorderPane {
 	
 	public abstract void createHeaderPane();
 	public abstract void createParametersPane();
+	public abstract void disableControls();
+	public abstract void enableControls();
 }

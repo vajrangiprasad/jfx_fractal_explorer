@@ -1,8 +1,8 @@
 package jfx.fractal.explorer.drawing.turtletest;
 
 import javafx.scene.Node;
-import jfx.fractal.explorer.IFractalDrawing;
 import jfx.fractal.explorer.JFXFractalExplorer;
+import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.turtle.Turtle;
 
 public class TurtleTestDrawing implements IFractalDrawing {
@@ -54,4 +54,15 @@ public class TurtleTestDrawing implements IFractalDrawing {
 		turtle.dispose();
 	}
 
+	@Override
+	public void disableControls() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enableControls() {
+		// TODO Auto-generated method stub
+		
+	}	
 }

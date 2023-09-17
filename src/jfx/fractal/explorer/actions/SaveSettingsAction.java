@@ -2,8 +2,8 @@ package jfx.fractal.explorer.actions;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import jfx.fractal.explorer.IFractalDrawing;
 import jfx.fractal.explorer.JFXFractalExplorer;
+import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.resources.JFXResourceBundle;
 
 public class SaveSettingsAction implements EventHandler<ActionEvent>{

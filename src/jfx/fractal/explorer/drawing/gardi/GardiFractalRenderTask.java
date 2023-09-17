@@ -1,6 +1,5 @@
 package jfx.fractal.explorer.drawing.gardi;
 
-import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import jfx.fractal.explorer.FractalRenderTaskType;
 import jfx.fractal.explorer.JFXFractalExplorer;
@@ -14,18 +13,19 @@ public class GardiFractalRenderTask  extends FractalDrawingRenderTask{
     private ColorPreference colorPreference = ColorPreference.getInstance();
     private Color[] paletteColors;
     private Color[] rainbowColors;
-    
+    private int currentIteration = 0;
 	public GardiFractalRenderTask(JFXFractalExplorer fractalExplorer,
 			FractalRenderTaskType taskType,
 			Turtle turtle) {
 		super(fractalExplorer,taskType);
 		this.turtle = turtle;
-		paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(gardiFractalPreference.getIterations(), 0);
-		rainbowColors = ColorPreference.createRainbowColors(gardiFractalPreference.getIterations());
 	}
 	
 	@Override
 	public void draw() {
+		paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(gardiFractalPreference.getIterations(), 0);
+		rainbowColors = ColorPreference.createRainbowColors(gardiFractalPreference.getIterations());
+		
 		int orientation = 0;
 		switch(gardiFractalPreference.getOrientation()) {
 		case HORIZONTAL:
@@ -53,6 +53,9 @@ public class GardiFractalRenderTask  extends FractalDrawingRenderTask{
 		if(iteration == 0) {
 			return;
 		}
+		currentIteration++;
+		updateMessage("Rendering Gardi Fractal iteration : " + currentIteration);
+		updateProgress(((currentIteration)/(double)gardiFractalPreference.getIterations())*100.0, 100);
 		setPenColor(iteration);
 		drawTwoCircles(x,y,radius,orientation);
 		drawGardi(x,

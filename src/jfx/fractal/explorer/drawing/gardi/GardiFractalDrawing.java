@@ -4,8 +4,8 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.Node;
 import jfx.fractal.explorer.FractalRenderTaskType;
-import jfx.fractal.explorer.IFractalDrawing;
 import jfx.fractal.explorer.JFXFractalExplorer;
+import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.turtle.Turtle;
 
@@ -70,4 +70,15 @@ public class GardiFractalDrawing implements IFractalDrawing,InvalidationListener
 		draw();
 	}
 
+	@Override
+	public void disableControls() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enableControls() {
+		// TODO Auto-generated method stub
+		
+	}
 }

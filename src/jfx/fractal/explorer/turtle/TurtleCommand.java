@@ -55,7 +55,7 @@ public class TurtleCommand implements Runnable {
 	}
 	
 	private void drawTrail() {
-		if(!trail.isPenDown() || trail.getStrokeType() == TurtleStrokeType.NONE) {
+		if(trail.getStrokeType() != TurtleStrokeType.CLEAR && !trail.isPenDown() || trail.getStrokeType() == TurtleStrokeType.NONE) {
 			return;
 		}
 		
@@ -76,7 +76,7 @@ public class TurtleCommand implements Runnable {
 			gc.save();
 			gc.setStroke(trail.getPenColor());
 			gc.setFill(trail.getFillColor());
-			gc.setLineWidth(turtlePreference.getPenSize());
+			gc.setLineWidth(trail.getPenSize());
 			gc.setGlobalAlpha(turtlePreference.getAlpha());
 			gc.setGlobalBlendMode(turtlePreference.getBlendMode());
 			gc.setLineCap(turtlePreference.getStrokeLineCap());

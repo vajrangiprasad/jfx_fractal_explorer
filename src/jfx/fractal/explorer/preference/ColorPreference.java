@@ -131,6 +131,18 @@ public class ColorPreference implements Observable{
 		double green =  (c2.getGreen() * ratio + c1.getGreen() * (1 - ratio));
 		double blue =  (c2.getBlue() * ratio + c1.getBlue() * (1 - ratio));
         
+		if(red > 1.0) {
+			red = 1.0;
+		}
+		
+		if(green > 1.0 ) {
+			green = 1.0;
+		}
+		
+		if(blue > 1.0) {
+			blue = 1.0;
+		}
+		
         return new Color(red, green, blue, 1.0);
 	}
 	

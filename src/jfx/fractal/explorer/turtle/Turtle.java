@@ -44,7 +44,7 @@ public class Turtle {
 	private boolean penDown = true;
 	private boolean startFilling = false;
 	private boolean endFilling = false;
-	private double penSize = 5.0;
+	private double penSize = 1.5;
 	private double radius = 0.0;
 	private List<Double> xList = new ArrayList<Double>();
 	private List<Double> yList = new ArrayList<Double>();

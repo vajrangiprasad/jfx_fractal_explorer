@@ -5,7 +5,7 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 
 public class TurtlePreference {
-	private double penSize = 2.5;
+	private double penSize = 1.5;
 	private boolean showTurtle;
 	private double delay = 0.0;
 	private BlendMode blendMode = BlendMode.SRC_OVER;

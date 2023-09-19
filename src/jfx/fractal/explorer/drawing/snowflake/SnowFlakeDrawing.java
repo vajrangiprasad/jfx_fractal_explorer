@@ -1,6 +1,5 @@
 package jfx.fractal.explorer.drawing.snowflake;
 
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.Node;
@@ -16,7 +15,7 @@ public class SnowFlakeDrawing implements IFractalDrawing ,InvalidationListener{
 	private SnowFlakeDrawingPreference snowFlakeDrawingPreference = SnowFlakeDrawingPreference.getInstance();
 	private ColorPreference colorPreference = ColorPreference.getInstance();
 	private Turtle turtle;
-	private boolean taskInprogress = false;
+
 	
 	public SnowFlakeDrawing(JFXFractalExplorer jfxFractalExplorer) {
 		this.jfxFractalExplorer= jfxFractalExplorer;
@@ -26,14 +25,6 @@ public class SnowFlakeDrawing implements IFractalDrawing ,InvalidationListener{
 		colorPreference.addListener(this);
 	}
 	
-	public boolean isTaskInprogress() {
-		return taskInprogress;
-	}
-
-	public void setTaskInprogress(boolean taskInprogress) {
-		this.taskInprogress = taskInprogress;
-	}
-
 	@Override
 	public void draw() {
 		jfxFractalExplorer.disableControls();

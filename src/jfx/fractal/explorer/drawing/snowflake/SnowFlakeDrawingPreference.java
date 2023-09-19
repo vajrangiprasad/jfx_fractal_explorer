@@ -33,7 +33,7 @@ public class SnowFlakeDrawingPreference extends FractalDrawingPreference {
 
 	public void setLengthPercent(int lengthPercent) {
 		this.lengthPercent = lengthPercent;
-		invalidate("tLengthPercent");
+		invalidate("LengthPercent");
 	}
 
 	public double getLength() {

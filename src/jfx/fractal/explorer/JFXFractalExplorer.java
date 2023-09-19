@@ -3,12 +3,17 @@ package jfx.fractal.explorer;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -23,12 +28,19 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import jfx.fractal.explorer.actions.AnimateAction;
 import jfx.fractal.explorer.actions.ClearDrawingAction;
 import jfx.fractal.explorer.actions.DrawAction;
@@ -66,42 +78,54 @@ public class JFXFractalExplorer extends Application {
 	private Button saveFractalButton;
 	private Button saveSettingButton;
 	
+	private Pane splashLayout;
+    private ProgressBar loadProgress;
+    private Label progressText;
+    
+    private double  splashWidth ;
+    private double splashHeight;
+    
+	@Override
+	public void init() throws Exception {
+		fractalIcon = new Image(getClass().getResourceAsStream("icons/fractal-icon.png"));
+		ImageView splash = new ImageView(new Image(getClass().getResourceAsStream("icons/fractal-splash.png")));
+
+		Bounds bounds = splash.getLayoutBounds();
+		splashWidth = bounds.getWidth();
+		splashHeight = bounds.getHeight();
+		loadProgress = new ProgressBar();
+		loadProgress.setPrefWidth(splashWidth);
+		progressText = new Label("Loading JavaFX Fractal Explorer version 1.0 .....");
+		splashLayout = new VBox();
+		splashLayout.getChildren().addAll(splash, loadProgress, progressText);
+
+		progressText.setAlignment(Pos.CENTER);
+		splashLayout.setStyle("-fx-padding: 5;");
+		splashLayout.setEffect(new DropShadow());
+	}
+	
+	
 	@Override
 	public void start(Stage primaryStage) {
-		try {
-			colorPreference = PreferenceManager.getInstance().getColorPreference();
-			
-			colorPreferenceListner = new InvalidationListener() {
-				@Override
-				public void invalidated(Observable observable) {
-					setBackgroundColor();
+		final Task<Void> spalshTask = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				updateMessage("Loading JavaFX Fractal Explorer version 1.0 .....");
+				for(int i = 0 ;i<100;i++) {
+					 updateProgress(i + 1, 100);
+					 Thread.sleep(10);
 				}
-			};
-			
-			colorPreference.addListener(colorPreferenceListner);
-			
-			this.mainStage = primaryStage;
-						
-			BorderPane root = new BorderPane();
-			root.setTop(createMenuBar());
-			root.setBottom(createStatusBar());
-			root.setCenter(createFractalDisplayPane());
-			root.setLeft(createSettingsPane());
-			
-			Scene scene = new Scene(root,1400,750);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			fractalIcon = new Image(getClass().getResourceAsStream("icons/fractal-icon.png"));
-			primaryStage.getIcons().add(fractalIcon);
-			primaryStage.setTitle(JFXResourceBundle.getString("jfx.fractal.explorer.title"));
-			primaryStage.setScene(scene);
-			primaryStage.setResizable(false);
-			
-			/*enableActionButton("draw", false);
-			enableActionButton("animate", false);		*/
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+				Thread.sleep(400);
+				return null;
+			}
+		};
+		
+		showSplash(
+				primaryStage,
+				spalshTask,
+                () -> showMainStage()
+        );
+        new Thread(spalshTask).start();
 	}
 	
 	public static void main(String[] args) {
@@ -239,7 +263,81 @@ public class JFXFractalExplorer extends Application {
     		});
     	}
     }
+        
+    private void showSplash(
+            final Stage initStage,
+            Task<?> task,
+            InitCompletionHandler initCompletionHandler
+    ) {
+    	initStage.getIcons().add(fractalIcon);
+    	initStage.setTitle(JFXResourceBundle.getString("jfx.fractal.explorer.title"));
+        progressText.textProperty().bind(task.messageProperty());
+        loadProgress.progressProperty().bind(task.progressProperty());
+        task.stateProperty().addListener((observableValue, oldState, newState) -> {
+            if (newState == Worker.State.SUCCEEDED) {
+                loadProgress.progressProperty().unbind();
+                loadProgress.setProgress(1);
+                initStage.toFront();
+                FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
+                fadeSplash.setFromValue(1.0);
+                fadeSplash.setToValue(0.0);
+                fadeSplash.setOnFinished(actionEvent -> initStage.hide());
+                fadeSplash.play();
+
+                initCompletionHandler.complete();
+            } // todo add code to gracefully handle other task states.
+        });
+
+        Scene splashScene = new Scene(splashLayout, Color.TRANSPARENT);
+        final Rectangle2D bounds = Screen.getPrimary().getBounds();
+        initStage.setScene(splashScene);
+        initStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - splashWidth / 2);
+        initStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - splashHeight / 2);
+        initStage.initStyle(StageStyle.TRANSPARENT);
+        initStage.setAlwaysOnTop(true);
+        initStage.show();
+    }
     
+	private void showMainStage() {
+		try {
+
+			mainStage = new Stage(StageStyle.DECORATED);
+			
+			colorPreference = PreferenceManager.getInstance().getColorPreference();
+
+			colorPreferenceListner = new InvalidationListener() {
+				@Override
+				public void invalidated(Observable observable) {
+					setBackgroundColor();
+				}
+			};
+
+			colorPreference.addListener(colorPreferenceListner);
+
+			
+
+			BorderPane root = new BorderPane();
+			root.setTop(createMenuBar());
+			root.setBottom(createStatusBar());
+			root.setCenter(createFractalDisplayPane());
+			root.setLeft(createSettingsPane());
+
+			Scene scene = new Scene(root, 1400, 750);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+			mainStage.getIcons().add(fractalIcon);
+			mainStage.setTitle(JFXResourceBundle.getString("jfx.fractal.explorer.title"));
+			mainStage.setScene(scene);
+			mainStage.setResizable(false);
+
+			/*
+			 * enableActionButton("draw", false); enableActionButton("animate", false);
+			 */
+			mainStage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
     private void _updaeProgress(double value) {
     	progressBar.setProgress(value);
     }
@@ -538,4 +636,8 @@ public class JFXFractalExplorer extends Application {
 		
 		return new ImageView(image);
 	}
+	
+	public interface InitCompletionHandler {
+        void complete();
+    }
 }

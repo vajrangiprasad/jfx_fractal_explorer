@@ -54,6 +54,8 @@ import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
 import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
 import jfx.fractal.explorer.drawing.templefractal.TempleFractalDrawingAction;
+import jfx.fractal.explorer.drawing.vertexofsquare.VertexOfSquareAction;
+import jfx.fractal.explorer.drawing.vertexofsquare.VertexOfSquareDrawing;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.preference.PreferenceManager;
 import jfx.fractal.explorer.resources.JFXResourceBundle;
@@ -458,6 +460,11 @@ public class JFXFractalExplorer extends Application {
 		menuItemTempleFractal.setMnemonicParsing(true);
 		menuItemTempleFractal.setOnAction(new TempleFractalDrawingAction(this));
 		menu.getItems().add(menuItemTempleFractal);
+		
+		MenuItem menuItemVertexOfSquare = new MenuItem("_Vertex Of Suare");
+		menuItemVertexOfSquare.setMnemonicParsing(true);
+		menuItemVertexOfSquare.setOnAction(new VertexOfSquareAction(this));
+		menu.getItems().add(menuItemVertexOfSquare);
 	}
 	
 	private void createGenerativeArtMenu(Menu fractalsMenu) {

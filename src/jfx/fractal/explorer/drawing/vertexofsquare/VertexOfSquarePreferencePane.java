@@ -1,11 +1,10 @@
-package jfx.fractal.explorer.drawing.templefractal;
+package jfx.fractal.explorer.drawing.vertexofsquare;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -14,63 +13,59 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.drawing.FractalDrawingPreferencePane;
+import jfx.fractal.explorer.drawing.templefractal.TempleFractalPreference;
 import jfx.fractal.explorer.preference.FillColorType;
 import jfx.fractal.explorer.preference.PenColorType;
 
-public class TempleFractalPreferencePane extends FractalDrawingPreferencePane {
-	private Spinner<Integer> spinnerRadiusPercent;
+public class VertexOfSquarePreferencePane extends FractalDrawingPreferencePane {
+	private Spinner<Integer> spinnerSizePercent;
 	private Spinner<Integer> spinnerNumberOfColors;
-	private Spinner<Double> spinnerDelay;
-	private TextField textFieldDirection ;
+	private TextField txtSizeDelta;
+	private TextField txtAngleDelta;
 	private ComboBox<PenColorType> cmbPenColorType;
 	private ComboBox<FillColorType> cmbFillColorType;
-	private CheckBox chkDrawFull;
 	
-	private TempleFractalPreference preference = TempleFractalPreference.getInstance();
-	
-	public TempleFractalPreferencePane(JFXFractalExplorer jfxFractalExplorer) {
+	public VertexOfSquarePreferencePane(JFXFractalExplorer jfxFractalExplorer) {
 		super(jfxFractalExplorer);
 	}
-
+	
 	@Override
 	public void createHeaderPane() {
 		GridPane labelPane = new GridPane();
 		labelPane.setStyle("-fx-padding: 5;-fx-alignment:center");
 		setTop(labelPane);
 		
-		Label lblDrawing = new Label("Temple Fracal");
+		Label lblDrawing = new Label("Vertex Of Square");
 		lblDrawing.setStyle("-fx-font-size:14;-fx-font-weight:bold");
 		labelPane.add(lblDrawing, 0, 0);
 	}
 
 	@Override
 	public void createParametersPane() {
-		TempleFractalPreference preference = TempleFractalPreference.getInstance();
-		
+		VertexOfSquarePreference preference = VertexOfSquarePreference.getInstance();
 		GridPane parametersPane = new GridPane();
 		parametersPane.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:top-left;");
 		setCenter(parametersPane);
 		
 		{
-			Label lblRadiusPercent = new Label("Radius (%)");
-			parametersPane.add(lblRadiusPercent, 0, 0);
-			
-			spinnerRadiusPercent = new Spinner<>(0,100,preference.getRadiusPercent());
-			spinnerRadiusPercent.setEditable(true);
-			parametersPane.add(spinnerRadiusPercent, 1, 0);
-			spinnerRadiusPercent.valueProperty().addListener(new ChangeListener<Integer>() {
+			Label lblSizePercent = new Label("Size (%)");
+			parametersPane.add(lblSizePercent, 0, 0);
+			spinnerSizePercent = new Spinner<>(0,100,preference.getSizePercent());
+			spinnerSizePercent.setEditable(true);
+			spinnerSizePercent.valueProperty().addListener(new ChangeListener<Integer>() {
 				@Override
 				public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-					preference.setRadiusPercent(newValue);
+					preference.setSizePercent(newValue);
 				}
 			});
+			parametersPane.add(spinnerSizePercent, 1, 0);
 		}
 		
 		{
 			Label lblNumberOfCoplors = new Label("Number Of Colors");
 			parametersPane.add(lblNumberOfCoplors, 0, 1);
 			
-			spinnerNumberOfColors = new Spinner<>(0,TempleFractalPreference.MAX_COLORS,preference.getNumberOfColors());
+			spinnerNumberOfColors = new Spinner<>(0,VertexOfSquarePreference.MAX_COLORS,preference.getNumberOfColors());
 			parametersPane.add(spinnerNumberOfColors, 1, 1);
 			spinnerNumberOfColors.setEditable(true);
 			spinnerNumberOfColors.valueProperty().addListener(new ChangeListener<Integer>() {
@@ -82,41 +77,45 @@ public class TempleFractalPreferencePane extends FractalDrawingPreferencePane {
 		}
 		
 		{
-			Label lblDelay = new Label("Delay");
-			parametersPane.add(lblDelay, 0, 2);
-			spinnerDelay = new Spinner<>();
-			spinnerDelay.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0.0,
-					1.0, 
-					preference.getDelay(), 
-					0.05));
-			parametersPane.add(spinnerDelay, 1,2);
-			spinnerDelay.valueProperty().addListener(new ChangeListener<Double>() {
-				@Override
-				public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
-					preference.setDelay(newValue);
-				}
-			});
-		}
-		
-		{
-			Label lblDirection = new Label("Direction (Degrees)");
-			parametersPane.add(lblDirection, 0, 3);
-			textFieldDirection = new TextField(String.valueOf(preference.getDirection()));
-			parametersPane.add(textFieldDirection, 1, 3);
-			textFieldDirection.setOnAction(new EventHandler<ActionEvent>() {
+			Label lblSizeDelta = new Label("Size Delta");
+			parametersPane.add(lblSizeDelta, 0, 2);
+			txtSizeDelta = new TextField(String.valueOf(preference.getSizeDelta()));
+			txtSizeDelta.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					double direction = 0.0;
+					double sizeDelta = 0.0;
 					try {
-						direction = Double.parseDouble(textFieldDirection.getText());
+						sizeDelta = Double.parseDouble(txtSizeDelta.getText());
 					}catch(Exception ex) {
 						jfxFractalExplorer.showExceptionMessage(ex);
 						return;
 					}
-					preference.setDirection(direction);
+					preference.setSizeDelta(sizeDelta);
 				}
 			});
+			parametersPane.add(txtSizeDelta, 1, 2);
 		}
+		
+		{
+			Label lblAngleDelta = new Label("Angle Delta");
+			parametersPane.add(lblAngleDelta, 0, 3);
+			txtAngleDelta = new TextField(String.valueOf(preference.getAngleDelta()));
+			txtAngleDelta.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					double angleDelta = 0.0;
+					try {
+						angleDelta = Double.parseDouble(txtAngleDelta.getText());
+					}catch(Exception ex) {
+						jfxFractalExplorer.showExceptionMessage(ex);
+						return;
+					}
+					preference.setAngleDelta(angleDelta);
+				}
+			});
+			parametersPane.add(txtAngleDelta, 1,3);
+		}
+		
 		{
 			Label lblPenColorType = new Label("Pen Color Type");
 			parametersPane.add(lblPenColorType, 0, 4);
@@ -146,40 +145,25 @@ public class TempleFractalPreferencePane extends FractalDrawingPreferencePane {
 			});
 			parametersPane.add(cmbFillColorType, 1,5);
 		}
-		
-		{
-			chkDrawFull = new CheckBox("Draww Full");
-			chkDrawFull.setSelected(preference.isDrawFull());
-			chkDrawFull.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					preference.setDrawFull(chkDrawFull.isSelected());
-				}
-			});
-			parametersPane.add(chkDrawFull, 1, 6);
-		}
 	}
 
 	@Override
 	public void disableControls() {
-		spinnerRadiusPercent.setDisable(true);
 		spinnerNumberOfColors.setDisable(true);
-		spinnerDelay.setDisable(true);
-		textFieldDirection.setDisable(true);
-		cmbPenColorType.setDisable(true);
+		spinnerSizePercent.setDisable(true);
+		txtAngleDelta.setDisable(true);
+		txtSizeDelta.setDisable(true);
 		cmbFillColorType.setDisable(true);
-		chkDrawFull.setDisable(true);
+		cmbPenColorType.setDisable(true);
 	}
 
 	@Override
 	public void enableControls() {
-		spinnerRadiusPercent.setDisable(false);
 		spinnerNumberOfColors.setDisable(false);
-		spinnerDelay.setDisable(false);
-		textFieldDirection.setDisable(false);
-		cmbPenColorType.setDisable(false);
+		spinnerSizePercent.setDisable(false);
+		txtAngleDelta.setDisable(false);
+		txtSizeDelta.setDisable(false);
 		cmbFillColorType.setDisable(false);
-		chkDrawFull.setDisable(false);
+		cmbPenColorType.setDisable(false);
 	}
-
 }

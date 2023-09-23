@@ -27,6 +27,7 @@ public class SnowFlakeDrawing implements IFractalDrawing ,InvalidationListener{
 	
 	@Override
 	public void draw() {
+		clearDrawing();
 		jfxFractalExplorer.disableControls();
 		SnowFlakeDrawingRenderTask task = new SnowFlakeDrawingRenderTask(jfxFractalExplorer, 
 				FractalRenderTaskType.DRAW, 
@@ -84,6 +85,11 @@ public class SnowFlakeDrawing implements IFractalDrawing ,InvalidationListener{
 	@Override
 	public void enableControls() {
 		snowFlakeDrawingPreferencePane.enableControls();
+	}
+
+	@Override
+	public void stopRendering() {
+		snowFlakeDrawingPreference.setJobCanceled(true);
 	}
 
 }

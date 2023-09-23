@@ -9,7 +9,7 @@ import javafx.beans.Observable;
 public class FractalDrawingPreference implements Observable{
 	private List<InvalidationListener> invalidationListeners = new ArrayList<InvalidationListener>();
 	private String eventId;
-	
+	private boolean jobCanceled = false;
 	
 	public String getEventId() {
 		return eventId;
@@ -17,6 +17,14 @@ public class FractalDrawingPreference implements Observable{
 
 	public void setEventId(String eventId) {
 		this.eventId = eventId;
+	}
+	
+	public boolean isJobCanceled() {
+		return jobCanceled;
+	}
+
+	public void setJobCanceled(boolean jobCanceled) {
+		this.jobCanceled = jobCanceled;
 	}
 
 	@Override

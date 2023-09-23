@@ -22,5 +22,4 @@ public class DrawAction implements EventHandler<ActionEvent>{
 		}
 		fractalDrawing.draw();
 	}
-
 }

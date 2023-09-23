@@ -64,5 +64,11 @@ public class TurtleTestDrawing implements IFractalDrawing {
 	public void enableControls() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void stopRendering() {
+		// TODO Auto-generated method stub
+		
 	}	
 }

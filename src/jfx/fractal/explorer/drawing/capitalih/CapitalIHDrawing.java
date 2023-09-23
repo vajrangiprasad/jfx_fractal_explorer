@@ -27,6 +27,7 @@ public class CapitalIHDrawing implements IFractalDrawing,InvalidationListener {
 	@Override
 	public void draw() {
 		jfxFractalExplorer.disableControls();
+		clearDrawing();
 		CapitalIHRenderTak task = new CapitalIHRenderTak(jfxFractalExplorer, 
 				FractalRenderTaskType.DRAW, 
 				turtle);
@@ -98,4 +99,8 @@ public class CapitalIHDrawing implements IFractalDrawing,InvalidationListener {
 		draw();
 	}
 
+	@Override
+	public void stopRendering() {
+		capitalIHPreference.setJobCanceled(true);
+	}
 }

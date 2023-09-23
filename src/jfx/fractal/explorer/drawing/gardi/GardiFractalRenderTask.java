@@ -23,6 +23,7 @@ public class GardiFractalRenderTask  extends FractalDrawingRenderTask{
 	
 	@Override
 	public void draw() {
+		gardiFractalPreference.setJobCanceled(false);
 		paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(gardiFractalPreference.getIterations(), 0);
 		rainbowColors = ColorPreference.createRainbowColors(gardiFractalPreference.getIterations());
 		
@@ -50,7 +51,7 @@ public class GardiFractalRenderTask  extends FractalDrawingRenderTask{
 	}
 	
 	private void drawGardi(double x,double y,int orientation,int iteration,double radius) {
-		if(iteration == 0) {
+		if(iteration == 0 || gardiFractalPreference.isJobCanceled()) {
 			return;
 		}
 		currentIteration++;

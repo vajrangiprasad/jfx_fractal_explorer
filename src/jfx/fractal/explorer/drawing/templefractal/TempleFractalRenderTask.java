@@ -27,6 +27,7 @@ public class TempleFractalRenderTask extends FractalDrawingRenderTask {
 	
 	@Override
 	public void draw() {
+		templeFractalPreference.setJobCanceled(false);
 		paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(templeFractalPreference.getNumberOfColors(), 0);
 		rainbowColors = ColorPreference.createRainbowColors(templeFractalPreference.getNumberOfColors());
 		circleIndex = 0;
@@ -51,7 +52,7 @@ public class TempleFractalRenderTask extends FractalDrawingRenderTask {
 	}
 	
 	private void renderTemple(double x, double y,double r,double d,boolean countCircles) {
-		if(r < 2) {
+		if(r < 2 || templeFractalPreference.isJobCanceled()) {
 			return;
 		}
 		

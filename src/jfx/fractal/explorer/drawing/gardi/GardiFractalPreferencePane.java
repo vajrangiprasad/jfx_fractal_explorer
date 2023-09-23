@@ -120,14 +120,14 @@ public class GardiFractalPreferencePane extends FractalDrawingPreferencePane {
 
 	@Override
 	public void disableControls() {
-		// TODO Auto-generated method stub
-		
+		txtRadius.setDisable(true);
+		spinnerIteration.setDisable(true);
 	}
 
 
 	@Override
 	public void enableControls() {
-		// TODO Auto-generated method stub
-		
+		txtRadius.setDisable(false);
+		spinnerIteration.setDisable(false);
 	}
 }

@@ -27,6 +27,7 @@ public class SnowFlakeDrawingRenderTask extends FractalDrawingRenderTask {
 	@Override
 	public void draw() {
 		try {
+			snowFlakeDrawingPreference.setJobCanceled(false);
 			paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(snowFlakeDrawingPreference.getIteration(), 0);
 			rainbowColors = ColorPreference.createRainbowColors(snowFlakeDrawingPreference.getIteration());
 			countLines();
@@ -71,7 +72,7 @@ public class SnowFlakeDrawingRenderTask extends FractalDrawingRenderTask {
 	}
 	
 	private void renderSnowFlake(double x, double y,double l,double d,double ps,int n,boolean countLines) {
-		if(n == 0 ) {
+		if(n == 0 || snowFlakeDrawingPreference.isJobCanceled()) {
 			return;
 		}
 		

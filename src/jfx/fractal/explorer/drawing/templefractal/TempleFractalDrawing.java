@@ -26,6 +26,7 @@ public class TempleFractalDrawing implements IFractalDrawing,InvalidationListene
 	
 	@Override
 	public void draw() {
+		clearDrawing();
 		jfxFractalExplorer.disableControls();
 		TempleFractalRenderTask task = new TempleFractalRenderTask(jfxFractalExplorer, 
 				FractalRenderTaskType.DRAW, 
@@ -80,6 +81,11 @@ public class TempleFractalDrawing implements IFractalDrawing,InvalidationListene
 	public void invalidated(Observable observable) {
 		clearDrawing();
 		draw();
+	}
+
+	@Override
+	public void stopRendering() {
+		templeFractalPreference.setJobCanceled(true);
 	}
 
 }

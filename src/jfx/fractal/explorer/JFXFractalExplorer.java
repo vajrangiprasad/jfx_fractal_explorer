@@ -49,6 +49,7 @@ import jfx.fractal.explorer.actions.ExitAction;
 import jfx.fractal.explorer.actions.HelpAboutAction;
 import jfx.fractal.explorer.actions.SaveDrawingAction;
 import jfx.fractal.explorer.actions.SaveSettingsAction;
+import jfx.fractal.explorer.actions.StopRenderingAction;
 import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.drawing.capitalih.CapitalIHAction;
@@ -77,6 +78,7 @@ public class JFXFractalExplorer extends Application {
 	
 	private Button drawButton;
 	private Button animateButton;
+	private Button cancelButton;
 	private Button clearButton;
 	private Button saveFractalButton;
 	private Button saveSettingButton;
@@ -142,6 +144,7 @@ public class JFXFractalExplorer extends Application {
 		drawButton.setDisable(false);
 		animateButton.setDisable(false);
 		clearButton.setDisable(false);
+		cancelButton.setDisable(true);
 	}
 	
 	public void disableControls() {
@@ -151,6 +154,7 @@ public class JFXFractalExplorer extends Application {
 		drawButton.setDisable(true);
 		animateButton.setDisable(true);
 		clearButton.setDisable(true);
+		cancelButton.setDisable(false);
 	}
 	public Stage getMainStage() {
 		return mainStage;
@@ -625,6 +629,12 @@ public class JFXFractalExplorer extends Application {
 		animateButton.setMnemonicParsing(true);
 		animateButton.setOnAction(new AnimateAction(this));
 		toolBar.getItems().add(animateButton);
+		
+		cancelButton = new Button("Stop Rendering",getImageView("icons/cancel.png"));
+		cancelButton.setMnemonicParsing(true);
+		cancelButton.setOnAction(new StopRenderingAction(this));
+		cancelButton.setDisable(true);
+		toolBar.getItems().add(cancelButton);
 		
 		clearButton = new Button(JFXResourceBundle.getString("jfx.fractal.explorer.clear.text"),getImageView("icons/clear.png"));
 		clearButton.setMnemonicParsing(true);

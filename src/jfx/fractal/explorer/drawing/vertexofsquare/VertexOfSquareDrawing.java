@@ -28,6 +28,7 @@ public class VertexOfSquareDrawing implements IFractalDrawing,InvalidationListen
 	
 	@Override
 	public void draw() {
+		clearDrawing();
 		jfxFractalExplorer.disableControls();
 		VertexOfSquareRenderTask task = new VertexOfSquareRenderTask(jfxFractalExplorer, 
 				FractalRenderTaskType.DRAW, 
@@ -85,6 +86,11 @@ public class VertexOfSquareDrawing implements IFractalDrawing,InvalidationListen
 	public void invalidated(Observable observable) {
 		clearDrawing();
 		draw();
+	}
+
+	@Override
+	public void stopRendering() {
+		vertexOfSquarePreference.setJobCanceled(true);
 	}
 
 }

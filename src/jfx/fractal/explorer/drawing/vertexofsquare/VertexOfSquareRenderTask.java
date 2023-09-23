@@ -25,6 +25,7 @@ public class VertexOfSquareRenderTask extends FractalDrawingRenderTask {
 	@Override
 	public void draw() {
 		try {
+			vertexOfSquarePreference.setJobCanceled(false);
 			paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(100, 0);
 			rainbowColors = ColorPreference.createRainbowColors(100);
 			countSquares();
@@ -32,6 +33,9 @@ public class VertexOfSquareRenderTask extends FractalDrawingRenderTask {
 			currentSquare = 0;
 			double size = vertexOfSquarePreference.getSize();
 			while(size > 0) {
+				if(vertexOfSquarePreference.isJobCanceled()) {
+					break;
+				}
 				currentSquare++;
 				drawSquare(size, angle);
 				size -= vertexOfSquarePreference.getSizeDelta();

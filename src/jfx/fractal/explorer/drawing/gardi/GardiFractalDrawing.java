@@ -72,13 +72,16 @@ public class GardiFractalDrawing implements IFractalDrawing,InvalidationListener
 
 	@Override
 	public void disableControls() {
-		// TODO Auto-generated method stub
-		
+		controlPane.disableControls();
 	}
 
 	@Override
 	public void enableControls() {
-		// TODO Auto-generated method stub
-		
+		controlPane.enableControls();
+	}
+
+	@Override
+	public void stopRendering() {
+		gardiFractalPreference.setJobCanceled(true);
 	}
 }

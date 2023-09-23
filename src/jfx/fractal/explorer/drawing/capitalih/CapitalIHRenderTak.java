@@ -24,6 +24,7 @@ public class CapitalIHRenderTak extends FractalDrawingRenderTask {
 	 }
 	@Override
 	public void draw() {
+		capitalIHPreference.setJobCanceled(false);
 		countSteps(capitalIHPreference.getIterations());
 		if(capitalIHPreference.getType() == CapitalIHType.IH) {
 			totalSteps = 2*totalSteps;
@@ -35,8 +36,7 @@ public class CapitalIHRenderTak extends FractalDrawingRenderTask {
 
 	@Override
 	public void animate() {
-		// TODO Auto-generated method stub
-
+		fractalExplorer.showErrorMessage("Animation is not supported Capital IH Fractal");
 	}
 	
 	private void _draw(int iteration) {
@@ -44,7 +44,7 @@ public class CapitalIHRenderTak extends FractalDrawingRenderTask {
 	}
 	
 	private void drawFractal(double x, double y,double size,int n ) {
-		if(n == 0) {
+		if(n == 0 || capitalIHPreference.isJobCanceled()) {
 			return;
 		}
 		

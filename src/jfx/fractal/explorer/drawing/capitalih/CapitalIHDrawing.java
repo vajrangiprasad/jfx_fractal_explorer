@@ -1,4 +1,4 @@
-package jfx.fractal.explorer.drawing.vertexofsquare;
+package jfx.fractal.explorer.drawing.capitalih;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -6,30 +6,28 @@ import javafx.scene.Node;
 import jfx.fractal.explorer.FractalRenderTaskType;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
-import jfx.fractal.explorer.drawing.templefractal.TempleFractalRenderTask;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.turtle.Turtle;
 
-public class VertexOfSquareDrawing implements IFractalDrawing,InvalidationListener {
+public class CapitalIHDrawing implements IFractalDrawing,InvalidationListener {
 	private JFXFractalExplorer jfxFractalExplorer;
-	private VertexOfSquarePreferencePane preferencePane;
+	private CapitalIFPreferencePane preferencePane;
+	private CapitalIHPreference capitalIHPreference = CapitalIHPreference.getInstance();
 	private ColorPreference colorPreference = ColorPreference.getInstance();
-	private VertexOfSquarePreference vertexOfSquarePreference = VertexOfSquarePreference.getInstance();
-	
 	private Turtle turtle;
 	
-	public VertexOfSquareDrawing(JFXFractalExplorer jfxFractalExplorer) {
-		this.jfxFractalExplorer = jfxFractalExplorer;
-		preferencePane = new VertexOfSquarePreferencePane(jfxFractalExplorer);
+	public CapitalIHDrawing(JFXFractalExplorer jfxFractalExplore) {
+		this.jfxFractalExplorer = jfxFractalExplore;
+		preferencePane = new CapitalIFPreferencePane(jfxFractalExplore);
 		setupDrawingCanvas();
+		capitalIHPreference.addListener(this);
 		colorPreference.addListener(this);
-		vertexOfSquarePreference.addListener(this);
 	}
 	
 	@Override
 	public void draw() {
 		jfxFractalExplorer.disableControls();
-		VertexOfSquareRenderTask task = new VertexOfSquareRenderTask(jfxFractalExplorer, 
+		CapitalIHRenderTak task = new CapitalIHRenderTak(jfxFractalExplorer, 
 				FractalRenderTaskType.DRAW, 
 				turtle);
 		Thread drawThread = new Thread(task);
@@ -39,7 +37,7 @@ public class VertexOfSquareDrawing implements IFractalDrawing,InvalidationListen
 
 	@Override
 	public void animate() {
-		jfxFractalExplorer.showErrorMessage("Animation is not supported in Vertex Of Square");
+		jfxFractalExplorer.showErrorMessage("Animation is not supported Capital IH Fractal");
 	}
 
 	@Override
@@ -55,8 +53,12 @@ public class VertexOfSquareDrawing implements IFractalDrawing,InvalidationListen
 
 	@Override
 	public void setupDrawingCanvas() {
-		turtle = new Turtle(jfxFractalExplorer, "VerexOfSquare");
-		turtle.hideTurtle();
+		turtle = new Turtle(jfxFractalExplorer);
+		if(capitalIHPreference.isShowTurtle()) {
+			turtle.showTurtle();
+		}else {
+			turtle.hideTurtle();
+		}
 	}
 
 	@Override
@@ -66,9 +68,9 @@ public class VertexOfSquareDrawing implements IFractalDrawing,InvalidationListen
 
 	@Override
 	public void dispose() {
-		clearDrawing();
+		turtle.clear();
 		colorPreference.removeListener(this);
-		vertexOfSquarePreference.removeListener(this);
+		capitalIHPreference.removeListener(this);
 	}
 
 	@Override
@@ -83,6 +85,15 @@ public class VertexOfSquareDrawing implements IFractalDrawing,InvalidationListen
 
 	@Override
 	public void invalidated(Observable observable) {
+		if(observable instanceof CapitalIHPreference && 
+				"ShowTurtle".equals(capitalIHPreference.getEventId()))  {
+			if(capitalIHPreference.isShowTurtle()) {
+				turtle.showTurtle();
+			}else {
+				turtle.hideTurtle();
+			}
+			return;
+		}
 		clearDrawing();
 		draw();
 	}

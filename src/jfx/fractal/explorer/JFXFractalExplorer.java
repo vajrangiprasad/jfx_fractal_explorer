@@ -51,6 +51,7 @@ import jfx.fractal.explorer.actions.SaveDrawingAction;
 import jfx.fractal.explorer.actions.SaveSettingsAction;
 import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
+import jfx.fractal.explorer.drawing.capitalih.CapitalIHAction;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
 import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
 import jfx.fractal.explorer.drawing.templefractal.TempleFractalDrawingAction;
@@ -445,6 +446,11 @@ public class JFXFractalExplorer extends Application {
 		Menu menu = new Menu(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.fractals"));
 		menu.setMnemonicParsing(true);
 		fractalsMenu.getItems().add(menu);
+		
+		MenuItem menuItemCapitalIHFractal = new MenuItem("_Captial IH Fractal");
+		menuItemCapitalIHFractal.setOnAction(new CapitalIHAction(this));
+		menuItemCapitalIHFractal.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemCapitalIHFractal);
 		
 		MenuItem menuItemGardiFractal = new MenuItem(JFXResourceBundle.getString("jfx.fractal.explorer.drawing.gardi.lblDrawing"));
 		menuItemGardiFractal.setOnAction(new GardiFracalDrawingAction(this));

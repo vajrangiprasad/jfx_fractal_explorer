@@ -21,13 +21,14 @@ public class TurtleCommand implements Runnable {
 	}
 
 	private void drawTurtle() {
+		GraphicsContext turtleGC = trail.getTurtleGC();
+		turtleGC.clearRect(0, 0, FractalConstants.FRACTAL_DISPLAY_SIZE, FractalConstants.FRACTAL_DISPLAY_SIZE);
+		
 		if(!trail.isTurtleVisible()) {
 			return;
 		}
 		
-		GraphicsContext turtleGC = trail.getTurtleGC();
 		turtleGC.save();
-		turtleGC.clearRect(0, 0, FractalConstants.FRACTAL_DISPLAY_SIZE, FractalConstants.FRACTAL_DISPLAY_SIZE);
 		TurtleShape shape = trail.getShape();
 		BoundingBox bbox = FractalUtility.getBoundinBox(shape);
 		double sw = bbox.getWidth();

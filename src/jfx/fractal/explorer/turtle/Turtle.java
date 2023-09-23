@@ -136,6 +136,16 @@ public class Turtle {
 		this.direction = direction;
 	}
 
+	public void showTurtle() {
+		turtleVisible = true;
+		postCommand(creteTurtleCommand(TurtleStrokeType.NONE));
+	}
+	
+	public void hideTurtle() {
+		turtleVisible = false;
+		postCommand(creteTurtleCommand(TurtleStrokeType.NONE));
+	}
+	
 	private void postCommand(TurtleCommand command) {
 		try {
 			turtleCommandsQueue.put(command);

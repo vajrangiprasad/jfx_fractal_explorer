@@ -56,6 +56,7 @@ import jfx.fractal.explorer.drawing.capitalih.CapitalIHAction;
 import jfx.fractal.explorer.drawing.fracaltree.FractalTreeAction;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
 import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
+import jfx.fractal.explorer.drawing.squaretree.SquareTreeAction;
 import jfx.fractal.explorer.drawing.templefractal.TempleFractalDrawingAction;
 import jfx.fractal.explorer.drawing.vertexofsquare.VertexOfSquareAction;
 import jfx.fractal.explorer.drawing.vertexofsquare.VertexOfSquareDrawing;
@@ -476,6 +477,11 @@ public class JFXFractalExplorer extends Application {
 		menuItemSnowFlakeDrawing.setMnemonicParsing(true);
 		menuItemSnowFlakeDrawing.setOnAction(new SnowFlakeDrawingAction(this));
 		menu.getItems().add(menuItemSnowFlakeDrawing);
+		
+		MenuItem menuItemSquareTree = new MenuItem("Square Tree");
+		menuItemSquareTree.setOnAction(new SquareTreeAction(this));
+		menuItemSquareTree.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemSquareTree);
 		
 		MenuItem menuItemTempleFractal = new MenuItem("_Temple Fractal");
 		menuItemTempleFractal.setMnemonicParsing(true);

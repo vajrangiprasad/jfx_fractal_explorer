@@ -37,10 +37,11 @@ public class TurtleCommand implements Runnable {
 		double x1, y1, cx, cy;
 		Point2D position = trail.getPosition();
 		Point2D center = trail.getCenter();
-		x1 = position.getX();
-		y1 = position.getY();
-		cx = center.getX();
-		cy = center.getY();
+		double factor = trail.getFactor();
+		x1 = position.getX()*factor;
+		y1 = position.getY()*factor;
+		cx = center.getX()*factor;
+		cy = center.getY()*factor;
 		double x = ((x1 - cx) + FractalConstants.FRACTAL_DISPLAY_SIZE / 2);
 		double y = ((y1 - cy) * (-1) + FractalConstants.FRACTAL_DISPLAY_SIZE / 2);
 		
@@ -63,14 +64,14 @@ public class TurtleCommand implements Runnable {
 		double x1, y1, x2, y2, cx, cy, r;
 		double width = trail.getWidth();
 		double height = trail.getHeight();
-
+		double factor = trail.getFactor();
 		cx = trail.getCenter().getX();
 		cy = trail.getCenter().getY();
-		x1 = (trail.getOldPosition().getX() - cx) + width / 2;
-		y1 = (trail.getOldPosition().getY() - cy) * (-1) + height / 2;
-		x2 = (trail.getPosition().getX() - cx) + width / 2;
-		y2 = (trail.getPosition().getY() - cy) * (-1) + height / 2;
-		r = trail.getRadius();
+		x1 = ((trail.getOldPosition().getX() - cx) + width / 2)*factor;
+		y1 = ((trail.getOldPosition().getY() - cy) * (-1) + height / 2)*factor;
+		x2 = ((trail.getPosition().getX() - cx) + width / 2)*factor;
+		y2 = ((trail.getPosition().getY() - cy) * (-1) + height / 2)*factor;
+		r = trail.getRadius()*factor;
 		
 		GraphicsContext gc = trail.getDrawingGC();
 		try {

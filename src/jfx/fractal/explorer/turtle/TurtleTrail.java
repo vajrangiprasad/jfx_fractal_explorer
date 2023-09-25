@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import jfx.fractal.explorer.FractalConstants;
 
 public class TurtleTrail {
 	private String name;
@@ -23,6 +24,7 @@ public class TurtleTrail {
 	private double penSize;
 	private double width;
 	private double height;
+	private double xmin,xmax,ymin,ymax;
 	private TurtleStrokeType strokeType;
 	private TurtleShape shape;
 	private List<Double> xList = new ArrayList<Double>();
@@ -130,22 +132,6 @@ public class TurtleTrail {
 		this.strokeType = strokeType;
 	}
 
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
 	public List<Double> getxList() {
 		return xList;
 	}
@@ -171,6 +157,29 @@ public class TurtleTrail {
 		this.turtleGC = turtleGC;
 	}
 
+	public void setWorldCordinates(double xmin,double xmax,double ymin,double ymax) {
+		this.xmin = xmin;
+		this.xmax = xmax;
+		this.ymin = ymin;
+		this.ymax = ymax; 
+	}
+	
+	public double getFactor() {
+		double w = Math.abs(xmax - xmin);
+		double h = Math.abs(ymax - ymin);
+		double size = Math.min(w, h);
+		
+		return FractalConstants.FRACTAL_DISPLAY_SIZE/size;
+	}
+	
+	public double getWidth() {
+		return Math.abs(xmax-xmin);
+	}
+	
+	public double getHeight() {
+		return Math.abs(ymax-ymin);
+	}
+	
 	@Override
 	public String toString() {
 		return position.toString();

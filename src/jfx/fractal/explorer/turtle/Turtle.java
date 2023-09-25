@@ -46,6 +46,7 @@ public class Turtle {
 	private boolean endFilling = false;
 	private double penSize = 1.5;
 	private double radius = 0.0;
+	private double xmin,xmax,ymin,ymax;
 	private TurtleRefreshMode refreshMode = TurtleRefreshMode.ON_CHANGE;
 	
 	private List<Double> xList = new ArrayList<Double>();
@@ -62,7 +63,6 @@ public class Turtle {
 	
 	public Turtle(JFXFractalExplorer fractalExplorer,String name) {
 		this.fractalExplorer = fractalExplorer;
-		center = new Point2D(0.0, 0.0);
 		oldPosition = new Point2D(0.0, 0.0);
 		position = new Point2D(0, 0);
 		initialize();
@@ -146,6 +146,7 @@ public class Turtle {
 
 	public void setDirection(double direction) {
 		this.direction = direction;
+		postCommand(creteTurtleCommand(TurtleStrokeType.NONE));
 	}
 
 	public void showTurtle() {
@@ -156,6 +157,17 @@ public class Turtle {
 	public void hideTurtle() {
 		turtleVisible = false;
 		postCommand(creteTurtleCommand(TurtleStrokeType.NONE));
+	}
+	
+	public void setWorldCordinates(double xmin,double xmax,double ymin,double ymax) {
+		this.xmin = xmin;
+		this.xmax = xmax;
+		this.ymin = ymin;
+		this.ymax = ymax; 
+		double w = Math.abs(xmax - xmin);
+		double h = Math.abs(ymax - ymin);
+		double size = Math.min(w, h);
+		center = new Point2D((xmin+(size/2)),(ymax - (size/2)));
 	}
 	
 	public void refreshScreen() {
@@ -268,6 +280,13 @@ public class Turtle {
 	}
 	private void initialize() {
 		StackPane fractalScreen = fractalExplorer.getFractalScreen();
+		double size = FractalConstants.FRACTAL_DISPLAY_SIZE;
+		xmin = -size/2;
+		xmax = size/2;
+		ymin = -size/2;
+		ymax = size/2;
+		
+		center = new  Point2D(xmin+(size/2),ymin+(size/2));
 		
 		penColor = colorPreference.getPenColor();
 		fillColor = colorPreference.getFillColor();
@@ -309,11 +328,11 @@ public class Turtle {
 		trail.setTurtleVisible(turtleVisible);
 		trail.setPenSize(penSize);
 		trail.setStrokeType(strokeType);
-		trail.setWidth(FractalConstants.FRACTAL_DISPLAY_SIZE);
-		trail.setHeight(FractalConstants.FRACTAL_DISPLAY_SIZE);
+		trail.setWorldCordinates(xmin, xmax, ymin, ymax);
 		if(!endFilling && startFilling) {
-			double x = (int)((position.getX() - center.getX())  + FractalConstants.FRACTAL_DISPLAY_SIZE / 2);
-		    double y = (int)((position.getY() - center.getY())*(-1) + FractalConstants.FRACTAL_DISPLAY_SIZE / 2);
+			double factor = trail.getFactor();
+			double x = ((int)((position.getX() - center.getX())  + trail.getWidth() / 2))*factor;
+		    double y = ((int)((position.getY() - center.getY())*(-1) +trail.getHeight()/ 2))*factor;
 		    xList.add(x);
 		    yList.add(y);
 		}

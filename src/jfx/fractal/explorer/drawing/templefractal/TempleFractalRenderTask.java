@@ -115,7 +115,7 @@ public class TempleFractalRenderTask extends FractalDrawingRenderTask {
 						colorPreference.getAlternateColor1(), 
 						colorPreference.getAlternateColor2());
 				break;
-		case RAINBOW_COLOr:
+		case RAINBOW_COLOR:
 			fillColor = rainbowColors[iteration%templeFractalPreference.getNumberOfColors()];
 			break;
 		case PALETTE_COLR:

@@ -93,7 +93,7 @@ public class VertexOfSquareRenderTask extends FractalDrawingRenderTask {
 						colorPreference.getAlternateColor1(), 
 						colorPreference.getAlternateColor2());
 				break;
-		case RAINBOW_COLOr:
+		case RAINBOW_COLOR:
 			fillColor = rainbowColors[currentSquare%vertexOfSquarePreference.getNumberOfColors()];
 			break;
 		case PALETTE_COLR:

@@ -53,6 +53,7 @@ import jfx.fractal.explorer.actions.StopRenderingAction;
 import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.drawing.capitalih.CapitalIHAction;
+import jfx.fractal.explorer.drawing.fracaltree.FractalTreeAction;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
 import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
 import jfx.fractal.explorer.drawing.templefractal.TempleFractalDrawingAction;
@@ -432,6 +433,11 @@ public class JFXFractalExplorer extends Application {
 		Menu menu = new Menu(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.animation"));
 		menu.setMnemonicParsing(true);
 		fractalsMenu.getItems().add(menu);
+		
+		MenuItem menuItemVertexOfSquare = new MenuItem("_Vertex Of Suare");
+		menuItemVertexOfSquare.setMnemonicParsing(true);
+		menuItemVertexOfSquare.setOnAction(new VertexOfSquareAction(this));
+		menu.getItems().add(menuItemVertexOfSquare);
 	}
 	
 	private void createComplexNumberFractalsMenu(Menu fractalsMenu) {
@@ -461,6 +467,11 @@ public class JFXFractalExplorer extends Application {
 		menuItemGardiFractal.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
 		menu.getItems().add(menuItemGardiFractal);
 		
+		MenuItem menuItemFractalTree = new MenuItem("Fractal Tree");
+		menuItemFractalTree.setOnAction(new FractalTreeAction(this));
+		menuItemFractalTree.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemFractalTree);
+		
 		MenuItem menuItemSnowFlakeDrawing = new MenuItem("_Snow Flake");
 		menuItemSnowFlakeDrawing.setMnemonicParsing(true);
 		menuItemSnowFlakeDrawing.setOnAction(new SnowFlakeDrawingAction(this));
@@ -470,11 +481,6 @@ public class JFXFractalExplorer extends Application {
 		menuItemTempleFractal.setMnemonicParsing(true);
 		menuItemTempleFractal.setOnAction(new TempleFractalDrawingAction(this));
 		menu.getItems().add(menuItemTempleFractal);
-		
-		MenuItem menuItemVertexOfSquare = new MenuItem("_Vertex Of Suare");
-		menuItemVertexOfSquare.setMnemonicParsing(true);
-		menuItemVertexOfSquare.setOnAction(new VertexOfSquareAction(this));
-		menu.getItems().add(menuItemVertexOfSquare);
 	}
 	
 	private void createGenerativeArtMenu(Menu fractalsMenu) {

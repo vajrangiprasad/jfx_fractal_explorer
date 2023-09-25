@@ -27,6 +27,7 @@ public class FractalTree implements IFractalDrawing,InvalidationListener {
 	@Override
 	public void draw() {
 		jfxFractalExplorer.disableControls();
+		clearDrawing();
 		FractalTreeRenderTask task = new FractalTreeRenderTask(jfxFractalExplorer, FractalRenderTaskType.DRAW, turtle);
 		Thread drawThread = new Thread(task);
 		drawThread.setDaemon(true);
@@ -35,7 +36,12 @@ public class FractalTree implements IFractalDrawing,InvalidationListener {
 
 	@Override
 	public void animate() {
-		jfxFractalExplorer.showErrorMessage("Animation is not supported by Fractal Tree");
+		jfxFractalExplorer.disableControls();
+		clearDrawing();
+		FractalTreeRenderTask task = new FractalTreeRenderTask(jfxFractalExplorer, FractalRenderTaskType.ANIMATE, turtle);
+		Thread drawThread = new Thread(task);
+		drawThread.setDaemon(true);
+		drawThread.start();
 	}
 
 	@Override

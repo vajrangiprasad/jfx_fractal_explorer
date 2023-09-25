@@ -7,6 +7,8 @@ public class FracalTreePreference extends FractalDrawingPreference {
 	private int iterations = 10;
 	private double stemWidth = 10.0;
 	private double angle = 25.0;
+	private double animationDelay = 0.1;
+	private FractalTreeAnimationType animationType = FractalTreeAnimationType.ITERATION;
 	private PenColorType penColorType = PenColorType.PALETTE_COLR;
 	private static FracalTreePreference instance;
 	
@@ -57,4 +59,22 @@ public class FracalTreePreference extends FractalDrawingPreference {
 		this.penColorType = penColorType;
 		invalidate("PenColor");
 	}
+
+	public FractalTreeAnimationType getAnimationType() {
+		return animationType;
+	}
+
+	public void setAnimationType(FractalTreeAnimationType animationType) {
+		this.animationType = animationType;
+	}
+
+	public double getAnimationDelay() {
+		return animationDelay;
+	}
+
+	public void setAnimationDelay(double animationDelay) {
+		this.animationDelay = animationDelay;
+	}
+	
+	
 }

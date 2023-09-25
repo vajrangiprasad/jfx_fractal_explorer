@@ -45,7 +45,90 @@ public class FractalTreeRenderTask extends FractalDrawingRenderTask {
 	
 	@Override
 	public void animate() {
-		fractalExplorer.showErrorMessage("Animation is not supported in Fractal Tree");
+		preference.setJobCanceled(false);
+		paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(preference.getIterations(), 0);
+		rainbowColors = ColorPreference.createRainbowColors(preference.getIterations());
+		while(!preference.isJobCanceled()) {
+			switch (preference.getAnimationType()) {
+				case NONE: {
+					break;
+				}
+				case ANGLE: {
+					animate_angle_up();
+					animate_angle_down();
+					break;
+				}
+				case ITERATION : {
+					animate_iteration_up();
+					animate_iteration_down();
+					break;
+				}
+			}
+		}
+	}
+	
+	private void animate_angle_up() {
+		for(int i=1;i<=90;i++) {
+			if(preference.isJobCanceled()) {
+				return;
+			}
+			turtle.clear();
+			draw_tree(0, -300, 200, preference.getStemWidth(), 0.0f, 90,i, preference.getIterations());
+			turtle.refreshScreen();
+			try {
+				Thread.sleep((long)(preference.getAnimationDelay()*1000));
+			} catch (InterruptedException e) {
+				
+			}
+		}
+	}
+	
+	private void animate_angle_down() {
+		for(int i=90;i>=1;i--) {
+			if(preference.isJobCanceled()) {
+				return;
+			}
+			turtle.clear();
+			draw_tree(0, -300, 200, preference.getStemWidth(), 0.0f, 90,i, preference.getIterations());
+			turtle.refreshScreen();
+			try {
+				Thread.sleep((long)(preference.getAnimationDelay()*1000));
+			} catch (InterruptedException e) {
+				
+			}
+		}
+	}
+	
+	private void animate_iteration_up() {
+		for(int i=1;i<=preference.getIterations();i++) {
+			if(preference.isJobCanceled()) {
+				return;
+			}
+			turtle.clear();
+			draw_tree(0, -300, 200, preference.getStemWidth(), 0.0f, 90,preference.getAngle(), i);
+			turtle.refreshScreen();
+			try {
+				Thread.sleep((long)(preference.getAnimationDelay()*1000));
+			} catch (InterruptedException e) {
+				
+			}
+		}
+	}
+	
+	private void animate_iteration_down() {
+		for(int i=preference.getIterations();i>=1;i--) {
+			if(preference.isJobCanceled()) {
+				return;
+			}
+			turtle.clear();
+			draw_tree(0, -300, 200, preference.getStemWidth(), 0.0f, 90,preference.getAngle(), i);
+			turtle.refreshScreen();
+			try {
+				Thread.sleep((long)(preference.getAnimationDelay()*1000));
+			} catch (InterruptedException e) {
+				
+			}
+		}
 	}
 	
 	private void draw_tree(double x, double y, double length, double penSize,float hue,double angle,double fatAngle,int n)  {
@@ -53,8 +136,13 @@ public class FractalTreeRenderTask extends FractalDrawingRenderTask {
 			return;
 		}
 		iteration++;
-		updateMessage("Rendering Fractal Tree Iteration "  +preference.getIterations() + " of " + preference.getIterations());
-		updateProgress((iteration)/(double)preference.getIterations()*100.0, 100.0);
+		if(taskType == FractalRenderTaskType.DRAW) {
+			updateMessage("Rendering Fractal Tree Iteration "  +preference.getIterations() + " of " + preference.getIterations());
+			updateProgress((iteration)/(double)preference.getIterations()*100.0, 100.0);
+		}else {
+			updateMessage("Fractal Tree Animation running ... " );
+			updateProgress(0.0, 100.0);
+		}
 		draw_stem(x, y, length, penSize, angle,n);
 		
 		double tx = turtle.getPosition().getX();

@@ -16,7 +16,9 @@ public class FractalTreePreferencePane extends FractalDrawingPreferencePane {
 	private Spinner<Integer> spinnerIteration;
 	private Spinner<Double> spinnerStemWidth;
 	private Spinner<Double> spinnerAngle;
+	private Spinner<Double> spinnerAnimationDelay;
 	private ComboBox<PenColorType> cmbPenColorType ;
+	private ComboBox<FractalTreeAnimationType> cmbAnimationType;
 	
 	public FractalTreePreferencePane(JFXFractalExplorer jfxFractalExplorer) {
 		super(jfxFractalExplorer);
@@ -85,19 +87,50 @@ public class FractalTreePreferencePane extends FractalDrawingPreferencePane {
 				}
 			});
 		}
+		
+		{
+			Label lblAnimationDelay = new Label("Animation Delay");
+			parametersPane.add(lblAnimationDelay, 0, 3);
+			
+			spinnerAnimationDelay= new Spinner<Double>(0.0,1.0,preference.getAnimationDelay(),0.05);
+			parametersPane.add(spinnerAnimationDelay, 1, 3);
+			spinnerAnimationDelay.setEditable(true);
+			spinnerAnimationDelay.valueProperty().addListener(new ChangeListener<Double>() {
+				@Override
+				public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
+					preference.setAnimationDelay(newValue);
+				}
+			});
+		}
 		 
 		{
 			Label lblPenColorType = new Label("Pen Color Type");
-			parametersPane.add(lblPenColorType, 0,3);
+			parametersPane.add(lblPenColorType, 0,4);
 			
 			cmbPenColorType = new ComboBox<>(FXCollections.observableArrayList(PenColorType.values()));
 			cmbPenColorType.getSelectionModel().select(preference.getPenColorType());
-			parametersPane.add(cmbPenColorType, 1, 3);
+			parametersPane.add(cmbPenColorType, 1, 4);
 			cmbPenColorType.valueProperty().addListener(new ChangeListener<PenColorType>() {
 				@Override
 				public void changed(ObservableValue<? extends PenColorType> observable, PenColorType oldValue,
 						PenColorType newValue) {
 					preference.setPenColorType(newValue);
+				}
+			});
+		}
+		
+		{
+			Label lblAnimationType = new Label("Animation Typpe");
+			parametersPane.add(lblAnimationType, 0,5);
+			
+			cmbAnimationType = new ComboBox<>(FXCollections.observableArrayList(FractalTreeAnimationType.values()));
+			cmbAnimationType.getSelectionModel().select(preference.getAnimationType());
+			parametersPane.add(cmbAnimationType, 1, 5);
+			cmbAnimationType.valueProperty().addListener(new ChangeListener<FractalTreeAnimationType>() {
+				@Override
+				public void changed(ObservableValue<? extends FractalTreeAnimationType> observable, FractalTreeAnimationType oldValue,
+						FractalTreeAnimationType newValue) {
+					preference.setAnimationType(newValue);
 				}
 			});
 		}
@@ -109,6 +142,7 @@ public class FractalTreePreferencePane extends FractalDrawingPreferencePane {
 		spinnerAngle.setDisable(true);
 		spinnerStemWidth.setDisable(true);
 		cmbPenColorType.setDisable(true);
+		cmbAnimationType.setDisable(true);
 	}
 
 	@Override
@@ -117,6 +151,7 @@ public class FractalTreePreferencePane extends FractalDrawingPreferencePane {
 		spinnerAngle.setDisable(false);
 		spinnerStemWidth.setDisable(false);
 		cmbPenColorType.setDisable(false);
+		cmbAnimationType.setDisable(false);
 	}
 
 }

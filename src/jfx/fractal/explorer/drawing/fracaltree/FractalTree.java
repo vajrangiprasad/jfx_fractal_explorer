@@ -8,6 +8,7 @@ import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.turtle.Turtle;
+import jfx.fractal.explorer.turtle.TurtleRefreshMode;
 
 public class FractalTree implements IFractalDrawing,InvalidationListener {
 	private JFXFractalExplorer jfxFractalExplorer;
@@ -56,12 +57,14 @@ public class FractalTree implements IFractalDrawing,InvalidationListener {
 	@Override
 	public void setupDrawingCanvas() {
 		turtle = new Turtle(jfxFractalExplorer);
+		turtle.setRefreshMode(TurtleRefreshMode.ON_DEMAND);
 		turtle.hideTurtle();
 	}
 
 	@Override
 	public void clearDrawing() {
 		turtle.clear();
+		turtle.refreshScreen();
 	}
 
 	@Override

@@ -46,12 +46,15 @@ public class Turtle {
 	private boolean endFilling = false;
 	private double penSize = 1.5;
 	private double radius = 0.0;
+	private TurtleRefreshMode refreshMode = TurtleRefreshMode.ON_CHANGE;
+	
 	private List<Double> xList = new ArrayList<Double>();
 	private List<Double> yList = new ArrayList<Double>();
 	
 	private TurtleRenderAnimationHandler turtleRenderAnimationHandler;
 	private ColorPreferenceChangeHandler colorPreferenceChangeHandler ;
 	private ArrayBlockingQueue<TurtleCommand> turtleCommandsQueue = new ArrayBlockingQueue<>(FractalConstants.TURTLE_COMMAND_QUEUE_SIZE);
+	private ArrayBlockingQueue<TurtleCommand> onDemandTurtleCommandsQueue = new ArrayBlockingQueue<>(FractalConstants.TURTLE_COMMAND_QUEUE_SIZE);
 	
 	public Turtle(JFXFractalExplorer fractalExplorer) {
 		this(fractalExplorer,"Unknown");
@@ -63,6 +66,7 @@ public class Turtle {
 		oldPosition = new Point2D(0.0, 0.0);
 		position = new Point2D(0, 0);
 		initialize();
+		
 	}
 	
 	public void dispose() {
@@ -71,7 +75,6 @@ public class Turtle {
 		fractalExplorer.getFractalScreen().getChildren().remove(drawingCanvas);
 		fractalExplorer.getFractalScreen().getChildren().remove(turtleCanvas);
 	}
-	
 	
 	public Color getPenColor() {
 		return penColor;
@@ -120,6 +123,15 @@ public class Turtle {
 		return penSize;
 	}
 
+	
+	public TurtleRefreshMode getRefreshMode() {
+		return refreshMode;
+	}
+
+	public void setRefreshMode(TurtleRefreshMode refreshMode) {
+		this.refreshMode = refreshMode;
+	}
+
 	public void setPenSize(double penSize) {
 		this.penSize = penSize;
 	}
@@ -146,9 +158,30 @@ public class Turtle {
 		postCommand(creteTurtleCommand(TurtleStrokeType.NONE));
 	}
 	
+	public void refreshScreen() {
+		ArrayList<TurtleCommand> commandList = new ArrayList<>();
+		onDemandTurtleCommandsQueue.drainTo(commandList);
+		commandList.forEach(command -> {
+			try {
+				turtleCommandsQueue.put(command);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+	
 	private void postCommand(TurtleCommand command) {
 		try {
-			turtleCommandsQueue.put(command);
+			if(refreshMode == TurtleRefreshMode.ON_CHANGE) {
+				turtleCommandsQueue.put(command);
+			}
+			
+			if(refreshMode == TurtleRefreshMode.ON_DEMAND) {
+				if(onDemandTurtleCommandsQueue.size() == (FractalConstants.TURTLE_COMMAND_QUEUE_SIZE)) {
+					refreshScreen();
+				}
+				onDemandTurtleCommandsQueue.put(command);
+			}
 		} 
 		catch (InterruptedException e) {
 		}

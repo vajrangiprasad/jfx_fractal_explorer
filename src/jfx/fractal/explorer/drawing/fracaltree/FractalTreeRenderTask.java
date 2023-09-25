@@ -26,15 +26,21 @@ public class FractalTreeRenderTask extends FractalDrawingRenderTask {
 	
 	@Override
 	public void draw() {
-		iteration = 0;
-		preference.setJobCanceled(false);
-		paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(preference.getIterations(), 0);
-		rainbowColors = ColorPreference.createRainbowColors(preference.getIterations());
-		
-		draw_tree(0, -300, 200, preference.getStemWidth(), 0.0f, 90,preference.getAngle(), preference.getIterations());
-		
-		updateMessage(null);
-		updateProgress(0, 100.0);
+		try {
+			iteration = 0;
+			preference.setJobCanceled(false);
+			paletteColors = colorPreference.getSelectedColorPalette().makeRGBs(preference.getIterations(), 0);
+			rainbowColors = ColorPreference.createRainbowColors(preference.getIterations());
+			
+			draw_tree(0, -300, 200, preference.getStemWidth(), 0.0f, 90,preference.getAngle(), preference.getIterations());
+			turtle.refreshScreen();
+			
+			updateMessage(null);
+			updateProgress(0, 100.0);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			fractalExplorer.showExceptionMessage(ex);
+		}
 	}
 	
 	@Override

@@ -53,6 +53,7 @@ import jfx.fractal.explorer.actions.StopRenderingAction;
 import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.drawing.capitalih.CapitalIHAction;
+import jfx.fractal.explorer.drawing.curvytree.CurvyTreeAction;
 import jfx.fractal.explorer.drawing.fracaltree.FractalTreeAction;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
 import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
@@ -462,6 +463,11 @@ public class JFXFractalExplorer extends Application {
 		menuItemCapitalIHFractal.setOnAction(new CapitalIHAction(this));
 		menuItemCapitalIHFractal.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
 		menu.getItems().add(menuItemCapitalIHFractal);
+		
+		MenuItem menuItemCurvyTree = new MenuItem("C_urvy Tree");
+		menuItemCurvyTree.setOnAction(new CurvyTreeAction(this));
+		menuItemCurvyTree.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemCurvyTree);
 		
 		MenuItem menuItemGardiFractal = new MenuItem(JFXResourceBundle.getString("jfx.fractal.explorer.drawing.gardi.lblDrawing"));
 		menuItemGardiFractal.setOnAction(new GardiFracalDrawingAction(this));

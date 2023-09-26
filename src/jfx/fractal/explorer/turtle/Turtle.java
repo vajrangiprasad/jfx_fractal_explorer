@@ -133,6 +133,9 @@ public class Turtle {
 	}
 
 	public void setPenSize(double penSize) {
+		if(penSize < 1.0) {
+			penSize = 1.0;
+		}
 		this.penSize = penSize;
 	}
 

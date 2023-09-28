@@ -56,6 +56,7 @@ import jfx.fractal.explorer.drawing.capitalih.CapitalIHAction;
 import jfx.fractal.explorer.drawing.curvytree.CurvyTreeAction;
 import jfx.fractal.explorer.drawing.fracaltree.FractalTreeAction;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
+import jfx.fractal.explorer.drawing.lsystem.LSystemFractalAction;
 import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
 import jfx.fractal.explorer.drawing.squaretree.SquareTreeAction;
 import jfx.fractal.explorer.drawing.templefractal.TempleFractalDrawingAction;
@@ -469,15 +470,20 @@ public class JFXFractalExplorer extends Application {
 		menuItemCurvyTree.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
 		menu.getItems().add(menuItemCurvyTree);
 		
+		MenuItem menuItemFractalTree = new MenuItem("Fractal Tree");
+		menuItemFractalTree.setOnAction(new FractalTreeAction(this));
+		menuItemFractalTree.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemFractalTree);
+		
 		MenuItem menuItemGardiFractal = new MenuItem(JFXResourceBundle.getString("jfx.fractal.explorer.drawing.gardi.lblDrawing"));
 		menuItemGardiFractal.setOnAction(new GardiFracalDrawingAction(this));
 		menuItemGardiFractal.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
 		menu.getItems().add(menuItemGardiFractal);
 		
-		MenuItem menuItemFractalTree = new MenuItem("Fractal Tree");
-		menuItemFractalTree.setOnAction(new FractalTreeAction(this));
-		menuItemFractalTree.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
-		menu.getItems().add(menuItemFractalTree);
+		MenuItem menuItemLsystemFracal = new MenuItem("LSystem");
+		menuItemLsystemFracal.setOnAction(new LSystemFractalAction(this));
+		menuItemLsystemFracal.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemLsystemFracal);
 		
 		MenuItem menuItemSnowFlakeDrawing = new MenuItem("_Snow Flake");
 		menuItemSnowFlakeDrawing.setMnemonicParsing(true);

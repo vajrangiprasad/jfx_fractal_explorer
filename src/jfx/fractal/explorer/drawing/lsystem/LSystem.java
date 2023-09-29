@@ -108,11 +108,6 @@ public class LSystem {
 		
 		for(int i = 0; i<iterations;i++) {
 			generation = expand(generation);
-			double progress = ((double)(i+1)/(double)iterations*100.0);
-			if(jfxFractalExplorer!= null) {
-				jfxFractalExplorer.updateStatusMessage("Producing LSystem Generation iteration " + i);
-				jfxFractalExplorer.updateProgress(progress);
-			}
 		}
 		
 		return generation;

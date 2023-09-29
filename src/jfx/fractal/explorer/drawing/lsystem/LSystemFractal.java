@@ -1,5 +1,11 @@
 package jfx.fractal.explorer.drawing.lsystem;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.Node;
@@ -8,6 +14,7 @@ import jfx.fractal.explorer.FractalRenderTaskType;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.drawing.gardi.GardiFractalRenderTask;
+import jfx.fractal.explorer.preference.PreferenceManager;
 import jfx.fractal.explorer.turtle.Turtle;
 
 public class LSystemFractal implements IFractalDrawing,InvalidationListener {
@@ -51,8 +58,13 @@ public class LSystemFractal implements IFractalDrawing,InvalidationListener {
 
 	@Override
 	public void saveSetting() {
-		// TODO Auto-generated method stub
-
+		try {
+			ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+			Path path = Paths.get("LSystems.json");
+			mapper.writeValue(path.toFile(), PreferenceManager.getInstance().getLSystems());
+		}catch(Exception ex) {
+			jfxFractalExplorer.showExceptionMessage(ex);
+		}
 	}
 
 	@Override

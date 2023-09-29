@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -36,6 +37,10 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 	private ComboBox<PenColorType> cmbPenColorType;
 	private ComboBox<LSystem> cmbLSystems;
 	
+	private Button btnAddRule;
+	private TextField txtLSystemName;
+	private Button btnCreate;
+	
 	private TableView tableViewRules;
 	
 	public LSystemPreferencePane(JFXFractalExplorer jfxFractalExplorer) {
@@ -65,10 +70,13 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 		rootPane.setTop(parametersPane);
 		rootPane.setCenter(rulesRootPane);
 		GridPane rulesPane = new GridPane();
-		
+		GridPane newLsystemPane = new GridPane();
 		rulesRootPane.setTop(rulesPane);
+		rulesRootPane.setBottom(newLsystemPane);
 		parametersPane.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:top-left;");
 		rulesPane.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:top-left;");
+		newLsystemPane.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:top-left;");
+		
 		setCenter(rootPane);
 		
 		{
@@ -200,6 +208,19 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 			tableViewRules.getColumns().addAll(columnKey,columnReplacement);
 			
 			rulesPane.add(tableViewRules, 1, 0);
+			
+			btnAddRule = new Button("Add Rule");
+			rulesPane.add(btnAddRule,2 , 0);
+			
+			txtLSystemName = new TextField();
+			
+		}
+		
+		{
+			txtLSystemName = new TextField();
+			newLsystemPane.add(txtLSystemName, 0, 0);
+			btnCreate = new Button("Add New LSystem");
+			newLsystemPane.add(btnCreate, 1, 0);
 		}
 	
 		updateControlValues();
@@ -218,6 +239,9 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 		txtLengthFactor.setDisable(true);
 		tableViewRules.setDisable(true);
 		txtAngle.setDisable(true);
+		btnAddRule.setDisable(true);
+		txtLSystemName.setDisable(true);
+		btnCreate.setDisable(true);
 	}
 
 	@Override
@@ -232,6 +256,9 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 		txtLengthFactor.setDisable(false);
 		tableViewRules.setDisable(false);
 		txtAngle.setDisable(false);
+		btnAddRule.setDisable(false);
+		txtLSystemName.setDisable(false);
+		btnCreate.setDisable(false);
 	}
 	
 	private void addListners() {
@@ -250,7 +277,6 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 				}catch(Exception ex) {
 					jfxFractalExplorer.showExceptionMessage(ex);
 				}
-				
 			});
 		}
 		
@@ -315,6 +341,31 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 				}catch(Exception ex) {
 					jfxFractalExplorer.showExceptionMessage(ex);
 				}
+			});
+		}
+		
+		{
+			btnAddRule.setOnAction(e -> {
+				LSystemRule rule = new LSystemRule();
+				lSystemPreference.getSelectedLSystem().addRule(rule);
+				tableViewRules.getItems().add(rule);
+				tableViewRules.requestFocus();
+				tableViewRules.getSelectionModel().select(rule);
+				tableViewRules.scrollTo(rule);
+			});
+		}
+		
+		{
+			btnCreate.setOnAction(e->{
+				if(txtLSystemName.getText().isEmpty()) {
+					jfxFractalExplorer.showErrorMessage("Please enter L-System name");
+					return;
+				}
+				
+				LSystem lSystem = new LSystem(jfxFractalExplorer);
+				lSystem.setName(txtLSystemName.getText());
+				PreferenceManager.getInstance().addLSystem(lSystem);
+				cmbLSystems.getSelectionModel().select(lSystem);
 			});
 		}
 	}

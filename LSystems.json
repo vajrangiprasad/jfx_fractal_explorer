@@ -1,672 +1,842 @@
-[ {
-  "name" : "Algea",
-  "axiom" : "aF",
-  "angle" : 12.0,
-  "length" : 4,
-  "iterations" : 15,
-  "startX" : -100.0,
-  "startY" : -450.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "a",
-    "replacement" : "FFFFFv[+++h][---q]fb"
-  }, {
-    "key" : "b",
-    "replacement" : "FFFFFv[+++h][---q]fc"
-  }, {
-    "key" : "c",
-    "replacement" : "FFFFFv[+++fa]fd"
-  }, {
-    "key" : "d",
-    "replacement" : "FFFFFv[+++h][---q]fe"
-  }, {
-    "key" : "e",
-    "replacement" : "FFFFFv[+++h][---q]fg"
-  }, {
-    "key" : "g",
-    "replacement" : "FFFFFv[---fa]fa"
-  }, {
-    "key" : "h",
-    "replacement" : "ifFF"
-  }, {
-    "key" : "i",
-    "replacement" : "fFFF[--m]j"
-  }, {
-    "key" : "i",
-    "replacement" : "fFFF[--n]k"
-  }, {
-    "key" : "k",
-    "replacement" : "fFFF[--o]l"
-  }, {
-    "key" : "l",
-    "replacement" : "fFFF[--p]"
-  }, {
-    "key" : "m",
-    "replacement" : "fFn"
-  }, {
-    "key" : "n",
-    "replacement" : "fFo"
-  }, {
-    "key" : "o",
-    "replacement" : "fFp"
-  }, {
-    "key" : "p",
-    "replacement" : "fF"
-  }, {
-    "key" : "q",
-    "replacement" : "rfF"
-  }, {
-    "key" : "r",
-    "replacement" : "fFFF[++m]s"
-  }, {
-    "key" : "s",
-    "replacement" : "fFFF[++n]t"
-  }, {
-    "key" : "t",
-    "replacement" : "fFFF[++o]u"
-  }, {
-    "key" : "u",
-    "replacement" : "fFFF[++p]"
-  }, {
-    "key" : "v",
-    "replacement" : "Fv"
-  } ]
-}, {
-  "name" : "Board",
-  "axiom" : "F+F+F+F",
-  "angle" : 90.0,
-  "length" : 10.0,
-  "iterations" : 4,
-  "startX" : -400.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "FF+F+F+F+FF"
-  } ]
-}, {
-  "name" : "Bush 1",
-  "axiom" : "Y",
-  "angle" : 25.0,
-  "length" : 14.0,
-  "iterations" : 5,
-  "startX" : 0.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "X[-FFF][+FFF]FX"
-  }, {
-    "key" : "Y",
-    "replacement" : "YFX[+Y][-Y]"
-  } ]
-}, {
-  "name" : "Bush 2",
-  "axiom" : "F",
-  "angle" : 35.0,
-  "length" : 8.0,
-  "iterations" : 4,
-  "startX" : 0.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F[+FF][-FF]F[-F][+F]F"
-  } ]
-}, {
-  "name" : "Bush 3",
-  "axiom" : "FX",
-  "angle" : 40.0,
-  "length" : 300.0,
-  "iterations" : 4,
-  "startX" : 0.0,
-  "startY" : -400.0,
-  "lengthFactor" : 0.6,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : ">[-FX]+FX<"
-  } ]
-}, {
-  "name" : "Bushy Tree",
-  "axiom" : "F",
-  "angle" : 25.0,
-  "length" : 15.0,
-  "iterations" : 4,
-  "startX" : 50.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "FF-[-F+F+F]+[+F-F-F]"
-  } ]
-}, {
-  "name" : "C Curve",
-  "axiom" : "F",
-  "angle" : 45.0,
-  "length" : 13.0,
-  "iterations" : 10,
-  "startX" : -200.0,
-  "startY" : -200.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "+F--F+"
-  } ]
-}, {
-  "name" : "Conifer",
-  "axiom" : "I",
-  "angle" : 20.0,
-  "length" : 25.0,
-  "iterations" : 10,
-  "startX" : 50.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "I",
-    "replacement" : "VZFFF"
-  }, {
-    "key" : "V",
-    "replacement" : "[+++W][---W]YV"
-  }, {
-    "key" : "W",
-    "replacement" : "+X[-W]Z"
-  }, {
-    "key" : "X",
-    "replacement" : "-W[+X]Z"
-  }, {
-    "key" : "Y",
-    "replacement" : "YZ"
-  }, {
-    "key" : "Z",
-    "replacement" : "[-FFF][+FFF]F"
-  } ]
-}, {
-  "name" : "Cross",
-  "axiom" : "F+F+F+F",
-  "angle" : 90.0,
-  "length" : 20.0,
-  "iterations" : 4,
-  "startX" : -150.0,
-  "startY" : 300.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F+FF++F+F"
-  } ]
-}, {
-  "name" : "Crystal",
-  "axiom" : "I",
-  "angle" : 90.0,
-  "length" : 10.0,
-  "iterations" : 5,
-  "startX" : -400.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "I",
-    "replacement" : "F+F+F+F"
-  }, {
-    "key" : "F",
-    "replacement" : "FF+F++F+F"
-  } ]
-}, {
-  "name" : "Dragon Curve",
-  "axiom" : "F",
-  "angle" : 90.0,
-  "length" : 10.0,
-  "iterations" : 11,
-  "startX" : -150.0,
-  "startY" : 100.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F+A"
-  }, {
-    "key" : "A",
-    "replacement" : "F-A"
-  } ]
-}, {
-  "name" : "Gosper Curve",
-  "axiom" : "A",
-  "angle" : 60.0,
-  "length" : 14.0,
-  "iterations" : 4,
-  "startX" : 400.0,
-  "startY" : 120.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "A",
-    "replacement" : "A-F--F+A++AA+F-"
-  }, {
-    "key" : "F",
-    "replacement" : "+A-FF--F-A++A+F"
-  } ]
-}, {
-  "name" : "Hexagonal Kolam",
-  "axiom" : "X",
-  "angle" : 60.0,
-  "length" : 24.0,
-  "iterations" : 20,
-  "startX" : 0.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "[-F+F[Y]+F][+F-F[X]-F]"
-  }, {
-    "key" : "Y",
-    "replacement" : "[-F+F[Y]+F][+F-F-F]"
-  } ]
-}, {
-  "name" : "Hilbert Curve",
-  "axiom" : "X",
-  "angle" : 90.0,
-  "length" : 12.75,
-  "iterations" : 6,
-  "startX" : 400.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "-YF+XFX+FY-"
-  }, {
-    "key" : "Y",
-    "replacement" : "+XF-YFY-FX+"
-  } ]
-}, {
-  "name" : "Icy Fractal",
-  "axiom" : "F+F+F+F",
-  "angle" : 90.0,
-  "length" : 10.0,
-  "iterations" : 4,
-  "startX" : -400.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "FF+F++F+F"
-  } ]
-}, {
-  "name" : "Island",
-  "axiom" : "F-F-F-F",
-  "angle" : 90.0,
-  "length" : 12.0,
-  "iterations" : 2,
-  "startX" : 220.0,
-  "startY" : -220.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F-f+FF-F-FF-Ff-FF+f-FF+F+FF+Ff+FFF"
-  }, {
-    "key" : "f",
-    "replacement" : "ffffff"
-  } ]
-}, {
-  "name" : "Koch Anti Snow Flake",
-  "axiom" : "F++F++F",
-  "angle" : 0.0,
-  "length" : 100.0,
-  "iterations" : 3,
-  "startX" : 0.0,
-  "startY" : 0.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F+F−−F+F"
-  } ]
-}, {
-  "name" : "Koch Curve 1",
-  "axiom" : "F",
-  "angle" : 90.0,
-  "length" : 10.0,
-  "iterations" : 4,
-  "startX" : -200.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F+F-F-F+F"
-  } ]
-}, {
-  "name" : "Koch Curve 2",
-  "axiom" : "F",
-  "angle" : 60.0,
-  "length" : 10.0,
-  "iterations" : 3,
-  "startX" : 0.0,
-  "startY" : -300.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F+F-F-F+F"
-  } ]
-}, {
-  "name" : "Koch Curve 3",
-  "axiom" : "F--F--F",
-  "angle" : 60.0,
-  "length" : 8.0,
-  "iterations" : 4,
-  "startX" : 200.0,
-  "startY" : -300.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F+F--F+F"
-  } ]
-}, {
-  "name" : "Koch Tree",
-  "axiom" : "F",
-  "angle" : 80.0,
-  "length" : 5.0,
-  "iterations" : 6,
-  "startX" : 0.0,
-  "startY" : -425.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F+F--F+F"
-  } ]
-}, {
-  "name" : "Kolam",
-  "axiom" : "(-D--D)",
-  "angle" : 45.0,
-  "length" : 30.0,
-  "iterations" : 10,
-  "startX" : 400.0,
-  "startY" : 0.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "A",
-    "replacement" : "F++FFFF--F--FFFF++F++FFFF--F"
-  }, {
-    "key" : "B",
-    "replacement" : "F--FFFF++F++FFFF--F--FFFF++F"
-  }, {
-    "key" : "C",
-    "replacement" : "BFA--BFA"
-  }, {
-    "key" : "D",
-    "replacement" : "CFC--CFC"
-  } ]
-}, {
-  "name" : "Krishna Anklets",
-  "axiom" : "-X--X",
-  "angle" : 45.0,
-  "length" : 9.0,
-  "iterations" : 6,
-  "startX" : 400.0,
-  "startY" : 0.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "XFX--XFX"
-  } ]
-}, {
-  "name" : "Leaf",
-  "axiom" : "a",
-  "angle" : 45.0,
-  "length" : 4.999999999999999,
-  "iterations" : 11,
-  "startX" : 0.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.36,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : ">F<"
-  }, {
-    "key" : "a",
-    "replacement" : "F[+x]Fb"
-  }, {
-    "key" : "b",
-    "replacement" : "F[-y]Fa"
-  }, {
-    "key" : "x",
-    "replacement" : "a"
-  }, {
-    "key" : "y",
-    "replacement" : "b"
-  } ]
-}, {
-  "name" : "Mango Kolam",
-  "axiom" : "X---X",
-  "angle" : 60.0,
-  "length" : 18.0,
-  "iterations" : 9,
-  "startX" : 0.0,
-  "startY" : -200.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "A-F+Z+F-AX"
-  }, {
-    "key" : "Z",
-    "replacement" : "F-FF-F--[--Z]F-FF-F--F-FF-F--"
-  } ]
-}, {
-  "name" : "Peano Curve",
-  "axiom" : "X",
-  "angle" : 90.0,
-  "length" : 30.2,
-  "iterations" : 3,
-  "startX" : -400.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "XFYFX+F+YFXFY-F-XFYFX"
-  }, {
-    "key" : "Y",
-    "replacement" : "YFXFY-F-XFYFX+F+YFXFY"
-  } ]
-}, {
-  "name" : "Peano1",
-  "axiom" : "F",
-  "angle" : 90.0,
-  "length" : 10.0,
-  "iterations" : 4,
-  "startX" : 0.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F-F+F+F+F-F-F-F+F"
-  } ]
-}, {
-  "name" : "Pentadentrin",
-  "axiom" : "F-F-F-F-F",
-  "angle" : 72.0,
-  "length" : 7.0,
-  "iterations" : 4,
-  "startX" : 400.0,
-  "startY" : 50.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F-F-F++F+F-F"
-  } ]
-}, {
-  "name" : "Pentaplexity",
-  "axiom" : "F++F++F++F++F",
-  "angle" : 36.0,
-  "length" : 10.0,
-  "iterations" : 4,
-  "startX" : -350.0,
-  "startY" : -250.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F++F++F|F-F++F"
-  } ]
-}, {
-  "name" : "Quadratic Gosper",
-  "axiom" : "-YF",
-  "angle" : 90.0,
-  "length" : 6.5,
-  "iterations" : 3,
-  "startX" : 400.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "XFX-YF-YF+FX+FX-YF-YFFX+YF+FXFXYF-FX+YF+FXFX+YF-FXYF-YF-FX+FX+YFYF-"
-  }, {
-    "key" : "Y",
-    "replacement" : "+FXFX-YF-YF+FX+FXYF+FX-YFYF-FX-YF+FXYFYF-FX-YFFX+FX+YF-YF-FX+FX+YFY"
-  } ]
-}, {
-  "name" : "Quadratic Koch Island",
-  "axiom" : "F+F+F+F",
-  "angle" : 90.0,
-  "length" : 6.5,
-  "iterations" : 3,
-  "startX" : 0.0,
-  "startY" : -320.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F+F-F-FFF+F+F-F"
-  } ]
-}, {
-  "name" : "Quadratic Snow Flake 1",
-  "axiom" : "F",
-  "angle" : 90.0,
-  "length" : 10.0,
-  "iterations" : 4,
-  "startX" : 200.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F-F+F+F-F"
-  } ]
-}, {
-  "name" : "Quadratic Snow Flake 2",
-  "axiom" : "FF+FF+FF+FF",
-  "angle" : 90.0,
-  "length" : 15.0,
-  "iterations" : 3,
-  "startX" : -400.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F+F-F-F+F"
-  } ]
-}, {
-  "name" : "Rings",
-  "axiom" : "F+F+F+F",
-  "angle" : 90.0,
-  "length" : 16.0,
-  "iterations" : 3,
-  "startX" : -350.0,
-  "startY" : 50.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "FF+F+F+F+F+F-F"
-  } ]
-}, {
-  "name" : "Sierpinski Arrowhead",
-  "axiom" : "YF",
-  "angle" : 60.0,
-  "length" : 12.0,
-  "iterations" : 6,
-  "startX" : -300.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "YF+XF+Y"
-  }, {
-    "key" : "Y",
-    "replacement" : "XF-YF-X"
-  } ]
-}, {
-  "name" : "Sierpinski Square",
-  "axiom" : "F+XF+F+XF",
-  "angle" : 90.0,
-  "length" : 13.0,
-  "iterations" : 4,
-  "startX" : -400.0,
-  "startY" : 0.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "XF-F+F-XF+F+XF-F+F-X"
-  } ]
-}, {
-  "name" : "Snake Kolam",
-  "axiom" : "F+XF+F+XF",
-  "angle" : 90.0,
-  "length" : 13.0,
-  "iterations" : 5,
-  "startX" : -400.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "X",
-    "replacement" : "XF-F-F+XF+F+XF-F-F+X"
-  } ]
-}, {
-  "name" : "Stick 1",
-  "axiom" : "X",
-  "angle" : 20.0,
-  "length" : 3.0,
-  "iterations" : 7,
-  "startX" : 0.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "FF"
-  }, {
-    "key" : "X",
-    "replacement" : "F[+X]F[-X]+X"
-  } ]
-}, {
-  "name" : "Tiles",
-  "axiom" : "F+F+F+F",
-  "angle" : 90.0,
-  "length" : 40.0,
-  "iterations" : 3,
-  "startX" : 100.0,
-  "startY" : 300.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "FF+F-F+F+FF"
-  } ]
-}, {
-  "name" : "Triangle",
-  "axiom" : "F+F+F",
-  "angle" : 120.0,
-  "length" : 23.0,
-  "iterations" : 6,
-  "startX" : 200.0,
-  "startY" : 300.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "F-F+F"
-  } ]
-}, {
-  "name" : "Weed",
-  "axiom" : "F",
-  "angle" : 22.5,
-  "length" : 13.0,
-  "iterations" : 5,
-  "startX" : 0.0,
-  "startY" : -400.0,
-  "lengthFactor" : 1.0,
-  "rules" : [ {
-    "key" : "F",
-    "replacement" : "FF-[XY]+[XY]"
-  }, {
-    "key" : "X",
-    "replacement" : "+FY"
-  }, {
-    "key" : "Y",
-    "replacement" : "-FX"
-  } ]
-} ]
+[
+	{
+		"name": "Algea",
+		"axiom": "aF",
+		"angle": 12.0,
+		"length": 4.0,
+		"iterations": 15,
+		"startX": -100.0,
+		"startY": -450.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "a",
+				"replacement": "FFFFFv[+++h][---q]fb"
+			},
+			{
+				"key": "b",
+				"replacement": "FFFFFv[+++h][---q]fc"
+			},
+			{
+				"key": "c",
+				"replacement": "FFFFFv[+++fa]fd"
+			},
+			{
+				"key": "d",
+				"replacement": "FFFFFv[+++h][---q]fe"
+			},
+			{
+				"key": "e",
+				"replacement": "FFFFFv[+++h][---q]fg"
+			},
+			{
+				"key": "g",
+				"replacement": "FFFFFv[---fa]fa"
+			},
+			{
+				"key": "h",
+				"replacement": "ifFF"
+			},
+			{
+				"key": "i",
+				"replacement": "fFFF[--m]j"
+			},
+			{
+				"key": "i",
+				"replacement": "fFFF[--n]k"
+			},
+			{
+				"key": "k",
+				"replacement": "fFFF[--o]l"
+			},
+			{
+				"key": "l",
+				"replacement": "fFFF[--p]"
+			},
+			{
+				"key": "m",
+				"replacement": "fFn"
+			},
+			{
+				"key": "n",
+				"replacement": "fFo"
+			},
+			{
+				"key": "o",
+				"replacement": "fFp"
+			},
+			{
+				"key": "p",
+				"replacement": "fF"
+			},
+			{
+				"key": "q",
+				"replacement": "rfF"
+			},
+			{
+				"key": "r",
+				"replacement": "fFFF[++m]s"
+			},
+			{
+				"key": "s",
+				"replacement": "fFFF[++n]t"
+			},
+			{
+				"key": "t",
+				"replacement": "fFFF[++o]u"
+			},
+			{
+				"key": "u",
+				"replacement": "fFFF[++p]"
+			},
+			{
+				"key": "v",
+				"replacement": "Fv"
+			}
+		]
+	},
+	{
+		"name": "Board",
+		"axiom": "F+F+F+F",
+		"angle": 90.0,
+		"length": 10.0,
+		"iterations": 4,
+		"startX": -400.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "FF+F+F+F+FF"
+			}
+		]
+	},
+	{
+		"name": "Bush 1",
+		"axiom": "Y",
+		"angle": 25.0,
+		"length": 14.0,
+		"iterations": 5,
+		"startX": 0.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "X[-FFF][+FFF]FX"
+			},
+			{
+				"key": "Y",
+				"replacement": "YFX[+Y][-Y]"
+			}
+		]
+	},
+	{
+		"name": "Bush 2",
+		"axiom": "F",
+		"angle": 35.0,
+		"length": 8.0,
+		"iterations": 4,
+		"startX": 0.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F[+FF][-FF]F[-F][+F]F"
+			}
+		]
+	},
+	{
+		"name": "Bush 3",
+		"axiom": "FX",
+		"angle": 40.0,
+		"length": 300.0,
+		"iterations": 4,
+		"startX": 0.0,
+		"startY": -400.0,
+		"lengthFactor": 0.6,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": ">[-FX]+FX<"
+			}
+		]
+	},
+	{
+		"name": "Bushy Tree",
+		"axiom": "F",
+		"angle": 25.0,
+		"length": 15.0,
+		"iterations": 4,
+		"startX": 50.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "FF-[-F+F+F]+[+F-F-F]"
+			}
+		]
+	},
+	{
+		"name": "C Curve",
+		"axiom": "F",
+		"angle": 45.0,
+		"length": 13.0,
+		"iterations": 10,
+		"startX": -200.0,
+		"startY": -200.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "+F--F+"
+			}
+		]
+	},
+	{
+		"name": "Conifer",
+		"axiom": "I",
+		"angle": 20.0,
+		"length": 25.0,
+		"iterations": 10,
+		"startX": 50.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "I",
+				"replacement": "VZFFF"
+			},
+			{
+				"key": "V",
+				"replacement": "[+++W][---W]YV"
+			},
+			{
+				"key": "W",
+				"replacement": "+X[-W]Z"
+			},
+			{
+				"key": "X",
+				"replacement": "-W[+X]Z"
+			},
+			{
+				"key": "Y",
+				"replacement": "YZ"
+			},
+			{
+				"key": "Z",
+				"replacement": "[-FFF][+FFF]F"
+			}
+		]
+	},
+	{
+		"name": "Cross",
+		"axiom": "F+F+F+F",
+		"angle": 90.0,
+		"length": 20.0,
+		"iterations": 4,
+		"startX": -150.0,
+		"startY": 300.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F+FF++F+F"
+			}
+		]
+	},
+	{
+		"name": "Crystal",
+		"axiom": "I",
+		"angle": 90.0,
+		"length": 10.0,
+		"iterations": 5,
+		"startX": -400.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "I",
+				"replacement": "F+F+F+F"
+			},
+			{
+				"key": "F",
+				"replacement": "FF+F++F+F"
+			}
+		]
+	},
+	{
+		"name": "Dragon Curve",
+		"axiom": "F",
+		"angle": 90.0,
+		"length": 10.0,
+		"iterations": 11,
+		"startX": -150.0,
+		"startY": 100.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F+A"
+			},
+			{
+				"key": "A",
+				"replacement": "F-A"
+			}
+		]
+	},
+	{
+		"name": "Gosper Curve",
+		"axiom": "A",
+		"angle": 60.0,
+		"length": 14.0,
+		"iterations": 4,
+		"startX": 400.0,
+		"startY": 120.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "A",
+				"replacement": "A-F--F+A++AA+F-"
+			},
+			{
+				"key": "F",
+				"replacement": "+A-FF--F-A++A+F"
+			}
+		]
+	},
+	{
+		"name": "Hexagonal Kolam",
+		"axiom": "X",
+		"angle": 60.0,
+		"length": 24.0,
+		"iterations": 20,
+		"startX": 0.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "[-F+F[Y]+F][+F-F[X]-F]"
+			},
+			{
+				"key": "Y",
+				"replacement": "[-F+F[Y]+F][+F-F-F]"
+			}
+		]
+	},
+	{
+		"name": "Hilbert Curve",
+		"axiom": "X",
+		"angle": 90.0,
+		"length": 12.75,
+		"iterations": 6,
+		"startX": 400.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "-YF+XFX+FY-"
+			},
+			{
+				"key": "Y",
+				"replacement": "+XF-YFY-FX+"
+			}
+		]
+	},
+	{
+		"name": "Icy Fractal",
+		"axiom": "F+F+F+F",
+		"angle": 90.0,
+		"length": 10.0,
+		"iterations": 4,
+		"startX": -400.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "FF+F++F+F"
+			}
+		]
+	},
+	{
+		"name": "Island",
+		"axiom": "F-F-F-F",
+		"angle": 90.0,
+		"length": 12.0,
+		"iterations": 2,
+		"startX": 220.0,
+		"startY": -220.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F-f+FF-F-FF-Ff-FF+f-FF+F+FF+Ff+FFF"
+			},
+			{
+				"key": "f",
+				"replacement": "ffffff"
+			}
+		]
+	},
+	{
+		"name": "Koch Anti Snow Flake",
+		"axiom": "F++F++F",
+		"angle": 0.0,
+		"length": 100.0,
+		"iterations": 3,
+		"startX": 0.0,
+		"startY": 0.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F+F−−F+F"
+			}
+		]
+	},
+	{
+		"name": "Koch Curve 1",
+		"axiom": "F",
+		"angle": 90.0,
+		"length": 10.0,
+		"iterations": 4,
+		"startX": -200.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F+F-F-F+F"
+			}
+		]
+	},
+	{
+		"name": "Koch Curve 2",
+		"axiom": "F",
+		"angle": 60.0,
+		"length": 10.0,
+		"iterations": 3,
+		"startX": 0.0,
+		"startY": -300.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F+F-F-F+F"
+			}
+		]
+	},
+	{
+		"name": "Koch Curve 3",
+		"axiom": "F--F--F",
+		"angle": 60.0,
+		"length": 8.0,
+		"iterations": 4,
+		"startX": 200.0,
+		"startY": -300.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F+F--F+F"
+			}
+		]
+	},
+	{
+		"name": "Koch Tree",
+		"axiom": "F",
+		"angle": 80.0,
+		"length": 5.0,
+		"iterations": 6,
+		"startX": 0.0,
+		"startY": -425.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F+F--F+F"
+			}
+		]
+	},
+	{
+		"name": "Kolam",
+		"axiom": "(-D--D)",
+		"angle": 45.0,
+		"length": 30.0,
+		"iterations": 10,
+		"startX": 400.0,
+		"startY": 0.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "A",
+				"replacement": "F++FFFF--F--FFFF++F++FFFF--F"
+			},
+			{
+				"key": "B",
+				"replacement": "F--FFFF++F++FFFF--F--FFFF++F"
+			},
+			{
+				"key": "C",
+				"replacement": "BFA--BFA"
+			},
+			{
+				"key": "D",
+				"replacement": "CFC--CFC"
+			}
+		]
+	},
+	{
+		"name": "Krishna Anklets",
+		"axiom": "-X--X",
+		"angle": 45.0,
+		"length": 9.0,
+		"iterations": 6,
+		"startX": 400.0,
+		"startY": 0.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "XFX--XFX"
+			}
+		]
+	},
+	{
+		"name": "Leaf",
+		"axiom": "a",
+		"angle": 45.0,
+		"length": 4.999999999999999,
+		"iterations": 11,
+		"startX": 0.0,
+		"startY": -400.0,
+		"lengthFactor": 1.36,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": ">F<"
+			},
+			{
+				"key": "a",
+				"replacement": "F[+x]Fb"
+			},
+			{
+				"key": "b",
+				"replacement": "F[-y]Fa"
+			},
+			{
+				"key": "x",
+				"replacement": "a"
+			},
+			{
+				"key": "y",
+				"replacement": "b"
+			}
+		]
+	},
+	{
+		"name": "Mango Kolam",
+		"axiom": "X---X",
+		"angle": 60.0,
+		"length": 18.0,
+		"iterations": 9,
+		"startX": 0.0,
+		"startY": -200.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "A-F+Z+F-AX"
+			},
+			{
+				"key": "Z",
+				"replacement": "F-FF-F--[--Z]F-FF-F--F-FF-F--"
+			}
+		]
+	},
+	{
+		"name": "Peano Curve",
+		"axiom": "X",
+		"angle": 90.0,
+		"length": 30.2,
+		"iterations": 3,
+		"startX": -400.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "XFYFX+F+YFXFY-F-XFYFX"
+			},
+			{
+				"key": "Y",
+				"replacement": "YFXFY-F-XFYFX+F+YFXFY"
+			}
+		]
+	},
+	{
+		"name": "Peano1",
+		"axiom": "F",
+		"angle": 90.0,
+		"length": 10.0,
+		"iterations": 4,
+		"startX": 0.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F-F+F+F+F-F-F-F+F"
+			}
+		]
+	},
+	{
+		"name": "Pentadentrin",
+		"axiom": "F-F-F-F-F",
+		"angle": 72.0,
+		"length": 7.0,
+		"iterations": 4,
+		"startX": 400.0,
+		"startY": 50.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F-F-F++F+F-F"
+			}
+		]
+	},
+	{
+		"name": "Pentaplexity",
+		"axiom": "F++F++F++F++F",
+		"angle": 36.0,
+		"length": 10.0,
+		"iterations": 4,
+		"startX": -350.0,
+		"startY": -250.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F++F++F|F-F++F"
+			}
+		]
+	},
+	{
+		"name": "Quadratic Gosper",
+		"axiom": "-YF",
+		"angle": 90.0,
+		"length": 6.5,
+		"iterations": 3,
+		"startX": 400.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "XFX-YF-YF+FX+FX-YF-YFFX+YF+FXFXYF-FX+YF+FXFX+YF-FXYF-YF-FX+FX+YFYF-"
+			},
+			{
+				"key": "Y",
+				"replacement": "+FXFX-YF-YF+FX+FXYF+FX-YFYF-FX-YF+FXYFYF-FX-YFFX+FX+YF-YF-FX+FX+YFY"
+			}
+		]
+	},
+	{
+		"name": "Quadratic Koch Island",
+		"axiom": "F+F+F+F",
+		"angle": 90.0,
+		"length": 6.5,
+		"iterations": 3,
+		"startX": 0.0,
+		"startY": -320.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F+F-F-FFF+F+F-F"
+			}
+		]
+	},
+	{
+		"name": "Quadratic Snow Flake 1",
+		"axiom": "F",
+		"angle": 90.0,
+		"length": 10.0,
+		"iterations": 4,
+		"startX": 200.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F-F+F+F-F"
+			}
+		]
+	},
+	{
+		"name": "Quadratic Snow Flake 2",
+		"axiom": "FF+FF+FF+FF",
+		"angle": 90.0,
+		"length": 15.0,
+		"iterations": 3,
+		"startX": -400.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F+F-F-F+F"
+			}
+		]
+	},
+	{
+		"name": "Rings",
+		"axiom": "F+F+F+F",
+		"angle": 90.0,
+		"length": 16.0,
+		"iterations": 3,
+		"startX": -350.0,
+		"startY": 50.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "FF+F+F+F+F+F-F"
+			}
+		]
+	},
+	{
+		"name": "Sierpinski Arrowhead",
+		"axiom": "YF",
+		"angle": 60.0,
+		"length": 12.0,
+		"iterations": 6,
+		"startX": -300.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "YF+XF+Y"
+			},
+			{
+				"key": "Y",
+				"replacement": "XF-YF-X"
+			}
+		]
+	},
+	{
+		"name": "Sierpinski Square",
+		"axiom": "F+XF+F+XF",
+		"angle": 90.0,
+		"length": 13.0,
+		"iterations": 4,
+		"startX": -400.0,
+		"startY": 0.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "XF-F+F-XF+F+XF-F+F-X"
+			}
+		]
+	},
+	{
+		"name": "Snake Kolam",
+		"axiom": "F+XF+F+XF",
+		"angle": 90.0,
+		"length": 13.0,
+		"iterations": 5,
+		"startX": -400.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "X",
+				"replacement": "XF-F-F+XF+F+XF-F-F+X"
+			}
+		]
+	},
+	{
+		"name": "Stick 1",
+		"axiom": "X",
+		"angle": 20.0,
+		"length": 3.0,
+		"iterations": 7,
+		"startX": 0.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "FF"
+			},
+			{
+				"key": "X",
+				"replacement": "F[+X]F[-X]+X"
+			}
+		]
+	},
+	{
+		"name": "Tiles",
+		"axiom": "F+F+F+F",
+		"angle": 90.0,
+		"length": 40.0,
+		"iterations": 3,
+		"startX": 100.0,
+		"startY": 300.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "FF+F-F+F+FF"
+			}
+		]
+	},
+	{
+		"name": "Triangle",
+		"axiom": "F+F+F",
+		"angle": 120.0,
+		"length": 23.0,
+		"iterations": 6,
+		"startX": 200.0,
+		"startY": 300.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "F-F+F"
+			}
+		]
+	},
+	{
+		"name": "Weed",
+		"axiom": "F",
+		"angle": 22.5,
+		"length": 13.0,
+		"iterations": 5,
+		"startX": 0.0,
+		"startY": -400.0,
+		"lengthFactor": 1.0,
+		"rules": [
+			{
+				"key": "F",
+				"replacement": "FF-[XY]+[XY]"
+			},
+			{
+				"key": "X",
+				"replacement": "+FY"
+			},
+			{
+				"key": "Y",
+				"replacement": "-FX"
+			}
+		]
+	}
+]

@@ -48,7 +48,7 @@ public class LSystemPrefereence extends FractalDrawingPreference {
 	}
 	
 	public void setAxiom(String axiom) {
-		this.setAxiom(axiom);
+		selectedLSystem.setAxiom(axiom);
 		invalidate("Axiom");
 	}
 

@@ -41,8 +41,7 @@ public class LSystemFractal implements IFractalDrawing,InvalidationListener {
 
 	@Override
 	public void stopRendering() {
-		// TODO Auto-generated method stub
-
+		lSystemPrefereence.setJobCanceled(true);
 	}
 
 	@Override

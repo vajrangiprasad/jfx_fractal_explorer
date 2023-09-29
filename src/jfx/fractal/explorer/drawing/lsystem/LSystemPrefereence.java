@@ -102,7 +102,7 @@ public class LSystemPrefereence extends FractalDrawingPreference {
 	}
 	
 	public void setStartY(double startY) {
-		this.setStartY(startY);
+		selectedLSystem.setStartY(startY);
 		invalidate("StartY");
 	}
 	

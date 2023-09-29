@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
+import jfx.fractal.explorer.FractalConstants;
 import jfx.fractal.explorer.FractalRenderTaskType;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.drawing.FractalDrawingRenderTask;
@@ -24,6 +25,7 @@ public class LSystemRenderTask extends FractalDrawingRenderTask {
 
 	@Override
 	public void draw() {
+		LSystemPrefereence.getInstance().setJobCanceled(false);
 		LSystem lSystem = LSystemPrefereence.getInstance().getSelectedLSystem();
 		updateMessage("Calculating L-Systen Generation...");
 		updateProgress(0, 100);
@@ -41,8 +43,11 @@ public class LSystemRenderTask extends FractalDrawingRenderTask {
 		double charsProcesed = 0.0;
 		double totalStpes = generation.length();
 		int step = 0;
-		
+		double length = lSystem.getLength();
 		for(char c : generation.toCharArray()) {
+			if(LSystemPrefereence.getInstance().isJobCanceled()) {
+				break;
+			}
 			charsProcesed++;
 			double percent = (charsProcesed/totalStpes)*100.0;
 			updateMessage("Rendering L-Systen " + percent);
@@ -52,13 +57,13 @@ public class LSystemRenderTask extends FractalDrawingRenderTask {
 			switch(c) {
 			case 'A':
 			case 'F':
-				turtle.forward(lSystem.getLength());
+				turtle.forward(length);
 				step++;
 				break;
 			case 'a':
 			case 'f':
 				turtle.penUp();
-				turtle.forward(lSystem.getLength());
+				turtle.forward(length);
 				turtle.penDown();
 				break;
 			case '+':

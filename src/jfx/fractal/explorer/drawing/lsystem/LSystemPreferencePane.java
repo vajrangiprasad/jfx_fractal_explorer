@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import jfx.fractal.explorer.FractalConstants;
 import jfx.fractal.explorer.JFXFractalExplorer;
@@ -25,8 +26,13 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 	private PreferenceManager preferenceManager = PreferenceManager.getInstance();
 	
 	private TextField txtIterations;
+	private TextField txtLength;
 	private TextField txtDelay;
 	private TextField txtAxiom;
+	private TextField txtStartX;
+	private TextField txtStartY;
+	private TextField txtLengthFactor;
+	private TextField txtAngle;
 	private ComboBox<PenColorType> cmbPenColorType;
 	private ComboBox<LSystem> cmbLSystems;
 	
@@ -51,9 +57,19 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 	public void createParametersPane() {
 		LSystemPrefereence lSystemPrefereence = LSystemPrefereence.getInstance();
 		PreferenceManager preferenceManager = PreferenceManager.getInstance();
+		BorderPane rootPane = new BorderPane();
+		rootPane.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:top-left;");
 		GridPane parametersPane = new GridPane();
+		BorderPane rulesRootPane = new BorderPane();
+		
+		rootPane.setTop(parametersPane);
+		rootPane.setCenter(rulesRootPane);
+		GridPane rulesPane = new GridPane();
+		
+		rulesRootPane.setTop(rulesPane);
 		parametersPane.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:top-left;");
-		setCenter(parametersPane);
+		rulesPane.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:top-left;");
+		setCenter(rootPane);
 		
 		{
 			Label lblDely = new Label("Delay");
@@ -112,13 +128,49 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 		}
 		
 		{
+			Label lblLength = new Label("Length");
+			parametersPane.add(lblLength, 0, 5);
+			txtLength = new TextField();
+			parametersPane.add(txtLength, 1, 5);
+		}
+		
+		{
+			Label lblStartX = new Label("Start X");
+			parametersPane.add(lblStartX, 0, 6);
+			txtStartX = new TextField();
+			parametersPane.add(txtStartX, 1, 6);
+		}
+		
+		{
+			Label lblStartY = new Label("Start Y");
+			parametersPane.add(lblStartY, 0, 7);
+			txtStartY = new TextField();
+			parametersPane.add(txtStartY, 1, 7);
+		}
+		
+		{
+			Label lblLengthFactor = new Label("Length Factor");
+			parametersPane.add(lblLengthFactor, 0, 8);
+			txtLengthFactor = new TextField();
+			parametersPane.add(txtLengthFactor, 1, 8);
+		}
+		
+		{
+			Label lblAngle = new Label("Angle");
+			parametersPane.add(lblAngle, 0, 9);
+			txtAngle = new TextField();
+			parametersPane.add(txtAngle, 1, 9);
+		}
+		
+		{
 			Label lblRules = new Label("Rules");
-			parametersPane.add(lblRules, 0, 5);
+			rulesPane.add(lblRules, 0, 0);
 			
 			tableViewRules = new TableView<>();
 			tableViewRules.setEditable(true);
-			tableViewRules.setFixedCellSize(30);
-			tableViewRules.setPrefHeight(200.0);
+			//tableViewRules.setFixedCellSize(0);
+			tableViewRules.setPrefHeight(250.0);
+			tableViewRules.setPrefWidth(500.0);
 			TableColumn<LSystemRule, String> columnKey = new TableColumn<>("Key");
 			columnKey.setCellValueFactory(new PropertyValueFactory<>("key"));
 			columnKey.setCellFactory(TextFieldTableCell.<LSystemRule>forTableColumn());
@@ -143,11 +195,11 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 				}
 			});
 			columnReplacement.setResizable(false);
-			columnReplacement.prefWidthProperty().bind(tableViewRules.widthProperty().multiply(0.65));
+			columnReplacement.prefWidthProperty().bind(tableViewRules.widthProperty().multiply(0.7));
 			
 			tableViewRules.getColumns().addAll(columnKey,columnReplacement);
 			
-			parametersPane.add(tableViewRules, 1, 5);
+			rulesPane.add(tableViewRules, 1, 0);
 		}
 	
 		updateControlValues();
@@ -160,6 +212,12 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 		cmbPenColorType.setDisable(true);
 		txtIterations.setDisable(true);
 		txtAxiom.setDisable(true);
+		txtLength.setDisable(true);
+		txtStartX.setDisable(true);
+		txtStartY.setDisable(true);
+		txtLengthFactor.setDisable(true);
+		tableViewRules.setDisable(true);
+		txtAngle.setDisable(true);
 	}
 
 	@Override
@@ -168,6 +226,12 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 		cmbPenColorType.setDisable(false);
 		txtIterations.setDisable(false);
 		txtAxiom.setDisable(false);
+		txtLength.setDisable(false);
+		txtStartX.setDisable(false);
+		txtStartY.setDisable(false);
+		txtLengthFactor.setDisable(false);
+		tableViewRules.setDisable(false);
+		txtAngle.setDisable(false);
 	}
 	
 	private void addListners() {
@@ -195,6 +259,64 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 				lSystemPreference.setAxiom(txtAxiom.getText());
 			});
 		}
+		
+		{
+			txtLength.setOnAction(e -> {
+				try {
+					double length = Double.parseDouble(txtLength.getText());
+					lSystemPreference.setLength(length);
+				}catch(Exception ex) {
+					jfxFractalExplorer.showExceptionMessage(ex);
+				}
+			});
+		}
+		
+		{
+			txtStartX.setOnAction(e->{
+				try {
+					double startX = Double.parseDouble(txtStartX.getText());
+					lSystemPreference.setStartX(startX);
+				}catch(Exception ex) {
+					jfxFractalExplorer.showExceptionMessage(ex);
+				}
+			});
+		}
+		
+		{
+			txtStartY.setOnAction(e->{
+				try {
+					double startY = Double.parseDouble(txtStartY.getText());
+					
+					lSystemPreference.setStartY(startY);
+				}catch(Exception ex) {
+					jfxFractalExplorer.showExceptionMessage(ex);
+				}
+			});
+		}
+		
+		{
+			txtLengthFactor.setOnAction(e->{
+				try {
+					double lengthFactor = Double.parseDouble(txtLengthFactor.getText());
+					
+					lSystemPreference.setLengthFactor(lengthFactor);
+				}catch(Exception ex) {
+					jfxFractalExplorer.showExceptionMessage(ex);
+				}
+			});
+		}
+		
+		{
+			txtAngle.setOnAction(e->{
+				try {
+					double angle = Double.parseDouble(txtAngle.getText());
+					
+					lSystemPreference.setAngle(angle);
+				}catch(Exception ex) {
+					jfxFractalExplorer.showExceptionMessage(ex);
+				}
+			});
+		}
 	}
 	
 	private void updateControlValues() {
@@ -204,6 +326,11 @@ public class LSystemPreferencePane extends FractalDrawingPreferencePane {
 		txtAxiom.setText(selecteLSystem.getAxiom());
 		tableViewRules.getItems().clear();
 	    tableViewRules.getItems().addAll(selecteLSystem.getRules());
+	    txtLength.setText(String.valueOf(selecteLSystem.getLength()));
+	    txtStartX.setText(String.valueOf(selecteLSystem.getStartX()));
+	    txtStartY.setText(String.valueOf(selecteLSystem.getStartY()));
+	    txtLengthFactor.setText(String.valueOf(selecteLSystem.getLengthFactor()));
+	    txtAngle.setText(String.valueOf(selecteLSystem.getAngle()));
 	}
 
 }

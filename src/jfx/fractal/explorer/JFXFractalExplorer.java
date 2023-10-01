@@ -56,6 +56,7 @@ import jfx.fractal.explorer.drawing.capitalih.CapitalIHAction;
 import jfx.fractal.explorer.drawing.curvytree.CurvyTreeAction;
 import jfx.fractal.explorer.drawing.fracaltree.FractalTreeAction;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
+import jfx.fractal.explorer.drawing.koch.snoflake.KochSnowFlakeAction;
 import jfx.fractal.explorer.drawing.lsystem.LSystemFractalAction;
 import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
 import jfx.fractal.explorer.drawing.squaretree.SquareTreeAction;
@@ -479,6 +480,11 @@ public class JFXFractalExplorer extends Application {
 		menuItemGardiFractal.setOnAction(new GardiFracalDrawingAction(this));
 		menuItemGardiFractal.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
 		menu.getItems().add(menuItemGardiFractal);
+		
+		MenuItem menuItemKochSnowFlake = new MenuItem("Koch Snow Flake");
+		menuItemKochSnowFlake.setOnAction(new KochSnowFlakeAction(this));
+		menuItemKochSnowFlake.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemKochSnowFlake);
 		
 		MenuItem menuItemLsystemFracal = new MenuItem("LSystem");
 		menuItemLsystemFracal.setOnAction(new LSystemFractalAction(this));

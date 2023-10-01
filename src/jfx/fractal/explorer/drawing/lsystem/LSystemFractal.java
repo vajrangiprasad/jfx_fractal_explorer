@@ -82,6 +82,7 @@ public class LSystemFractal implements IFractalDrawing,InvalidationListener {
 	@Override
 	public void dispose() {
 		clearDrawing();
+		turtle.dispose();
 	}
 
 	@Override

@@ -54,6 +54,7 @@ import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.drawing.capitalih.CapitalIHAction;
 import jfx.fractal.explorer.drawing.curvytree.CurvyTreeAction;
+import jfx.fractal.explorer.drawing.dla.DLAFractalAction;
 import jfx.fractal.explorer.drawing.fracaltree.FractalTreeAction;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
 import jfx.fractal.explorer.drawing.koch.snoflake.KochSnowFlakeAction;
@@ -470,6 +471,11 @@ public class JFXFractalExplorer extends Application {
 		menuItemCurvyTree.setOnAction(new CurvyTreeAction(this));
 		menuItemCurvyTree.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
 		menu.getItems().add(menuItemCurvyTree);
+		
+		MenuItem menuItemDLA = new MenuItem("_Diffusion Limited Agregation");
+		menuItemDLA.setOnAction(new DLAFractalAction(this));
+		menuItemDLA.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemDLA);
 		
 		MenuItem menuItemFractalTree = new MenuItem("Fractal Tree");
 		menuItemFractalTree.setOnAction(new FractalTreeAction(this));

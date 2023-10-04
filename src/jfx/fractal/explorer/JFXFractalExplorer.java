@@ -60,6 +60,7 @@ import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
 import jfx.fractal.explorer.drawing.koch.snoflake.KochSnowFlakeAction;
 import jfx.fractal.explorer.drawing.lsystem.LSystemFractalAction;
 import jfx.fractal.explorer.drawing.plasma.PlasmaFractalAction;
+import jfx.fractal.explorer.drawing.polygon.PolygonAction;
 import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
 import jfx.fractal.explorer.drawing.squaretree.SquareTreeAction;
 import jfx.fractal.explorer.drawing.templefractal.TempleFractalDrawingAction;
@@ -552,6 +553,11 @@ public class JFXFractalExplorer extends Application {
 	private void createTurtleGraphicsMenu(Menu fractalsMenu) {
 		Menu menu = new Menu(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.turtlegraphics"));
 		menu.setMnemonicParsing(true);
+		
+		MenuItem menuItemPolygon = new MenuItem("Polygon");
+		menuItemPolygon.setOnAction(new PolygonAction(this));
+		menuItemPolygon.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemPolygon);
 		
 		MenuItem menuItemTurtleTestDrawing = new MenuItem(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.turtlegraphics.testTurtleDrawing"));
 		menuItemTurtleTestDrawing.setMnemonicParsing(true);

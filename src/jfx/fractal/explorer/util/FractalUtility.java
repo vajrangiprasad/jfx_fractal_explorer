@@ -2,7 +2,9 @@ package jfx.fractal.explorer.util;
 
 import java.util.List;
 
+import javafx.css.converter.StringConverter;
 import javafx.geometry.BoundingBox;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -66,5 +68,15 @@ public class FractalUtility {
 			doubleArray[i] = doubleList.get(i);
 		}
 		return doubleArray;
+	}
+	
+	public static Point2D rotate(Point2D point,Point2D origin,double angdeg) {
+		double t = Math.toRadians(angdeg);
+		double s = Math.sin(-t);
+		double c = Math.cos(-t);
+		double x = (point.getX()*c + point.getY()*s) + origin.getX();
+		double y = (-point.getX()*s + point.getY()*c) + origin.getY();
+		
+		return new Point2D(x, y);
 	}
 }

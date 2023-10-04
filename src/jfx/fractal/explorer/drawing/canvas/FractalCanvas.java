@@ -20,15 +20,16 @@ public class FractalCanvas  {
 	protected Canvas canvas;
 	protected GraphicsContext gc;
 	protected double width,height;
-	protected double x1,y1,x2,y2;
+	protected double x1,y1,x2,y2,w,h;
 	protected Color penColor = DEFAULT_PEN_COLOR;
 	protected Color fillColor = DEFAULT_PEN_COLOR;
 	protected Color backgroundColor = DEFAULT_BACKGROUND_COLOR;
 	protected double xmin,xmax,ymin,ymax;
 	protected double penSize = DEFAULT_PEN_SIZE;
-	private FractalCanvasRefreshMode refreshMode;
+	private FractalCanvasRefreshMode refreshMode = FractalCanvasRefreshMode.ON_CHANGE;
 	protected JFXFractalExplorer jfxFractalExplorer;
 	private ArrayBlockingQueue<FractalCanvasCommand> fractalCanvasCommandsQueue = new ArrayBlockingQueue<>(FractalConstants.TURTLE_COMMAND_QUEUE_SIZE);
+	private ArrayBlockingQueue<FractalCanvasCommand> onDemandFractalCanvasCommandsQueue = new ArrayBlockingQueue<>(FractalConstants.TURTLE_COMMAND_QUEUE_SIZE);
 	private FractalCanvasDisplayHandler fractalCanvasDisplayHandler;
 	
 	public FractalCanvas(JFXFractalExplorer jfxFractalExplorer) {
@@ -45,13 +46,22 @@ public class FractalCanvas  {
 		canvas = new Canvas(width, height);
 		gc = canvas.getGraphicsContext2D();
 		StackPane fractalScreen = jfxFractalExplorer.getFractalScreen();
-		//fractalScreen.getChildren().clear();
+		fractalScreen.getChildren().clear();
 		fractalScreen.getChildren().add(canvas);
 		
 		fractalCanvasDisplayHandler = new FractalCanvasDisplayHandler();
 		fractalCanvasDisplayHandler.start();
 	}
 	
+	
+	public FractalCanvasRefreshMode getRefreshMode() {
+		return refreshMode;
+	}
+
+	public void setRefreshMode(FractalCanvasRefreshMode refreshMode) {
+		this.refreshMode = refreshMode;
+	}
+
 	public Color getPenColor() {
 		return penColor;
 	}
@@ -195,6 +205,26 @@ public class FractalCanvas  {
 		postCommand(command);
 	}
 	
+	public void drawSquare(double x,double y,double size) {
+		x1 = x;
+		y1 = y;
+		w = size;
+		h = size;
+		
+		FractalCanvasCommand command = createFractalCanvasCommand(FractalCanvasStrokeType.SQUARE);
+		postCommand(command);
+	}
+	
+	public void fillSquare(double x,double y,double size) {
+		x1 = x;
+		y1 = y;
+		w = size;
+		h = size;
+		
+		FractalCanvasCommand command = createFractalCanvasCommand(FractalCanvasStrokeType.FILLED_SQUARE);
+		postCommand(command);
+	}
+	
 	public void dispose() {
 		clear();
 		fractalCanvasDisplayHandler.stop();
@@ -217,30 +247,50 @@ public class FractalCanvas  {
 		stroke.setY1(scaleY(y1));
 		stroke.setX2(scaleX(x2));
 		stroke.setY2(scaleY(y2));
+		stroke.setW(factorX(w));
+		stroke.setH(factorY(h));
 		stroke.setSize(width);
 		return stroke;
 	}
 	
 	protected void postCommand(FractalCanvasCommand command) {
 		try {
-			//if(refreshMode == TurtleRefreshMode.ON_CHANGE) {
+			if(refreshMode == FractalCanvasRefreshMode.ON_CHANGE) {
 				fractalCanvasCommandsQueue.put(command);
-			//}
+			}
 			
-			/*if(refreshMode == TurtleRefreshMode.ON_DEMAND) {
-				if(onDemandTurtleCommandsQueue.size() == (FractalConstants.TURTLE_COMMAND_QUEUE_SIZE)) {
+			if(refreshMode == FractalCanvasRefreshMode.ON_DEMAND) {
+				if(onDemandFractalCanvasCommandsQueue.size() == (FractalConstants.TURTLE_COMMAND_QUEUE_SIZE)) {
 					refreshScreen();
 				}
-				onDemandTurtleCommandsQueue.put(command);
-			}*/
+				onDemandFractalCanvasCommandsQueue.put(command);
+			}
 		} 
 		catch (InterruptedException e) {
 		}
 	}
 	
+	public void refreshScreen() {
+		ArrayList<FractalCanvasCommand> commandList = new ArrayList<>();
+		onDemandFractalCanvasCommandsQueue.drainTo(commandList);
+		commandList.forEach(command -> {
+			try {
+				fractalCanvasCommandsQueue.put(command);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+	
 	private class FractalCanvasDisplayHandler extends AnimationTimer {
+		private long lastUpdate = 0;
+		private long sleepTime = 1;
 		@Override
 		public void handle(long now) {
+			if(now-lastUpdate < sleepTime) {
+				return;
+			}
+			lastUpdate = now;
 			ArrayList<FractalCanvasCommand> fractalCanvasCommands = new ArrayList<FractalCanvasCommand>();
 			fractalCanvasCommandsQueue.drainTo(fractalCanvasCommands);
 			if(fractalCanvasCommands.size() > 0) {

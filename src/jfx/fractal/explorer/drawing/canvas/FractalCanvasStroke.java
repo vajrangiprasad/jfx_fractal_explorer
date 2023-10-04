@@ -4,18 +4,18 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class FractalCanvasStroke {
-	private double x1,y1,x2,y2,size;
+	private double x1,y1,x2,y2,size,w,h;
+	private Color penColor,fillColor,backgroundColor;
+	private double penSize;
+	private FractalCanvasStrokeType type;
+	private GraphicsContext gc;
+	
 	public double getSize() {
 		return size;
 	}
 	public void setSize(double size) {
 		this.size = size;
 	}
-	private Color penColor,fillColor,backgroundColor;
-	private double penSize;
-	private FractalCanvasStrokeType type;
-	private GraphicsContext gc;
-	
 	public double getX1() {
 		return x1;
 	}
@@ -75,6 +75,18 @@ public class FractalCanvasStroke {
 	}
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
+	}
+	public double getW() {
+		return w;
+	}
+	public void setW(double w) {
+		this.w = w;
+	}
+	public double getH() {
+		return h;
+	}
+	public void setH(double h) {
+		this.h = h;
 	}
 	
 	

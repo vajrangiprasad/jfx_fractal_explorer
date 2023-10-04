@@ -45,6 +45,12 @@ public class FractalCanvasCommand implements Runnable {
 			case PIXEL:
 				gc.strokeOval(stroke.getX1(), stroke.getY1(), 1, 1);
 				break;
+			case SQUARE:
+				gc.strokeRect(stroke.getX1()-stroke.getW(), stroke.getY1()-stroke.getH(), stroke.getW()*2, stroke.getH()*2);
+				break;
+			case FILLED_SQUARE:
+				gc.fillRect(stroke.getX1()-stroke.getW(), stroke.getY1()-stroke.getH(), stroke.getW()*2, stroke.getH()*2);
+				break;
 			}
 		} finally {
 			gc.restore();

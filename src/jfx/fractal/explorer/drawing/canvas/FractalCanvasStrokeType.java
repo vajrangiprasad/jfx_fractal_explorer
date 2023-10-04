@@ -3,5 +3,7 @@ package jfx.fractal.explorer.drawing.canvas;
 public enum FractalCanvasStrokeType {
 	CLEAR,
 	LINE,
-	PIXEL
+	PIXEL,
+	SQUARE,
+	FILLED_SQUARE
 }

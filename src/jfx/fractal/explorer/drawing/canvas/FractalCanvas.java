@@ -20,7 +20,7 @@ public class FractalCanvas  {
 	protected Canvas canvas;
 	protected GraphicsContext gc;
 	protected double width,height;
-	protected double x1,y1,x2,y2,w,h;
+	protected double x1,y1,x2,y2,w,h,radius,startAngle,extent;
 	protected Color penColor = DEFAULT_PEN_COLOR;
 	protected Color fillColor = DEFAULT_PEN_COLOR;
 	protected Color backgroundColor = DEFAULT_BACKGROUND_COLOR;
@@ -225,6 +225,28 @@ public class FractalCanvas  {
 		postCommand(command);
 	}
 	
+	public void drawArc(double x,double y,double radius,double startAngle,double extent) {
+		x1=x-radius;
+		y1=y+radius;
+		this.radius = radius*2;
+		this.startAngle = startAngle;
+		this.extent = extent;
+		
+		FractalCanvasCommand command = createFractalCanvasCommand(FractalCanvasStrokeType.ARC);
+		postCommand(command);
+	}
+	
+	public void fillArc(double x,double y,double radius,double startAngle,double extent) {
+		x1=x-radius;
+		y1=y+radius;
+		this.radius = radius*2;
+		this.startAngle = startAngle;
+		this.extent = extent;
+		
+		FractalCanvasCommand command = createFractalCanvasCommand(FractalCanvasStrokeType.FILLED_ARC);
+		postCommand(command);
+	}
+	
 	public void dispose() {
 		clear();
 		fractalCanvasDisplayHandler.stop();
@@ -249,6 +271,9 @@ public class FractalCanvas  {
 		stroke.setY2(scaleY(y2));
 		stroke.setW(factorX(w));
 		stroke.setH(factorY(h));
+		stroke.setRadius(factorX(radius));
+		stroke.setSrtartAngle(startAngle);
+		stroke.setExtent(extent);
 		stroke.setSize(width);
 		return stroke;
 	}

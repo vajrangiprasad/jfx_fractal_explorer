@@ -1,6 +1,7 @@
 package jfx.fractal.explorer.drawing.canvas;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.ArcType;
 import jfx.fractal.explorer.preference.TurtlePreference;
 
 public class FractalCanvasCommand implements Runnable {
@@ -50,6 +51,12 @@ public class FractalCanvasCommand implements Runnable {
 				break;
 			case FILLED_SQUARE:
 				gc.fillRect(stroke.getX1()-stroke.getW(), stroke.getY1()-stroke.getH(), stroke.getW()*2, stroke.getH()*2);
+				break;
+			case ARC:
+				gc.strokeArc(stroke.getX1(), stroke.getY1(), stroke.getRadius(), stroke.getRadius(), stroke.getSrtartAngle(), stroke.getExtent(), ArcType.ROUND);
+				break;
+			case FILLED_ARC:
+				gc.fillArc(stroke.getX1(), stroke.getY1(), stroke.getRadius(), stroke.getRadius(), stroke.getSrtartAngle(), stroke.getExtent(), ArcType.ROUND);
 				break;
 			}
 		} finally {

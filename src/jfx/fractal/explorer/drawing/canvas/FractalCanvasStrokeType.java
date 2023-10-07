@@ -5,5 +5,7 @@ public enum FractalCanvasStrokeType {
 	LINE,
 	PIXEL,
 	SQUARE,
-	FILLED_SQUARE
+	FILLED_SQUARE,
+	ARC,
+	FILLED_ARC
 }

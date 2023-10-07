@@ -53,6 +53,7 @@ import jfx.fractal.explorer.actions.StopRenderingAction;
 import jfx.fractal.explorer.actions.TurtleTestDrawingAction;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.drawing.capitalih.CapitalIHAction;
+import jfx.fractal.explorer.drawing.colorwheel.ColorWheelAction;
 import jfx.fractal.explorer.drawing.curvytree.CurvyTreeAction;
 import jfx.fractal.explorer.drawing.dla.DLAFractalAction;
 import jfx.fractal.explorer.drawing.fracaltree.FractalTreeAction;
@@ -440,6 +441,11 @@ public class JFXFractalExplorer extends Application {
 		Menu menu = new Menu(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.animation"));
 		menu.setMnemonicParsing(true);
 		fractalsMenu.getItems().add(menu);
+		
+		MenuItem menuItemColorWheel = new MenuItem("_Color Wheel");
+		menuItemColorWheel.setMnemonicParsing(true);
+		menuItemColorWheel.setOnAction(new ColorWheelAction(this));
+		menu.getItems().add(menuItemColorWheel);
 		
 		MenuItem menuItemVertexOfSquare = new MenuItem("_Vertex Of Suare");
 		menuItemVertexOfSquare.setMnemonicParsing(true);

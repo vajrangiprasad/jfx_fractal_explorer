@@ -60,6 +60,7 @@ import jfx.fractal.explorer.drawing.fracaltree.FractalTreeAction;
 import jfx.fractal.explorer.drawing.gardi.GardiFracalDrawingAction;
 import jfx.fractal.explorer.drawing.koch.snoflake.KochSnowFlakeAction;
 import jfx.fractal.explorer.drawing.lsystem.LSystemFractalAction;
+import jfx.fractal.explorer.drawing.mandelbrotset.MandelbrotAction;
 import jfx.fractal.explorer.drawing.plasma.PlasmaFractalAction;
 import jfx.fractal.explorer.drawing.polygon.PolygonAction;
 import jfx.fractal.explorer.drawing.snowflake.SnowFlakeDrawingAction;
@@ -457,6 +458,11 @@ public class JFXFractalExplorer extends Application {
 		Menu menu = new Menu(JFXResourceBundle.getString("jfx.fractal.explorer.menuBar.fractals.complexNumberFractals"));
 		menu.setMnemonicParsing(true);
 		fractalsMenu.getItems().add(menu);
+		
+		MenuItem menuItemMandelbrotSet = new MenuItem("_Mandelbrot Set");
+		menuItemMandelbrotSet.setOnAction(new MandelbrotAction(this));
+		menuItemMandelbrotSet.setStyle("-fx-hgap:5;-fx-vgap:5;-fx-padding:5;-fx-alignment:center;");
+		menu.getItems().add(menuItemMandelbrotSet);
 	}
 	
 	private void createDifferentialEquationMenu(Menu fractalsMenu) {

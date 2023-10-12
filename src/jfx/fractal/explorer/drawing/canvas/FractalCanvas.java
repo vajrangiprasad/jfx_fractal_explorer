@@ -44,6 +44,7 @@ public class FractalCanvas  {
 		double size = Math.min(width,height);
 		setScale(-size/2,size/2);
 		canvas = new Canvas(width, height);
+		canvas.setStyle("-fx-background-color:transparent;");
 		gc = canvas.getGraphicsContext2D();
 		StackPane fractalScreen = jfxFractalExplorer.getFractalScreen();
 		fractalScreen.getChildren().clear();

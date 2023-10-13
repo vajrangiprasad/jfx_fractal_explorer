@@ -1,22 +1,13 @@
 package jfx.fractal.explorer.drawing.mandelbrotset;
 
-import java.util.ArrayList;
-import java.util.Stack;
-
-import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import jfx.fractal.explorer.FractalConstants;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
-import jfx.fractal.explorer.util.ComplexNumber;
+import jfx.fractal.explorer.preference.ColorPreference;
 
-public class MandelbrotDrawing implements IFractalDrawing{
+public class MandelbrotDrawing implements IFractalDrawing,InvalidationListener {
 	private JFXFractalExplorer jfxFractalExplorer;
 	private MandelbrotPreference preference = MandelbrotPreference.getInstance();
 	private MandelbrotPreferencePane preferencePane;
@@ -26,23 +17,24 @@ public class MandelbrotDrawing implements IFractalDrawing{
 		this.jfxFractalExplorer = jfxFractalExplorer;
 		preferencePane = new MandelbrotPreferencePane(jfxFractalExplorer);
 		setupDrawingCanvas();
+		preference.addListener(this);
+		ColorPreference.getInstance().addListener(this);
 	}
 
 	@Override
 	public void draw() {
+		preference.setJobCanceled(false);
 		mandelbrotCanvas.draw();
 	}
 
 	@Override
 	public void animate() {
-		// TODO Auto-generated method stub
-		
+		jfxFractalExplorer.showErrorMessage("Animation not suppored in Mandelbrot set");
 	}
 
 	@Override
 	public void stopRendering() {
-		// TODO Auto-generated method stub
-		
+		preference.setJobCanceled(true);
 	}
 
 	@Override
@@ -68,19 +60,31 @@ public class MandelbrotDrawing implements IFractalDrawing{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		preference.removeListener(this);
+		ColorPreference.getInstance().removeListener(this);
 	}
 
 	@Override
 	public void disableControls() {
-		// TODO Auto-generated method stub
-		
+		preferencePane.disableControls();		
 	}
 
 	@Override
 	public void enableControls() {
-		// TODO Auto-generated method stub
+		preferencePane.enableControls();
+	}
+
+	@Override
+	public void invalidated(Observable observable) {
+		/*if((observable instanceof ColorPreference) ||
+		"PenColorType".equals(preference.getEventId()) ||
+				"NumberOfColors".equals(preference.getEventId())) {
+			mandelbrotCanvas.redraw();
+		}
 		
+		if("MaxIterations".equals(preference.getEventId())) {
+			mandelbrotCanvas.draw();
+		}*/
+		mandelbrotCanvas.draw();
 	}
 }

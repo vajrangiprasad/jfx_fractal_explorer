@@ -8,6 +8,7 @@ public class MandelbrotPreference extends FractalDrawingPreference {
 	private int numberOfColors = 100;
 	private PenColorType penColorType = PenColorType.RAINBOW_COLOR;
 	private MandelbrotMouseActionType mouseActionType = MandelbrotMouseActionType.ZOOM_IN;
+	private MandelbrotType type = MandelbrotType.MANDELBROT_SET;
 	
 	private static MandelbrotPreference instance;
 	
@@ -30,6 +31,7 @@ public class MandelbrotPreference extends FractalDrawingPreference {
 
 	public void setPenColorType(PenColorType penColorType) {
 		this.penColorType = penColorType;
+		invalidate("PenColorType");
 	}
 
 	public int getMaxIterations() {
@@ -38,6 +40,7 @@ public class MandelbrotPreference extends FractalDrawingPreference {
 	
 	public void setMaxIterations(int maxIterations) {
 		this.maxIterations = maxIterations;
+		invalidate("MaxIterations");
 	}
 	
 	public int getNumberOfColors() {
@@ -46,6 +49,7 @@ public class MandelbrotPreference extends FractalDrawingPreference {
 	
 	public void setNumberOfColors(int numberOfColors) {
 		this.numberOfColors = numberOfColors;
+		invalidate("NumberOfColors");
 	}
 	
 	public MandelbrotMouseActionType getMouseActionType() {
@@ -58,5 +62,14 @@ public class MandelbrotPreference extends FractalDrawingPreference {
 	
 	public void setMouseActionType(MandelbrotMouseActionType mouseActionType) {
 		this.mouseActionType = mouseActionType;
+	}
+
+	public MandelbrotType getType() {
+		return type;
+	}
+
+	public void setType(MandelbrotType type) {
+		this.type = type;
+		invalidate("Type");
 	}
 }

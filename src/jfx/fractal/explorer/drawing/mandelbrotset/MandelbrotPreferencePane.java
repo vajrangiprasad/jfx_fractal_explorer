@@ -7,11 +7,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.drawing.FractalDrawingPreferencePane;
+import jfx.fractal.explorer.preference.PenColorType;
 
 public class MandelbrotPreferencePane extends FractalDrawingPreferencePane {
 	private TextField txtMAxIterations ;
 	private TextField txtNumberOfColors;
 	private ComboBox<MandelbrotMouseActionType> cmbMouseActionType;
+	private ComboBox<PenColorType> cmbPenColorType;
+	private ComboBox<MandelbrotType> cmbType;
 	
 	public MandelbrotPreferencePane(JFXFractalExplorer jfxFractalExplorer) {
 		super(jfxFractalExplorer);
@@ -86,18 +89,46 @@ public class MandelbrotPreferencePane extends FractalDrawingPreferencePane {
 				preference.setMouseActionType(cmbMouseActionType.getSelectionModel().getSelectedItem());
 			});
 		}
+		
+		{
+			Label lblPenColorType = new Label("Pen Color Type");
+			parametersPane.add(lblPenColorType, 0, 3);
+			
+			cmbPenColorType = new ComboBox<>(FXCollections.observableArrayList(PenColorType.values()));
+			parametersPane.add(cmbPenColorType, 1,3);
+			cmbPenColorType.getSelectionModel().select(preference.getPenColorType());
+			cmbPenColorType.setOnAction(e->{
+				preference.setPenColorType(cmbPenColorType.getSelectionModel().getSelectedItem());
+			});
+		}
+		
+		{
+			Label lblType = new Label("Type");
+			parametersPane.add(lblType, 0, 4);
+			
+			cmbType = new ComboBox<>(FXCollections.observableArrayList(MandelbrotType.values()));
+			parametersPane.add(cmbType, 1,4);
+			cmbType.getSelectionModel().select(preference.getType());
+			cmbType.setOnAction(e->{
+				preference.setType(cmbType.getSelectionModel().getSelectedItem());
+			});
+		}
 	}
 
 	@Override
 	public void disableControls() {
-		// TODO Auto-generated method stub
-
+		txtMAxIterations.setDisable(true);
+		txtNumberOfColors.setDisable(true);
+		cmbMouseActionType.setDisable(true);
+		cmbPenColorType.setDisable(true);
 	}
 
 	@Override
 	public void enableControls() {
-		// TODO Auto-generated method stub
-
+		txtMAxIterations.setDisable(false);
+		txtNumberOfColors.setDisable(false);
+		cmbMouseActionType.setDisable(false);
+		cmbPenColorType.setDisable(false);
 	}
 
 }

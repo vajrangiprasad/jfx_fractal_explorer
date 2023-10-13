@@ -11,6 +11,7 @@ public class MandelbrotTask implements Callable<MandelbrotTaskResponse>{
 	private final int maxIterations;
 	private boolean isJuliaSet = false;
 	private ComplexNumber cj ;
+	private MandelbrotPreference preference = MandelbrotPreference.getInstance();
 	
 	public MandelbrotTask(double topLeftX,
 			double bottomRightX,
@@ -62,10 +63,29 @@ public class MandelbrotTask implements Callable<MandelbrotTaskResponse>{
 	
 	private int countIterations(ComplexNumber c,ComplexNumber z) {
 		for(int t = 0; t < maxIterations;t++) {
-			if(z.abs() > 2) {
+			if(z.abs() > 4) {
 				return t;
 			}
-			z = z.times(z).plus(c);
+			switch(preference.getType()) {
+			case ALFARO:
+				z = z.pow(3).divide(c.conjugate()).minus(c);
+				break;
+			case BURNING_SHIP:
+				ComplexNumber z1 = new ComplexNumber(Math.abs(z.getR()), Math.abs(z.getI()));
+				z = z1.pow(2).plus(c);
+				break;
+			case FALTWORM:
+				z.setR(Math.sin(z.getR()));
+				z = z.pow(2).plus(c);
+				break;
+			case MANDELBROT_SET:
+				z = z.times(z).plus(c);
+				break;
+			case TRICORN:
+				z = z.conjugate().pow(2).plus(c);
+				break;
+			}
+			
 		}
 		
 		return maxIterations;

@@ -1,14 +1,13 @@
 package jfx.fractal.explorer.drawing.mandelbrotset;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.CompletionService;
+import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
@@ -35,8 +34,6 @@ public class MandelbrotCanvas extends Canvas {
 	private Point2D topLeftJulia,bottomRightJulia;
 	private JFXFractalExplorer jfxFractalExplorer;
 	private GraphicsContext gc;
-	private boolean needsRedraw = false;
-	private boolean applyColorPalette = false;
 	private boolean isJuliaSet = false;
 	private long startTime;
 	private ExecutorService executerService ;
@@ -46,7 +43,6 @@ public class MandelbrotCanvas extends Canvas {
 	private Color[] paletteColors;
 	private Color[] rainbowColors;
 	private int numberOfTasks = 0;
-	private boolean rendermiscImage = false;
 	private Stack<MandelbrotCordinates> undoBuffer = new Stack<>();
 	private Canvas mouseCanvas;
 	private MouseHandler mouseHandler;
@@ -62,7 +58,6 @@ public class MandelbrotCanvas extends Canvas {
 		this.bottomRightMandel = BOTTOM_RIGHT_MANDEL;
 		this.topLeftJulia = TOP_LEFT_JULIA;
 		this.bottomRightJulia = BOTTOM_RIGHT_JULIA;
-		needsRedraw = true;
 		gc = getGraphicsContext2D();
 		jfxFractalExplorer.getFractalScreen().getChildren().clear();
 		jfxFractalExplorer.getFractalScreen().getChildren().add(this);
@@ -82,14 +77,61 @@ public class MandelbrotCanvas extends Canvas {
 	}
 	
 	public void draw() {
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				__draw();
+		paletteColors = ColorPreference.getInstance().getSelectedColorPalette().makeRGBs(preference.getMaxIterations(), 0);
+		rainbowColors = ColorPreference.createRainbowColors(preference.getMaxIterations());
+		clearDisplay();
+		int rows = (int)FractalConstants.FRACTAL_DISPLAY_SIZE;
+		int columns = (int)FractalConstants.FRACTAL_DISPLAY_SIZE;
+		double dy = getDY();
+		numberOfTasks = rows;
+		
+		startTime = System.currentTimeMillis();
+		jfxFractalExplorer.updateStatusMessage("Mandelbrotset Calculating iterations ... ");
+		executerService = Executors.newFixedThreadPool(numberOfThreads);
+		completionService = new ExecutorCompletionService<>(executerService);
+		
+		for (int i = 0; i < rows; i++) {
+			double yval = topLeft.getY() - (dy*i);
+			MandelbrotTask task = new MandelbrotTask(topLeft.getX(), bottomRight.getX(), yval, columns, i, preference.getMaxIterations());
+			task.setJuliaSet(isJuliaSet);
+			task.setCj(c);
+			completionService.submit(task);
+		}
+		
+		renderAvailableResults();
+	}
+	
+	private void renderAvailableResults() {
+		int completedTasks = 0;
+		while(!executerService.isTerminated()) {
+			if(completedTasks == numberOfTasks) {
+				jfxFractalExplorer.updateStatusMessage("Rendering Mandelbrot Set Completed in " + (System.currentTimeMillis() - startTime ) + " ms");
+				executerService.shutdown();
+				continue;
 			}
-		});
-		t.setDaemon(true);
-		t.start();
+			
+			try {
+				Future<MandelbrotTaskResponse> future = completionService.take();
+				if(future == null) {
+					return;
+				}
+				
+				MandelbrotTaskResponse response = future.get();
+				taskResponseList.add(response);
+				drawRow(response);
+				completedTasks++;
+				double percentComplete = (double)completedTasks/numberOfTasks*100;
+				jfxFractalExplorer.updateProgress(percentComplete);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void drawRow(MandelbrotTaskResponse response) {
+		int y = response.getRow();
+		ArrayList<Integer> iterations = response.getIterationCounts();
+		__drawRow(iterations,  y);
 	}
 	
 	public double getDY() {
@@ -122,56 +164,18 @@ public class MandelbrotCanvas extends Canvas {
 
 	public void setJuliaSet(boolean isJuliaSet) {
 		this.isJuliaSet = isJuliaSet;
-	}
-
-	private void __draw() {
-		taskResponseList.clear();
-		drawingCompleted = false;
-		clearDisplay();
-		
-		ExecutorService threadExecutorPool = Executors.newFixedThreadPool(numberOfThreads);
-		
-		List<Future<MandelbrotTaskResponse>> taskList = new ArrayList<Future<MandelbrotTaskResponse>>();
-		int rows = (int)getHeight();
-		int columns = (int)getWidth();
-		
-		double dy = getDY();
-		for (int i = 0; i <= rows; i++) {
-			double yval = topLeft.getY() - (dy*i);
-			MandelbrotTask task = new MandelbrotTask(topLeft.getX(), bottomRight.getX(), yval, columns, i, preference.getMaxIterations());
-			task.setJuliaSet(preference.isShowJuliaSet());
-			task.setCj(c);
-			taskList.add(threadExecutorPool.submit(task));
-		}
-		
-		float tasks = taskList.size();
-		float task = 1;
-		
-		paletteColors = ColorPreference.getInstance().getSelectedColorPalette().makeRGBs(preference.getMaxIterations(), 0);
-		rainbowColors = ColorPreference.createRainbowColors(preference.getMaxIterations());
-		for(Future<MandelbrotTaskResponse> future : taskList) {
-			float percent = task/tasks*100.0f;
-			jfxFractalExplorer.updateProgress(percent);
-			jfxFractalExplorer.updateStatusMessage("Rendering Mandelbrot Set... " + String.format("%.2f", percent)+" %");
-			try {
-				MandelbrotTaskResponse resp = future.get();
-				taskResponseList.add(resp);
-				int y = resp.getRow();
-				ArrayList<Integer> iterationCounts = resp.getIterationCounts();
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						__drawRow(iterationCounts,  y);
-					}
-				});
-
-			} catch (Exception e) {
-				jfxFractalExplorer.showExceptionMessage(e);
-			}
-			task++;
+		this.isJuliaSet = isJuliaSet;
+		if(isJuliaSet) {
+			topLeftMandel = new Point2D(topLeft.getX(),topLeft.getY());
+			bottomRightMandel = new Point2D(bottomRight.getX(),bottomRight.getY());
+			topLeft = new Point2D(TOP_LEFT_JULIA.getX(),TOP_LEFT_JULIA.getY());
+			bottomRight = new Point2D(BOTTOM_RIGHT_JULIA.getX(),BOTTOM_RIGHT_JULIA.getY());
+		}else {
+			topLeft = new Point2D(topLeftMandel.getX(),topLeftMandel.getY());
+			bottomRight= new Point2D(bottomRightMandel.getX(),bottomRightMandel.getY());
 		}
 	}
-	
+
 	private void __drawRow(ArrayList<Integer> iterationCounts,double y) {
 		for(int x = 0;x<iterationCounts.size();x++) {
 			int iterationCount = iterationCounts.get(x);
@@ -274,12 +278,7 @@ public class MandelbrotCanvas extends Canvas {
 	}
 
 	public void clearDisplay() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				gc.clearRect(0, 0, getWidth(), getHeight());
-			}
-		});
+		gc.clearRect(0, 0, getWidth(), getHeight());
 	}
 	
 	private void addMouseListners() {
@@ -296,9 +295,8 @@ public class MandelbrotCanvas extends Canvas {
 	}
 	
 	private Point2D getPosition(double x, double y) {
-		double size = FractalConstants.FRACTAL_DISPLAY_SIZE;
-		double dx  = Math.abs((bottomRight.getX()-topLeft.getX())/(size-1));
-		double dy = Math.abs((topLeft.getY()-bottomRight.getY())/(size-1));
+		double dx  = getDX();
+		double dy = getDY();
 		double newX = topLeft.getX() + (dx*x);
 		double newY = topLeft.getY() - (dy*y);
 		
@@ -306,9 +304,8 @@ public class MandelbrotCanvas extends Canvas {
 	}
 	
 	public Point2D getPosition(double x, double y,MandelbrotMouseActionType type) {
-		double size = FractalConstants.FRACTAL_DISPLAY_SIZE;
-		double dx  = Math.abs((bottomRight.getX()-topLeft.getX())/(size-1));
-		double dy = Math.abs((topLeft.getY()-bottomRight.getY())/(size-1));
+		double dx  = getDX();
+		double dy = getDY();
 		double newX = 0.0;
 		double newY = 0.0;
 		if(type == MandelbrotMouseActionType.ZOOM_IN) {
@@ -370,10 +367,17 @@ public class MandelbrotCanvas extends Canvas {
 	}
 	
 	public void doZoom(double x, double y,double zoomFactor) {
-		System.out.println("doZoom " + x+":"+y+":"+zoomFactor);
+		undoBuffer.push(new MandelbrotCordinates(topLeft, bottomRight, isJuliaSet, c));
+		double w = getMWidth()*zoomFactor;
+		double h = getMHeight()*zoomFactor;
+		Point2D newCenter = getPosition(x, y);
+		topLeft = new Point2D(newCenter.getX()-w/2,newCenter.getY()+h/2);
+		bottomRight = new Point2D(topLeft.getX()+w,topLeft.getY()-h);
+		draw();
 	}
 	
 	public void showOrHideJuliaSet(double x, double y,boolean showJuliaSet) {
+		undoBuffer.push(new MandelbrotCordinates(topLeft, bottomRight, isJuliaSet, c));
 		if(showJuliaSet) {
 			Point2D p = getPosition(x, y);	
 			setC(new ComplexNumber(p.getX(),p.getY()));	
@@ -381,6 +385,10 @@ public class MandelbrotCanvas extends Canvas {
 		
 		setJuliaSet(showJuliaSet);
 		draw();
+	}
+	
+	private void doRecenter(int x,int y) {
+		doZoom(x, y,1.0);
 	}
 	
 	public void undoZoom() {
@@ -437,7 +445,11 @@ public class MandelbrotCanvas extends Canvas {
 			mouseGC.clearRect(0, 0, mouseCanvas.getWidth(), mouseCanvas.getHeight());
 			if(event.getButton() == MouseButton.PRIMARY) {
 				if(event.getClickCount() == 2) {
-					doZoom(event.getX(), event.getY(), 0.5);
+					if(mouseAction == MandelbrotMouseActionType.RECENTER) {
+						doZoom(event.getX(), event.getY(), 1.0);
+					}else if(mouseAction == MandelbrotMouseActionType.ZOOM_IN) {
+						doZoom(event.getX(), event.getY(), 0.5);
+					}
 				}else {
 					if(!dragged) {
 						return;

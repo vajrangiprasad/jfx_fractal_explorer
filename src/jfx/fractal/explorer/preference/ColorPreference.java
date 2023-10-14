@@ -166,6 +166,35 @@ public class ColorPreference implements Observable{
 		return Color.rgb(r, g, b, 1.0);
 	}
 	
+	public static Color[] createRandomColors(int numberOfColors)
+	{
+	    Color[] colors = new Color[numberOfColors];
+	    double r = Math.random();
+	    int red = 0, green = 0, blue = 0;
+	    for (int i = 0; i < numberOfColors; i++)
+        {
+            red = 13*(numberOfColors-i) % numberOfColors;
+            green = 7*(numberOfColors-i) % numberOfColors;
+            blue = 11*(numberOfColors-i) % numberOfColors;
+            
+            if (r < 1.0/6.0) {
+            	colors[i] = Color.rgb(red, green, blue);
+            }else if (r < 2.0/6.0) {
+            	colors[i] = Color.rgb(red, blue, green);
+            }else if (r < 3.0/6.0) {
+            	colors[i] = Color.rgb(green, red, blue);
+            }else if (r < 4.0/6.0) {
+            	colors[i] = Color.rgb(green, blue, red);
+            }else if (r < 5.0/6.0) {
+            	colors[i] = Color.rgb(blue, red, green);
+            }else if (r < 6.0/6.0) {
+            	colors[i] = Color.rgb(blue, green, red);
+            }
+        }
+	  
+	    return colors;
+	}
+	
 	private void invalidate() {
 		invalidationListeners.forEach(listener -> {
 			listener.invalidated(this);

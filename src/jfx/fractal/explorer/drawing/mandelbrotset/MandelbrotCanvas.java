@@ -19,6 +19,7 @@ import jfx.fractal.explorer.FractalConstants;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.util.ComplexNumber;
+import jfx.fractal.explorer.util.FractalUtility;
 
 public class MandelbrotCanvas extends Canvas {
 	private static Point2D TOP_LEFT_MANDEL = new Point2D(-2.0, 1.4);
@@ -42,6 +43,7 @@ public class MandelbrotCanvas extends Canvas {
 	private ComplexNumber c;
 	private Color[] paletteColors;
 	private Color[] rainbowColors;
+	private Color[] randomColors;
 	private int numberOfTasks = 0;
 	private Stack<MandelbrotCordinates> undoBuffer = new Stack<>();
 	private Canvas mouseCanvas;
@@ -77,8 +79,9 @@ public class MandelbrotCanvas extends Canvas {
 	}
 	
 	public void draw() {
-		paletteColors = ColorPreference.getInstance().getSelectedColorPalette().makeRGBs(preference.getMaxIterations(), 0);
-		rainbowColors = ColorPreference.createRainbowColors(preference.getMaxIterations());
+		paletteColors = ColorPreference.getInstance().getSelectedColorPalette().makeRGBs(preference.getNumberOfColors(), 0);
+		rainbowColors = ColorPreference.createRainbowColors(preference.getNumberOfColors());
+		randomColors = ColorPreference.createRandomColors(preference.getNumberOfColors());
 		clearDisplay();
 		int rows = (int)FractalConstants.FRACTAL_DISPLAY_SIZE;
 		int columns = (int)FractalConstants.FRACTAL_DISPLAY_SIZE;
@@ -206,7 +209,7 @@ public class MandelbrotCanvas extends Canvas {
 			c = rainbowColors[iterationCount%preference.getNumberOfColors()];
 			break;
 		case RANDOM_COLR:
-			c = ColorPreference.getRandomColor();
+			c = randomColors[iterationCount%preference.getNumberOfColors()];
 			break;
 		case TURTLE_PEN_COLOR:
 			c = ColorPreference.getInstance().getPenColor();

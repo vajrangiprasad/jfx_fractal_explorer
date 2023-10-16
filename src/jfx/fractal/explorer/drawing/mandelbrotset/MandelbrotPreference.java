@@ -6,6 +6,8 @@ import jfx.fractal.explorer.preference.PenColorType;
 public class MandelbrotPreference extends FractalDrawingPreference {
 	private int maxIterations = 100;
 	private int numberOfColors = 100;
+	private double dragSize = 100.0;
+	
 	private PenColorType penColorType = PenColorType.RAINBOW_COLOR;
 	private MandelbrotMouseActionType mouseActionType = MandelbrotMouseActionType.ZOOM_IN;
 	private MandelbrotType type = MandelbrotType.MANDELBROT_SET;
@@ -25,6 +27,15 @@ public class MandelbrotPreference extends FractalDrawingPreference {
 	}
 	
 	
+	
+	public double getDragSize() {
+		return dragSize;
+	}
+
+	public void setDragSize(double dragSize) {
+		this.dragSize = dragSize;
+	}
+
 	public PenColorType getPenColorType() {
 		return penColorType;
 	}

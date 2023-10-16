@@ -3,6 +3,7 @@ package jfx.fractal.explorer.drawing.mandelbrotset;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.scene.Node;
+import jfx.fractal.explorer.FractalConstants;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.drawing.IFractalDrawing;
 import jfx.fractal.explorer.preference.ColorPreference;
@@ -12,6 +13,7 @@ public class MandelbrotDrawing implements IFractalDrawing,InvalidationListener {
 	private MandelbrotPreference preference = MandelbrotPreference.getInstance();
 	private MandelbrotPreferencePane preferencePane;
 	private MandelbrotCanvas mandelbrotCanvas;
+	private MandelbrotCanvas mandelbrotPreviewCanvas;
 	
 	public MandelbrotDrawing(JFXFractalExplorer jfxFractalExplorer) {
 		this.jfxFractalExplorer = jfxFractalExplorer;
@@ -25,6 +27,15 @@ public class MandelbrotDrawing implements IFractalDrawing,InvalidationListener {
 	public void draw() {
 		preference.setJobCanceled(false);
 		mandelbrotCanvas.draw();
+		mandelbrotPreviewCanvas.draw();
+	}
+
+	public MandelbrotCanvas getMandelbrotPreviewCanvas() {
+		return mandelbrotPreviewCanvas;
+	}
+
+	public void setMandelbrotPreviewCanvas(MandelbrotCanvas mandelbrotPreviewCanvas) {
+		this.mandelbrotPreviewCanvas = mandelbrotPreviewCanvas;
 	}
 
 	@Override
@@ -50,7 +61,9 @@ public class MandelbrotDrawing implements IFractalDrawing,InvalidationListener {
 
 	@Override
 	public void setupDrawingCanvas() {
-		mandelbrotCanvas = new MandelbrotCanvas(jfxFractalExplorer);
+		mandelbrotPreviewCanvas = new MandelbrotCanvas(jfxFractalExplorer,200.0);
+		preferencePane.addPreviewCanvas(mandelbrotPreviewCanvas);
+		mandelbrotCanvas = new MandelbrotCanvas(jfxFractalExplorer,FractalConstants.FRACTAL_DISPLAY_SIZE);
 	}
 
 	@Override
@@ -76,15 +89,7 @@ public class MandelbrotDrawing implements IFractalDrawing,InvalidationListener {
 
 	@Override
 	public void invalidated(Observable observable) {
-		/*if((observable instanceof ColorPreference) ||
-		"PenColorType".equals(preference.getEventId()) ||
-				"NumberOfColors".equals(preference.getEventId())) {
-			mandelbrotCanvas.redraw();
-		}
-		
-		if("MaxIterations".equals(preference.getEventId())) {
-			mandelbrotCanvas.draw();
-		}*/
 		mandelbrotCanvas.draw();
+		mandelbrotPreviewCanvas.draw();
 	}
 }

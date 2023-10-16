@@ -15,11 +15,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import jfx.fractal.explorer.FractalConstants;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.preference.ColorPreference;
 import jfx.fractal.explorer.util.ComplexNumber;
-import jfx.fractal.explorer.util.FractalUtility;
 
 public class MandelbrotCanvas extends Canvas {
 	private static Point2D TOP_LEFT_MANDEL = new Point2D(-2.0, 1.4);
@@ -50,9 +48,11 @@ public class MandelbrotCanvas extends Canvas {
 	private MouseHandler mouseHandler;
 	private GraphicsContext mouseGC;
 	private int pointsOnOrbit = 1000;
+	private double size;
 	
-	public MandelbrotCanvas(JFXFractalExplorer jfxFractalExplorer) {
-		super(FractalConstants.FRACTAL_DISPLAY_SIZE,FractalConstants.FRACTAL_DISPLAY_SIZE);
+	public MandelbrotCanvas(JFXFractalExplorer jfxFractalExplorer,double size) {
+		super(size,size);
+		this.size = size;
 		this.jfxFractalExplorer = jfxFractalExplorer;
 		this.topLeft = TOP_LEFT_MANDEL;
 		this.bottomRight = BOTTOM_RIGHT_MANDEL;
@@ -63,7 +63,7 @@ public class MandelbrotCanvas extends Canvas {
 		gc = getGraphicsContext2D();
 		jfxFractalExplorer.getFractalScreen().getChildren().clear();
 		jfxFractalExplorer.getFractalScreen().getChildren().add(this);
-		mouseCanvas = new Canvas(FractalConstants.FRACTAL_DISPLAY_SIZE,FractalConstants.FRACTAL_DISPLAY_SIZE);
+		mouseCanvas = new Canvas(size,size);
 		mouseCanvas.setStyle("-fx-background-color:transparent;");
 		mouseGC = mouseCanvas.getGraphicsContext2D();
 		jfxFractalExplorer.getFractalScreen().getChildren().add(mouseCanvas);
@@ -83,8 +83,8 @@ public class MandelbrotCanvas extends Canvas {
 		rainbowColors = ColorPreference.createRainbowColors(preference.getNumberOfColors());
 		randomColors = ColorPreference.createRandomColors(preference.getNumberOfColors());
 		clearDisplay();
-		int rows = (int)FractalConstants.FRACTAL_DISPLAY_SIZE;
-		int columns = (int)FractalConstants.FRACTAL_DISPLAY_SIZE;
+		int rows = (int)size;
+		int columns = (int)size;
 		double dy = getDY();
 		numberOfTasks = rows;
 		
@@ -290,13 +290,7 @@ public class MandelbrotCanvas extends Canvas {
 		mouseCanvas.setOnMouseDragged(mouseHandler);
 		mouseCanvas.setOnMouseReleased(mouseHandler);
 	}
-	
-	private void updatePosition(double x, double y) {
-		Point2D p = getPosition(x, y);
 		
-		jfxFractalExplorer.updateStatusMessage("Mandelbrot Set Position (" + p.getX()+","+p.getY()+")");
-	}
-	
 	private Point2D getPosition(double x, double y) {
 		double dx  = getDX();
 		double dy = getDY();
@@ -320,6 +314,7 @@ public class MandelbrotCanvas extends Canvas {
 	}
 	
 	public void showOrbit(double x,double y) {
+		MandelbrotMouseActionType mouseAction = preference.getMouseActionType();
 		double bigd = 100.0;
 		double dx  = getDX();
 		double dy = getDY();
@@ -328,6 +323,14 @@ public class MandelbrotCanvas extends Canvas {
 		Point2D position = getPosition(x, y);
 		double zx = position.getX();
 		double zy = position.getY();
+		
+		if(mouseAction == MandelbrotMouseActionType.SHOW_JULIA_SET) {
+			MandelbrotCanvas previewCanvas = ((MandelbrotDrawing)jfxFractalExplorer.getFractalDrawing()).getMandelbrotPreviewCanvas();
+			Point2D p = getPosition(x, y);	
+			previewCanvas.setC(new ComplexNumber(p.getX(),p.getY()));	
+			previewCanvas.setJuliaSet(true);
+			previewCanvas.draw();
+		}
 		
 		ArrayList<Point2D> orbitPoints = new ArrayList<>();
 		orbitPoints.add(new Point2D(x, y));
@@ -356,7 +359,7 @@ public class MandelbrotCanvas extends Canvas {
 	}
 	
 	private void __drawOrbitPoints(ArrayList<Point2D> orbitPoints) {
-		mouseGC.clearRect(0, 0, FractalConstants.FRACTAL_DISPLAY_SIZE,FractalConstants.FRACTAL_DISPLAY_SIZE);
+		mouseGC.clearRect(0, 0, size,size);
 		for(Point2D p : orbitPoints) {
 			double x = p.getX();
 			double y = p.getY();
@@ -390,10 +393,6 @@ public class MandelbrotCanvas extends Canvas {
 		draw();
 	}
 	
-	private void doRecenter(int x,int y) {
-		doZoom(x, y,1.0);
-	}
-	
 	public void undoZoom() {
 		if(undoBuffer.size() == 0) {
 			return;
@@ -407,16 +406,16 @@ public class MandelbrotCanvas extends Canvas {
 		private Point2D startPoint;
 		private double dragSize = 0;
 		private boolean dragged = false;
+		private boolean mouseMoved = true;
 		private MandelbrotMouseActionType mouseAction;
 		
-		private void mouseDragged(MouseEvent event) {
+		private void mouseMoved(MouseEvent event) {
 			dragged = true;
 			double x = event.getX();
 			double y = event.getY();
 			if(mouseAction == MandelbrotMouseActionType.ZOOM_IN ) {
-				double offsetX = Math.abs(x - startPoint.getX());
-				double offsetY = Math.abs(y - startPoint.getY());
-				dragSize = Math.max(offsetX, offsetY);
+				dragSize = 100;
+				
 				
 				if(x < tlx) {
 					tlx = x;
@@ -434,7 +433,42 @@ public class MandelbrotCanvas extends Canvas {
 				mouseGC.setStroke(Color.WHITE);
 				mouseGC.strokeRect(tlx-1, tly-1, dragSize+2, dragSize+2);
 				mouseGC.strokeRect(tlx+1, tly+1, dragSize-2, dragSize-2);
+				MandelbrotCanvas previewCanvas = ((MandelbrotDrawing)jfxFractalExplorer.getFractalDrawing()).getMandelbrotPreviewCanvas();
+				previewCanvas.setJuliaSet(false);
+				previewCanvas.setCoordinates(getPosition(tlx, tly,MandelbrotMouseActionType.ZOOM_IN),getPosition(brx, bry,MandelbrotMouseActionType.ZOOM_IN));
+				return;
+			}
+		}
+			
+		private void mouseDragged(MouseEvent event) {
+			dragged = true;
+			double x = event.getX();
+			double y = event.getY();
+			if(mouseAction == MandelbrotMouseActionType.ZOOM_IN ) {
+				double offsetX = Math.abs(x - startPoint.getX());
+				double offsetY = Math.abs(y - startPoint.getY());
+				dragSize = Math.max(offsetX, offsetY);
 				
+				
+				if(x < tlx) {
+					tlx = x;
+				}
+				if(y < tly) {
+					tly = y;
+				}
+				
+				brx = tlx+dragSize;
+				bry = tly+dragSize;
+				
+				mouseGC.clearRect(0, 0, mouseCanvas.getWidth(), mouseCanvas.getHeight());
+				mouseGC.setStroke(Color.BLACK);
+				mouseGC.strokeRect(tlx, tly, dragSize, dragSize);
+				mouseGC.setStroke(Color.WHITE);
+				mouseGC.strokeRect(tlx-1, tly-1, dragSize+2, dragSize+2);
+				mouseGC.strokeRect(tlx+1, tly+1, dragSize-2, dragSize-2);
+				MandelbrotCanvas previewCanvas = ((MandelbrotDrawing)jfxFractalExplorer.getFractalDrawing()).getMandelbrotPreviewCanvas();
+				previewCanvas.setJuliaSet(false);
+				previewCanvas.setCoordinates(getPosition(tlx, tly,MandelbrotMouseActionType.ZOOM_IN),getPosition(brx, bry,MandelbrotMouseActionType.ZOOM_IN));
 				return;
 			}
 			
@@ -509,10 +543,10 @@ public class MandelbrotCanvas extends Canvas {
 		@Override
 		public void handle(MouseEvent event) {
 			mouseAction = preference.getMouseActionType();
-			if(event.getEventType().getName().equals("MOUSE_MOVED")) {
-				updatePosition(event.getX(), event.getY());
+			/*if(event.getEventType().getName().equals("MOUSE_MOVED")) {
+				mouseMoved(event);
 				return;
-			}
+			}*/
 			
 			if(event.getEventType().getName().equals("MOUSE_PRESSED")) {
 				mousePressed(event);

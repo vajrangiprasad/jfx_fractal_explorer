@@ -1,9 +1,11 @@
 package jfx.fractal.explorer.drawing.mandelbrotset;
 
 import javafx.collections.FXCollections;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import jfx.fractal.explorer.JFXFractalExplorer;
 import jfx.fractal.explorer.drawing.FractalDrawingPreferencePane;
@@ -15,6 +17,7 @@ public class MandelbrotPreferencePane extends FractalDrawingPreferencePane {
 	private ComboBox<MandelbrotMouseActionType> cmbMouseActionType;
 	private ComboBox<PenColorType> cmbPenColorType;
 	private ComboBox<MandelbrotType> cmbType;
+	private BorderPane previewPane;
 	
 	public MandelbrotPreferencePane(JFXFractalExplorer jfxFractalExplorer) {
 		super(jfxFractalExplorer);
@@ -113,8 +116,19 @@ public class MandelbrotPreferencePane extends FractalDrawingPreferencePane {
 				preference.setType(cmbType.getSelectionModel().getSelectedItem());
 			});
 		}
+		
+		{
+			Label lblPreview = new Label("Preview");
+			parametersPane.add(lblPreview, 0, 5);
+			previewPane = new BorderPane();
+			parametersPane.add(previewPane, 1, 5);
+		}
 	}
 
+	public void addPreviewCanvas(Canvas canvas) {
+		previewPane.setCenter(canvas);
+	}
+	
 	@Override
 	public void disableControls() {
 		txtMAxIterations.setDisable(true);

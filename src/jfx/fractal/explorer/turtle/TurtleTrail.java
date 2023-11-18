@@ -22,8 +22,6 @@ public class TurtleTrail {
 	private boolean endFilling = false;
 	private double radius;
 	private double penSize;
-	private double width;
-	private double height;
 	private double xmin,xmax,ymin,ymax;
 	private TurtleStrokeType strokeType;
 	private TurtleShape shape;

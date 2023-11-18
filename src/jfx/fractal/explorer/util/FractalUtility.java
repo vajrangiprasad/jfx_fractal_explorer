@@ -2,7 +2,6 @@ package jfx.fractal.explorer.util;
 
 import java.util.List;
 
-import javafx.css.converter.StringConverter;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
@@ -18,6 +17,13 @@ public class FractalUtility {
 			strColor = strColor.replace("0x", "#");
 		}
 		return strColor;
+	}
+	
+	public static double getDistance(double x1,double y1,double x2,double y2) {
+		Point2D p1 = new Point2D(x1, y1);
+		Point2D p2 = new Point2D(x2, y2);
+		
+		return p1.distance(p2);
 	}
 	
 	public static ImageView getImageView(String url) {
